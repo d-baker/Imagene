@@ -12,6 +12,13 @@ import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 import imagene.watchmaker.engine.ImageneEvolutionEngine;
 import imagene.watchmaker.gp.tree.TreeFactory;
 
+/*****************************************
+ * Written by Callum McLennan (s3367407)
+ * for
+ * Programming Project 1
+ * SP3 2016
+ ****************************************/
+
 public class Watchmaker<T> {
 	private List<EvaluatedCandidate<T>> _currentPopulation;
 	private final int _populationSize;

@@ -14,6 +14,14 @@ import org.uncommons.watchmaker.framework.EvaluatedCandidate;
 
 import imagene.watchmaker.gp.tree.TreeFactory;
 
+/*****************************************
+ * Written by Callum McLennan (s3367407)
+ * and Dorothea Baker (s3367422)
+ * for
+ * Programming Project 1
+ * SP3 2016
+ ****************************************/
+
 public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	private final double WinScore = 1d, LossScore = 0d;
 

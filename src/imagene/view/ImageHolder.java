@@ -34,9 +34,13 @@ public class ImageHolder implements ConstantArrayField {
     private ImageIcon [] imageIcon=new ImageIcon[ARRAY_INDEX];
     private ImageIcon [] imageIconResized=new ImageIcon[ARRAY_INDEX];
 
-    public void generateRealImages(int width, int height) {
-        ImageneViewModel viewModel = new ImageneViewModel();
+    private ImageneViewModel viewModel;
 
+    public ImageHolder(ImageneViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public void generateRealImages(int width, int height) {
         try {
             List<PixelMatrix> pixelMatrices = viewModel.getPopulation(width, height);
 

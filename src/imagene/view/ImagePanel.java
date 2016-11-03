@@ -1,5 +1,7 @@
 package imagene.view;
 
+import imagene.viewmodel.ImageneViewModel;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -40,7 +42,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
     private JPanel panelForLabel;
     private Insets insets;
     private ImageHolder imageHolder;
-    private ImagePanelImageContent image_Contents=new ImagePanelImageContent();
+    private ImagePanelImageContent image_Contents;
     private Border border ;
     private int count1=0;
     private int count2=0;
@@ -65,14 +67,20 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
     private DataToProcess dataProcess;
     private int count=0;
 
+    private ImageneViewModel viewModel;
 
-    public ImagePanel()  {
+    public ImagePanel(ImageneViewModel viewModel)  {
+        // The viewModel is called to get new images.
+        this.viewModel = viewModel;
+
+        // Viewmodel is passed around to those components that will need to access it.
+        imageHolder = new ImageHolder(viewModel);
+        image_Contents = new ImagePanelImageContent(imageHolder);
+        imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+
         Dimension size = getPreferredSize();
         size.width = 600;
         setPreferredSize(size);
-
-        this.imageHolder = image_Contents.getImageHolder();
-        imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
 
         setBackground(colorLightGray);
         setBorder(BorderFactory.createTitledBorder(" "));

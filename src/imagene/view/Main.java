@@ -15,27 +15,32 @@ package imagene.view;
 //=============================================================================
 
 
+import imagene.viewmodel.ImageneViewModel;
+
 import java.awt.*;
 
 /*****************************************
- * Written by Avishkar Giri (s3346203)   *
- * for                                   *
- * Programming Project 1                 *
- * SP3 2016                              *
+ * Written by Avishkar Giri (s3346203)
+ * and Dorothea Baker (s3367422)
+ * for
+ * Programming Project 1
+ * SP3 2016
  ****************************************/
 
 
-public class ImageneGUI extends AbstractExampleGUI
+public class Main extends AbstractExampleGUI
 {
     private ImagePanel imagePanel;
     private SettingPanel settingPanel;
+    private ImageneViewModel viewModel;
 
     @Override
     protected void prepareGUI(Container container)
     {
-        settingPanel = new SettingPanel();
+        viewModel = new ImageneViewModel();
 
-        imagePanel = new ImagePanel();
+        settingPanel = new SettingPanel();
+        imagePanel = new ImagePanel(viewModel);
 
         container.add(settingPanel, BorderLayout.WEST);
         container.add(imagePanel, BorderLayout.EAST);
@@ -43,7 +48,7 @@ public class ImageneGUI extends AbstractExampleGUI
 
     public static void main(String[] args)
     {
-        new ImageneGUI().displayInFrame("Imagene v1.1");
+        new Main().displayInFrame("Imagene v1.1");
     }
 
 }

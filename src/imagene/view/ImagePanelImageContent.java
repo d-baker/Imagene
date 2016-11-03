@@ -1,5 +1,7 @@
 package imagene.view;
 
+import imagene.viewmodel.ImageneViewModel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -23,18 +25,20 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
     private JPanel[] holdImageLabel = new JPanel[ARRAY_INDEX];
     private JPanel[] hold_imagePanel = new JPanel[ARRAY_INDEX];
     private ImageIcon[] icon = new ImageIcon[ARRAY_INDEX];
-    private ImageHolder imageHolder=new ImageHolder();
+
+    private ImageHolder imageHolder;
 
     private Insets insets = new Insets(10, 10, 10, 10);
 
+    public ImagePanelImageContent(ImageHolder imageHolder) {
+        this.imageHolder = imageHolder;
+        imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+        icon = imageHolder.returnImageIcon();
 
-    public ImagePanelImageContent() {
         setBackground(colorLightGray);
 
-        imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
         setLayout(new GridBagLayout());
         GridBagConstraints constraint = new GridBagConstraints();
-        icon = imageHolder.returnImageIcon();
 
         for (int i = 0; i < ARRAY_INDEX; i++) {
             holdImage[i] = new JLabel(icon[i]);
@@ -74,7 +78,6 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
         constraint.gridx = 1;
         constraint.gridy = 1;
         add(hold_imagePanel[3], constraint);
-
     }
 
     public JLabel[] getHoldImage() {
