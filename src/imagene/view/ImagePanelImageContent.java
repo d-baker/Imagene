@@ -1,4 +1,4 @@
-package imagene.gui;
+package imagene.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.*;
  * Programming Project 1                 *
  * SP3 2016                              *
  ****************************************/
-s
+
 
 /*
 -have to fix image saving to the default image dimension
@@ -22,7 +22,6 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
     private JLabel[] holdImage = new JLabel[ARRAY_INDEX];
     private JPanel[] holdImageLabel = new JPanel[ARRAY_INDEX];
     private JPanel[] hold_imagePanel = new JPanel[ARRAY_INDEX];
-   // private JPanel hold_image_content;
     private ImageIcon[] icon = new ImageIcon[ARRAY_INDEX];
     private ImageHolder imageHolder=new ImageHolder();
 
@@ -30,17 +29,9 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
 
 
     public ImagePanelImageContent() {
-
-//        Dimension size = getPreferredSize();
-//        size.width=600;
-//        setPreferredSize(size);
         setBackground(colorLightGray);
 
         imageHolder.generateRealImages();
-        //imageHolder.generateDummyImages();
-        //setBackground(Color.lightGray);
-
-        //setBorder(new EmptyBorder(100, 100, 100, 100));
         setLayout(new GridBagLayout());
         GridBagConstraints constraint = new GridBagConstraints();
         icon = imageHolder.returnImageIcon();
@@ -48,7 +39,6 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
         for (int i = 0; i < ARRAY_INDEX; i++) {
             holdImage[i] = new JLabel(icon[i]);
             holdImage[i].setPreferredSize(new Dimension(200, 200));
-            // holdImage[i].setBorder(border);
 
             holdImageLabel[i] = new JPanel();
             holdImageLabel[i].setPreferredSize(new Dimension(200, 200));
@@ -59,10 +49,7 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
             hold_imagePanel[i].setPreferredSize(new Dimension(215, 215));
             hold_imagePanel[i].setBackground(colorLightGray);
             hold_imagePanel[i].add(holdImageLabel[i]);
-            //hold_imagePanel[i].setBorder(border);
         }
-
-
 
         constraint.anchor = GridBagConstraints.LINE_END;
         constraint.weightx = 0.5;
@@ -79,8 +66,6 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
 
 
         constraint.anchor = GridBagConstraints.LINE_START;
-//        constraint.weightx = 2;
-//        constraint.weighty = 2;
         constraint.gridx = 1;
         constraint.gridy = 0;
         add(hold_imagePanel[2], constraint);

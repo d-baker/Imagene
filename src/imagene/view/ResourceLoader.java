@@ -1,4 +1,4 @@
-package imagene.gui;
+package imagene.view;
 
 import java.io.InputStream;
 

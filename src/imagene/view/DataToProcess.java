@@ -1,4 +1,4 @@
-package imagene.gui;
+package imagene.view;
 
 /*****************************************
  * Written by Avishkar Giri (s3346203)   *

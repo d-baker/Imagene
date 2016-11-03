@@ -1,4 +1,4 @@
-package imagene.gui;//=============================================================================
+package imagene.view;//=============================================================================
 // Copyright 2006-2010 Daniel W. Dyer
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,8 +41,8 @@ public abstract class AbstractExampleGUI extends JFrame implements ConstantArray
 
 
     /**
-     * Configure the program to display its imagene.gui in the specified container.
-     * @param container The container to place the imagene.gui components in.
+     * Configure the program to display its imagene.view in the specified container.
+     * @param container The container to place the imagene.view components in.
      */
     private void configure(final Container container)
     {
@@ -81,14 +81,14 @@ public abstract class AbstractExampleGUI extends JFrame implements ConstantArray
 
 
     /**
-     * Implemented in sub-classes to initialise and layout the imagene.gui.
+     * Implemented in sub-classes to initialise and layout the imagene.view.
      * @param container The container that this method should add components to.
      */
     protected abstract void prepareGUI(Container container);
 
 
     /**
-     * Display this example program using a JFrame as the top-level imagene.gui container (rather
+     * Display this example program using a JFrame as the top-level imagene.view container (rather
      * than running the example as an applet).
      * @param title The text to use for the frame's title bar.
      */

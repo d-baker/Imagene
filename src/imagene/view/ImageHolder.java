@@ -1,4 +1,4 @@
-package imagene.gui;
+package imagene.view;
 
 import imagene.arithmeticParser.ParserInterface;
 import imagene.arithmeticParser.SampleFormulaGenerator;
@@ -89,7 +89,7 @@ public class ImageHolder implements ConstantArrayField {
         resizeAllImages();
     }
 
-    // Creates the BufferedImage from a pixel matrix, for display in the gui
+    // Creates the BufferedImage from a pixel matrix, for display in the view
     public BufferedImage makeImage(int width, int height, PixelMatrix m)
     {
         int[] data = m.getIntArray();
@@ -101,10 +101,10 @@ public class ImageHolder implements ConstantArrayField {
 
     public void generateDummyImages() {
         try {
-            image1[0] = ImageIO.read(ResourceLoader.load("res/individual.1.png"));
-            image1[1] = ImageIO.read(ResourceLoader.load("res/individual.2.png"));
-            image1[2] = ImageIO.read(ResourceLoader.load("res/individual.3.png"));
-            image1[3] = ImageIO.read(ResourceLoader.load("res/individual.4.png"));
+            image1[0] = ImageIO.read(ResourceLoader.load("imagene/view/resources/individual.1.png"));
+            image1[1] = ImageIO.read(ResourceLoader.load("imagene/view/resources/individual.2.png"));
+            image1[2] = ImageIO.read(ResourceLoader.load("imagene/view/resources/individual.3.png"));
+            image1[3] = ImageIO.read(ResourceLoader.load("imagene/view/resources/individual.4.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

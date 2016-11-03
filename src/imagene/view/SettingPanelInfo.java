@@ -1,33 +1,39 @@
 package imagene.view;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * Created by avishkar on 10/23/2016.
- */
-public class SettingPanelInfo extends JPanel {
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
+public class SettingPanelInfo extends JPanel implements ConstantArrayField {
 
     private JLabel infoCoordinate;
     private JLabel infoSymmetry;
-    private JLabel infoDimension;
+    private JLabel infoImageWidth;
+    private JLabel infoImageHeight;
+
     private JLabel info;
 
    public  SettingPanelInfo()
     {
         infoCoordinate=new JLabel();
         infoSymmetry=new JLabel();
-        infoDimension=new JLabel();
+        infoImageWidth=new JLabel();
+        infoImageHeight=new JLabel();
         info=new JLabel("Info:");
 
-        infoCoordinate.setForeground(Color.BLUE);
-        infoSymmetry.setForeground(Color.BLUE);
-        infoDimension.setForeground(Color.BLUE);
-        info.setForeground(Color.BLUE);
+        infoCoordinate.setForeground(colorBlue);
+        infoSymmetry.setForeground(colorBlue);
+        infoImageWidth.setForeground(colorBlue);
+        infoImageHeight.setForeground(colorBlue);
+        info.setForeground(colorBlue);
 
-        infoCoordinate.setText("Coordinate: " +"Cartesian");
-        infoSymmetry.setText("Symmetry: " +"Symmetric");
-        infoDimension.setText("Dimension: " +"800");
 
         setBorder(new EmptyBorder(10,10,0,0));
 
@@ -54,9 +60,28 @@ public class SettingPanelInfo extends JPanel {
        // constraint.anchor=GridBagConstraints.LINE_START;
         constraint.gridx=0;
         constraint.gridy=3;
-        add(infoDimension,constraint);//set radioButtonCartesian to 0,1
+        add(infoImageWidth,constraint);//set radioButtonCartesian to 0,1
+
+        constraint.gridx=0;
+        constraint.gridy=4;
+        add(infoImageHeight,constraint);//set radioButtonCartesian to 0,1
+
 
     }
 
+    public JLabel getInfoCoordinate() {
+        return infoCoordinate;
+    }
 
+    public JLabel getInfoSymmetry() {
+        return infoSymmetry;
+    }
+
+    public JLabel getInfoImageWidth() {
+        return infoImageWidth;
+    }
+
+    public JLabel getInfoImageHeight() {
+        return infoImageHeight;
+    }
 }

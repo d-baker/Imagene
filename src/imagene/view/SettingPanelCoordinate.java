@@ -1,17 +1,24 @@
 package imagene.view;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * Created by avishkar on 10/23/2016.
- */
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
 
 
 public class SettingPanelCoordinate extends JPanel {
 
     private JRadioButton radioButtonCartesian;
     private JRadioButton radioButtonPolar;
+
+
 
     public SettingPanelCoordinate()
     {
@@ -35,4 +42,17 @@ public class SettingPanelCoordinate extends JPanel {
         add(radioButtonPolar,constraint);//set radioButtonCartesian to 0,1
 
     }
+
+    public JRadioButton getRadioButtonCartesian()
+    {
+        return radioButtonCartesian;
+    }
+
+    public JRadioButton getRadioButtonPolar()
+    {
+        return radioButtonPolar;
+    }
+
+
+
 }

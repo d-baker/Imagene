@@ -1,11 +1,16 @@
 package imagene.view;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * Created by avishkar on 10/23/2016.
- */
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
 public class SettingPanelSymmetry extends JPanel{
 
         private JRadioButton radioButtonSymmetric;
@@ -31,4 +36,14 @@ public class SettingPanelSymmetry extends JPanel{
            constraint.gridy=0;
            add(radioButtonAsymmetric,constraint);//set radioButtonCartesian to 0,1
        }
+
+    public JRadioButton getRadioButtonSymmetric()
+    {
+        return radioButtonSymmetric;
+    }
+
+    public JRadioButton getRadioButtonAsymmetric()
+    {
+        return radioButtonAsymmetric;
+    }
 }
