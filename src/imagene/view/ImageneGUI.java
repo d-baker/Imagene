@@ -33,8 +33,9 @@ public class ImageneGUI extends AbstractExampleGUI
     @Override
     protected void prepareGUI(Container container)
     {
-        imagePanel = new ImagePanel();
         settingPanel = new SettingPanel();
+
+        imagePanel = new ImagePanel();
 
         container.add(settingPanel, BorderLayout.WEST);
         container.add(imagePanel, BorderLayout.EAST);

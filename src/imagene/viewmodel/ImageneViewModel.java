@@ -42,6 +42,7 @@ public class ImageneViewModel
 		watchmaker = new Watchmaker<Node>(populationSize);
 	}
 
+	// TODO errors with width and height passed in from static SettingPanel property. probably due to async stuff
 	public List<PixelMatrix> getPopulation(int width, int height) throws InvalidArgumentException, IncorrectVariablesException
 	{
 		/*
@@ -52,7 +53,7 @@ public class ImageneViewModel
 			formulas.add(parser.getArithmetic(n.toString()));
 		}
 		*/
-
+		
 		String[][] formulas;
 
 		// dummy formula generator (will eventually be replaced with watchmaker calls)

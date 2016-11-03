@@ -30,19 +30,14 @@ import java.lang.reflect.InvocationTargetException;
  */
 public abstract class AbstractExampleGUI extends JFrame implements ConstantArrayField
 {
-    /**
-     * {@inheritDoc}
-     */
-
     public void init()
     {
         configure(this);
     }
 
-
     /**
-     * Configure the program to display its imagene.view in the specified container.
-     * @param container The container to place the imagene.view components in.
+     * Configure the program to display its view in the specified container.
+     * @param container The container to place the view components in.
      */
     private void configure(final Container container)
     {
@@ -94,24 +89,23 @@ public abstract class AbstractExampleGUI extends JFrame implements ConstantArray
      */
     protected void displayInFrame(String title)
     {
-        JFrame frame = new JFrame("Image Evolver v1.0");
+        JFrame frame = new JFrame("Imagene v1.2");
 
         JPanel panelAbout=new JPanel();
         JPanel panelInstruction=new JPanel();
         JMenuBar menuBar=new JMenuBar();
-        //menuBar.setBackground(new Color(255,178,102));
         JMenu file=new JMenu("File");
         JMenu help=new JMenu("Help");
         JMenuItem close=new JMenuItem("Close");
 
+        /*
         File directory = new File("temp/ImageEvolver");
         directory.mkdirs();
         File tmp = new File(directory, "UserSettings.xml");
-
+        */
 
         close.setMnemonic(KeyEvent.VK_Q);
-        close.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+        close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
         close.setToolTipText("Exit application");
         close.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -120,7 +114,6 @@ public abstract class AbstractExampleGUI extends JFrame implements ConstantArray
 
         });
 
-
         JMenuItem about=new JMenuItem("About");
         JMenuItem instruction=new JMenuItem("Instruction");
 
@@ -128,16 +121,12 @@ public abstract class AbstractExampleGUI extends JFrame implements ConstantArray
             public void actionPerformed(ActionEvent event) {
                 JOptionPane.showMessageDialog(null, APP_ABOUT,"About",JOptionPane.INFORMATION_MESSAGE);
             }
-
         });
 
         instruction.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-
                 JOptionPane.showMessageDialog(null, APP_INSTRUCTION,"Instruction",JOptionPane.INFORMATION_MESSAGE);
-
             }
-
         });
 
         file.add(close);
@@ -147,12 +136,9 @@ public abstract class AbstractExampleGUI extends JFrame implements ConstantArray
         menuBar.add(help);
         frame.setJMenuBar(menuBar);
 
-
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900,680);
         configure(frame);
-        //frame.pack();
         frame.setVisible(true);
     }
 }
