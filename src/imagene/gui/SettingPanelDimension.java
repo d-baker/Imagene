@@ -4,9 +4,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * Created by avishkar on 10/23/2016.
- */
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
 public class SettingPanelDimension extends JPanel {
 
     private JTextField imageWidth;

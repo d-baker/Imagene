@@ -15,9 +15,15 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by avishkar on 10/26/2016.
- */
+/*****************************************
+ * Written by Avishkar Giri (s3346203),
+ * Dorothea Baker (s3367422)
+ * and Andrew Sanger (s3440468)
+ * for
+ * Programming Project 1
+ * SP3 2016
+ ****************************************/
+
 public class ImageHolder implements ConstantArrayField {
     private BufferedImage[] image=new BufferedImage[ARRAY_INDEX];
     private BufferedImage[] image1=new BufferedImage[ARRAY_INDEX];

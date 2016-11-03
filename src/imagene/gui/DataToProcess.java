@@ -1,7 +1,11 @@
-package imagene.gui; /**
- * Created by avishkar on 10/29/2016.
- */
+package imagene.gui;
 
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
 
 
 import javax.swing.*;

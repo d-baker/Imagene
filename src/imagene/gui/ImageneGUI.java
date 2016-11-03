@@ -17,6 +17,14 @@ package imagene.gui;
 
 import java.awt.*;
 
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
+
 public class ImageneGUI extends AbstractExampleGUI
 {
     private ImagePanel imagePanel;

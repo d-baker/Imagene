@@ -24,11 +24,12 @@ import java.io.File;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
 
-
-/**
- * Created by avishkar on 10/23/2016.
- */
-
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
 
 /*
 -fix xml issues related to jar file

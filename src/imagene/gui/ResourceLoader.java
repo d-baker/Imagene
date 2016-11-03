@@ -2,9 +2,13 @@ package imagene.gui;
 
 import java.io.InputStream;
 
-/**
- * Created by avishkar on 10/30/2016.
- */
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
 final class ResourceLoader {
 
     public static InputStream load(String path)

@@ -2,9 +2,13 @@ package imagene.gui;
 
 import java.awt.*;
 
-/**
- * Created by avishkar on 10/22/2016.
- */
+/*****************************************
+ * Written by Avishkar Giri (s3346203)   *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
 public interface ConstantArrayField {
 
     public static final int ARRAY_INDEX=4;
