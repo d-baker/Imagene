@@ -123,16 +123,18 @@ public class ImageneViewModel
 	
 	public void chooseWinners(int[] winners)
 	{
-		watchmaker.chooseWinners(winners);
+		System.out.println("choosing winners");
+		// watchmaker.chooseWinners(winners);
 	}
 	
 	public void chooseWinners(List<Integer> winners)
 	{
-		watchmaker.chooseWinners(winners);
+		System.out.println("choosing winners");
+		// watchmaker.chooseWinners(winners);
 	}
 	
 	public void newGeneration() throws UnexpectedParentsException
 	{
-		watchmaker.Evolve();
+		//watchmaker.Evolve();
 	}
 }
