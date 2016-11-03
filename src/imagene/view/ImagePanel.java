@@ -1,6 +1,8 @@
 package imagene.view;
 
+import imagene.imagegen.models.PixelMatrix;
 import imagene.viewmodel.ImageneViewModel;
+import imagene.watchmaker.UnexpectedParentsException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 
 /*****************************************
  * Written by Avishkar Giri (s3346203)   *
@@ -74,9 +77,18 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         this.viewModel = viewModel;
 
         // Viewmodel is passed around to those components that will need to access it.
+        // TODO is this really needed?
         imageHolder = new ImageHolder(viewModel);
-        image_Contents = new ImagePanelImageContent(imageHolder);
-        imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+        image_Contents = new ImagePanelImageContent(viewModel, imageHolder);
+
+        viewModel.chooseWinners(new int[] {0, 1});
+
+        try {
+            java.util.List<PixelMatrix> population = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+            imageHolder.generateRealImages(population, SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Dimension size = getPreferredSize();
         size.width = 600;
@@ -170,6 +182,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
          */
 
         //panel 1
+        // TODO "no such instance field" error here
         holdImage[0].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -193,7 +206,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fullImage(icon[0]);
-
             }
         });
 
@@ -208,8 +220,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                 {
                     holdMenuItemsImage2.show( holdImage[1],e.getX(),e.getY());
                 }
-
-
             }
         });
 
@@ -217,7 +227,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveImage(icon[1],holdImageLabel[1]);
-
             }
         });
 
@@ -225,7 +234,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fullImage(icon[1]);
-
             }
         });
 
@@ -246,7 +254,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveImage(icon[2],holdImageLabel[2]);
-
             }
         });
 
@@ -254,7 +261,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fullImage(icon[2]);
-
             }
         });
 
@@ -275,7 +281,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void actionPerformed(ActionEvent e) {
                 saveImage(icon[3],holdImageLabel[3]);
-
             }
         });
 
@@ -283,7 +288,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void actionPerformed(ActionEvent e) {
                 fullImage(icon[3]);
-
             }
         });
 
@@ -461,43 +465,56 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO in here, we have to tell watchmaker to choose winners by passing indexes into an array of FORMULAS
                 sumOfTotalClicked=countImageClicked1+countImageClicked2+countImageClicked3+countImageClicked4;
                 count=0;
                 btnGenerate.setEnabled(false);
                 label.setText("Please click to select 2 Images before generating.");
 
+                // TODO I don't think these conditionals cover all possibilities, obviously it shouldn't be done like this
+                // TODO handle selection of a single image, at some point
+                // TODO 4 parents being selected, apparently - why?
                 if (sumOfTotalClicked==2) {
 
                     if ((count1 == 1) && (count2 == 1)) {
                         JOptionPane.showMessageDialog(null,"image 1 and 2 selected");
+                        viewModel.chooseWinners(new int[] {0, 1});
                         setImagesToProcess(icon[0],icon[1]);
                     }
 
                     if ((count1 == 1) && (count3 == 1)) {
                         JOptionPane.showMessageDialog(null,"image 1 and 3 selected");
+                        viewModel.chooseWinners(new int[] {0, 2});
+
                         setImagesToProcess(icon[0],icon[2]);
                     }
 
                     if ((count1 == 1) && (count4 == 1)) {
                         JOptionPane.showMessageDialog(null,"image 1 and 4 selected");
+                        viewModel.chooseWinners(new int[] {0, 3});
+
                         setImagesToProcess(icon[0],icon[3]);
                     }
 
                     if ((count2 == 1) && (count3 == 1)) {
                         JOptionPane.showMessageDialog(null,"image 2 and 3 selected");
+                        viewModel.chooseWinners(new int[] {1, 2});
+
                         setImagesToProcess(icon[1],icon[2]);
                     }
 
                     if ((count2 == 1) && (count4 == 1))
                     {
                         JOptionPane.showMessageDialog(null,"image 2 and 4 selected");
+                        viewModel.chooseWinners(new int[] {1, 3});
+
                         setImagesToProcess(icon[1],icon[3]);
                     }
 
                     if ((count3 == 1) && (count4 == 1))
                     {
                         JOptionPane.showMessageDialog(null,"image 3 and 4 selected");
+                        viewModel.chooseWinners(new int[] {2, 3});
+
                         setImagesToProcess(icon[2],icon[3]);
                     }
 
@@ -513,17 +530,24 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                     sumOfTotalClicked=0;
 
-                    // TODO need to create newGeneration() here
-                    imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
-                    icon = imageHolder.returnImageIcon();
+                    try {
+                        viewModel.newGeneration();
 
-                    for(int i=0;i<ARRAY_INDEX;i++) {
-                        holdImage[i].setIcon(null);
-                        holdImage[i].setIcon(icon[i]);
-                        holdImageLabel[i].add(holdImage[i]);
-                        holdImageLabel[i].setBackground(colorLightGray);
-                        hold_imagePanel[i].setBackground(colorLightGray);
+                        java.util.List<PixelMatrix> formulas = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+                        imageHolder.generateRealImages(formulas, SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+                        icon = imageHolder.returnImageIcon();
+
+                        for (int i = 0; i < ARRAY_INDEX; i++) {
+                            holdImage[i].setIcon(null);
+                            holdImage[i].setIcon(icon[i]);
+                            holdImageLabel[i].add(holdImage[i]);
+                            holdImageLabel[i].setBackground(colorLightGray);
+                            hold_imagePanel[i].setBackground(colorLightGray);
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
+
                 }
             }
         });

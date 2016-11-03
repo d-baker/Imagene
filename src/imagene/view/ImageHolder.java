@@ -40,23 +40,14 @@ public class ImageHolder implements ConstantArrayField {
         this.viewModel = viewModel;
     }
 
-    public void generateRealImages(int width, int height) {
-        try {
-            List<PixelMatrix> pixelMatrices = viewModel.getPopulation(width, height);
-
-            for (int i = 0; i < ARRAY_INDEX; i++) {
-                image[i] = makeImage(width, height, pixelMatrices.get(i));
-                this.image[i] = image[i];
-                imageIcon[i] = new ImageIcon(image[i]);
-            }
-
-            resizeAllImages();
-
-        } catch (InvalidArgumentException e) {
-            System.out.println("Invalid argument exception occurred in Arithmetic Parser");
-        } catch (IncorrectVariablesException e) {
-            System.out.println("Incorrect variables exception occurred in Arithmetic Parser");
+    public void generateRealImages(List<PixelMatrix> pixelMatrices, int width, int height) {
+        for (int i = 0; i < ARRAY_INDEX; i++) {
+            image[i] = makeImage(width, height, pixelMatrices.get(i));
+            this.image[i] = image[i];
+            imageIcon[i] = new ImageIcon(image[i]);
         }
+
+        resizeAllImages();
     }
 
     // Creates the BufferedImage from a pixel matrix, for display in the view

@@ -1,5 +1,6 @@
 package imagene.view;
 
+import imagene.imagegen.models.PixelMatrix;
 import imagene.viewmodel.ImageneViewModel;
 
 import javax.swing.*;
@@ -27,12 +28,20 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
     private ImageIcon[] icon = new ImageIcon[ARRAY_INDEX];
 
     private ImageHolder imageHolder;
+    private ImageneViewModel viewModel;
 
     private Insets insets = new Insets(10, 10, 10, 10);
 
-    public ImagePanelImageContent(ImageHolder imageHolder) {
+    public ImagePanelImageContent(ImageneViewModel viewModel, ImageHolder imageHolder) {
         this.imageHolder = imageHolder;
-        imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+        this.viewModel = viewModel;
+        // TODO halp
+        try {
+            java.util.List<PixelMatrix> population = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+            imageHolder.generateRealImages(population, SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         icon = imageHolder.returnImageIcon();
 
         setBackground(colorLightGray);
@@ -90,7 +99,6 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
 
     public JPanel[] getHold_imagePanel() {
         return hold_imagePanel;
-
     }
 
     public ImageIcon[] getIcon() {

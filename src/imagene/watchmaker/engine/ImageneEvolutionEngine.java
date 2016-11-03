@@ -107,7 +107,7 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			newPopulation.addAll((List<T>) _mutation.apply((List<Node>)remainingPopulation, _rng));
 
 		} else {
-			throw new UnexpectedParentsException();
+			throw new UnexpectedParentsException("Number of parents: " + _parents.size());
 		}
 
 		return newPopulation;
