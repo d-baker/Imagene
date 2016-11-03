@@ -2,6 +2,7 @@ package imagene.viewmodel;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,18 +43,32 @@ public class ImageneViewModel
 		watchmaker = new Watchmaker<Node>(populationSize);
 	}
 
-	// TODO errors with width and height passed in from static SettingPanel property. probably due to async stuff
 	public List<PixelMatrix> getPopulation(int width, int height) throws InvalidArgumentException, IncorrectVariablesException
 	{
-		/*
-		List<ArithmeticNode> formulas = new ArrayList<ArithmeticNode>();
-		
-		for(Node n : watchmaker.getPopulation())
+
+		ArrayList<ArrayList<ArithmeticNode>> arithFormulas = new ArrayList<ArrayList<ArithmeticNode>>();
+
+		int curNode = 0;
+		List<Node> nodes = watchmaker.getPopulation();
+
+		for(int i = 0; i < nodes.size(); i++)
 		{
-			formulas.add(parser.getArithmetic(n.toString()));
+			ArrayList<ArithmeticNode> colorChannels = new ArrayList<ArithmeticNode>();
+
+			for (int channel = 0; channel < 3; channel++) {
+				Node n = nodes.get(channel + curNode);
+				System.out.println(n.toString());
+				colorChannels.add(parser.getArithmetic(n.toString()));
+			}
+
+			arithFormulas.add(colorChannels);
+
+			// TODO using watchmaker to parse nodes doesn't work yet cause I configured parameters wrong.
+			//double x = 3.0;
+			//double y = 15.0;
+			//double nodeEval = n.evaluate(new double[] {0.0, 1.0});
 		}
-		*/
-		
+
 		String[][] formulas;
 
 		// dummy formula generator (will eventually be replaced with watchmaker calls)
@@ -63,19 +78,16 @@ public class ImageneViewModel
 		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
 
 		for (int a = 0; a < formulas.length; a++) {
-			String formula1 = formulas[a][0];
-			String formula2 = formulas[a][1];
-			String formula3 = formulas[a][2];
+			ArrayList<ArithmeticNode> colorChannels = arithFormulas.get(a);
+			ArithmeticNode r = colorChannels.get(0);
+			ArithmeticNode g = colorChannels.get(1);
+			ArithmeticNode b = colorChannels.get(2);
 
 			try {
-				final ArithmeticNode node1 = parser.getArithmetic(formula1);
-				final ArithmeticNode node2 = parser.getArithmetic(formula2);
-				final ArithmeticNode node3 = parser.getArithmetic(formula3);
-
 				IManipulator[] channels = new IManipulator[] {
-						(x, y) -> node1.operation(x, y),
-						(x, y) -> node2.operation(x, y),
-						(x, y) -> node3.operation(x, y)
+						(x, y) -> r.operation(x, y),
+						(x, y) -> g.operation(x, y),
+						(x, y) -> b.operation(x, y)
 				};
 
 				PixelMatrix pixelMatrix = imageGen.CreateImage(width, height, channels);
