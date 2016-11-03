@@ -44,11 +44,18 @@ public class ImageHolder implements ConstantArrayField {
     public void generateRealImages() {
         PixelMatrix pixelMatrix;
         String[][] formulas;
-        int WIDTH = 200;
-        int HEIGHT = 200;
+
+        // TODO population probably shouldn't be hardcoded here, but it'll do for now
         int POPULATION_SIZE = 4;
 
-        // dummy formula generator
+        // TODO for some reason when setting to the user-defined dimensions,
+        // pixel matrix throws index out of bounds exception
+        int WIDTH = 200;
+        int HEIGHT = 200;
+        //int WIDTH = SettingPanel.default_imageWidth;
+        //int HEIGHT = SettingPanel.default_imageHeight;
+
+        // dummy formula generator (will eventually be replaced with watchmaker calls)
         SampleFormulaGenerator gen = new SampleFormulaGenerator();
         formulas = gen.getFormulaArray(POPULATION_SIZE);
 
@@ -76,7 +83,7 @@ public class ImageHolder implements ConstantArrayField {
                         (x, y) -> node3.operation(x, y)
                 };
 
-                pixelMatrix = api.CreateImage(HEIGHT, WIDTH, channels);
+                pixelMatrix = api.CreateImage(WIDTH, HEIGHT, channels);
                 matrices.add(pixelMatrix);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -92,6 +99,7 @@ public class ImageHolder implements ConstantArrayField {
         resize();
     }
 
+    // Creates the BufferedImage from a pixel matrix, for display in the gui
     public BufferedImage makeImage(int width, int height, PixelMatrix m)
     {
         int[] data = m.getIntArray();
@@ -102,32 +110,6 @@ public class ImageHolder implements ConstantArrayField {
     }
 
     public void generateDummyImages() {
-       //  String[] holdImageName=new String[]{"src/res/individual.1.png","src/res/individual.2.png"
-       //    ,"src/res/individual.3.png","src/res/individual.4.png","src/res/individual.5.png","src/res/individual.5.png"};
-
-
-        // int index=(int)(Math.random()*(holdImageName.length-1));
-
-//         InputStream is = this.getClass().getClassLoader().getResourceAsStream("icon/individual.1.png");
-//
-//        try {
-//            BufferedImage image =ImageIO.read(this.getClass().getResource("./res/icon/individual.1.png"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
-//        imageIcon[0]=new ImageIcon(holdImageName[0]);
-//        imageIcon[1]=new ImageIcon(holdImageName[1]);
-//        imageIcon[2]=new ImageIcon(holdImageName[2]);
-//        imageIcon[3]=new ImageIcon(holdImageName[3]);
-
-//        for(int i=0;i<3;i++)
-//        {
-//            imageIcon[i]=new ImageIcon(holdImageName[i]);
-//        }
-
-
         try {
             image1[0] = ImageIO.read(ResourceLoader.load("res/individual.1.png"));
             image1[1] = ImageIO.read(ResourceLoader.load("res/individual.2.png"));
@@ -137,82 +119,27 @@ public class ImageHolder implements ConstantArrayField {
             e.printStackTrace();
         }
 
-//        for(int y = 0; y < 200; y++){
-//            for(int x = 0; x < 200; x++) {
-//                int a = (int) (Math.random() * 256); //alpha
-//                int r = (int) (Math.random() * 256); //red
-//                int g = (int) (Math.random() * 256); //green
-//                int b = (int) (Math.random() * 256); //blue
-//
-//                int p = (a << 24) | (r << 16) | (g << 8) | b; //pixel
-//
-//                //image1[0].setRGB(x, y, p);
-////                image1[1].setRGB(x, y, p);
-////                image1[2].setRGB(x, y, p);
-////                image1[3].setRGB(x, y, p);
-//
-//            }}
-
-//            for (int i = 0; i < 3; i++) {
-//                imageIcon[i] = new ImageIcon(image1[i]);
-//            }
-
         imageIcon[0]=new ImageIcon(image1[0]);
         imageIcon[1]=new ImageIcon(image1[1]);
         imageIcon[2]=new ImageIcon(image1[2] );
         imageIcon[3]=new ImageIcon(image1[3]);
 
-            resize();
-
-        }
-
-
-
-
+        resize();
+    }
 
 
     public ImageIcon resize(ImageIcon image)
     {
         Image image_hold;
 
-        ImageIcon temp=null;
+        ImageIcon temp;
 
-            image_hold= image.getImage().getScaledInstance(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight, Image.SCALE_DEFAULT);
-            temp=new ImageIcon(image_hold);
+        image_hold = image.getImage().getScaledInstance(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight, Image.SCALE_DEFAULT);
+        temp=new ImageIcon(image_hold);
 
         return temp;
     }
 
-    public BufferedImage resize_save(BufferedImage image)
-    {
-        Image image_hold;
-        BufferedImage bufferedImage;
-        ImageIcon icon=new ImageIcon(image);
-
-
-            image_hold= icon.getImage().getScaledInstance(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight, Image.SCALE_DEFAULT);
-
-
-        if (image_hold instanceof BufferedImage)
-        {
-            return (BufferedImage) image_hold;
-        }
-
-        int width=image_hold.getWidth(null);
-        int height=image_hold.getWidth(null);
-        bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        System.out.println(width);
-        System.out.println(height);
-
-        Graphics2D bGr = bufferedImage.createGraphics();
-        bGr.drawImage(bufferedImage, 0, 0, null);
-        bGr.dispose();
-
-
-
-
-        return bufferedImage;
-    }
 
     public void resize()
     {
@@ -226,7 +153,5 @@ public class ImageHolder implements ConstantArrayField {
     {
         return imageIconResized;
     }
-
-
 
 }
