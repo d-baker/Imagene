@@ -1,11 +1,14 @@
 package imagene.watchmaker.engine;
 
+import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import imagene.watchmaker.UnexpectedParentsException;
 import imagene.watchmaker.gp.node.Node;
 import imagene.watchmaker.gp.tree.TreeCrossover;
+import imagene.watchmaker.gp.tree.TreeMutation;
 import org.uncommons.watchmaker.framework.AbstractEvolutionEngine;
 import org.uncommons.watchmaker.framework.EvaluatedCandidate;
 
@@ -22,6 +25,7 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 
 	private TreeFactory _factory;
 	private TreeCrossover _crossover;
+	private TreeMutation _mutation;
 	private int crossoverPoints = 2;
 
 	private Random _rng;
@@ -52,16 +56,14 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 		return _population;
 	}
 	
-	public void evolve()
+	public void evolve() throws UnexpectedParentsException
 	{
 		_population = Evaluate();		
 	}
 	
-	private List<T> Evaluate()
+	private List<T> Evaluate() throws UnexpectedParentsException
 	{
 		List<T> newPopulation = new ArrayList<T>();
-		// TODO evaluatedCandidates is null because never initialised, where do we initialise it?
-
 		for(EvaluatedCandidate<T> t : _evaluatedCandidates)
 		{
 			if (t.getFitness() > 0d) {
@@ -69,11 +71,35 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			}
 		}
 
-		newPopulation.addAll(_parents);
+		if (_parents.size() == 2) {
+			// Elitism - add parents first
+			newPopulation.addAll(_parents);
 
-		for (int i = 0; i < _populationSize - _parents.size(); i++) {
-			// TODO don't hardcode parents - check number of parents and act accordingly? mutation for 1?
-			newPopulation.addAll((List<T>) _crossover.mate((Node)_parents.get(0), (Node)_parents.get(1), crossoverPoints, _rng) );
+			// Then crossover of parents to create remaining population
+			for (int i = 0; i < _populationSize - _parents.size(); i++) {
+				// TreeCrossover generates 2 children by crossover
+				List<Node> twoNewChildren = (_crossover.mate((Node) _parents.get(0), (Node) _parents.get(1), crossoverPoints, _rng));
+
+				// Discard one of the two children generated - this seems to be the standard thing to do in GP?
+				T favoriteChild = (T)twoNewChildren.get(0);
+
+				// Add the newly generated individual to the population
+				newPopulation.add(favoriteChild);
+			}
+
+		} else if (_parents.size() == 1) {
+			// Elitism - add parents first
+			newPopulation.addAll(_parents);
+
+			// Remaining population is population minus parent we added via elitism, as we don't want to mutate the parent
+			List<T> remainingPopulation = newPopulation;
+			remainingPopulation.remove(_parents.get(0));
+
+			// Create rest of the population by randomly mutating the remaining population
+			newPopulation.addAll((List<T>) _mutation.apply((List<Node>)remainingPopulation, _rng));
+
+		} else {
+			throw new UnexpectedParentsException();
 		}
 
 		return newPopulation;
@@ -94,7 +120,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	{			
 		for(int i = 0; i < _populationSize; i++)
 		{
-			// TODO breakpoint here
 			if(winners.contains(i))
 				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(i), WinScore));
 			else

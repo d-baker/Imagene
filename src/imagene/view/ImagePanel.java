@@ -453,6 +453,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                // TODO in here, we have to tell watchmaker to choose winners by passing indexes into an array of FORMULAS
                 sumOfTotalClicked=countImageClicked1+countImageClicked2+countImageClicked3+countImageClicked4;
                 count=0;
                 btnGenerate.setEnabled(false);
@@ -504,6 +505,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                     sumOfTotalClicked=0;
 
+                    // TODO need to create newGeneration() here
                     imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
                     icon = imageHolder.returnImageIcon();
 

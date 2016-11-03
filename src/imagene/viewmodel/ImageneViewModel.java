@@ -16,16 +16,18 @@ import imagene.imagegen.api.interfaces.IProgramInterface;
 import imagene.imagegen.manipulator.interfaces.IManipulator;
 import imagene.imagegen.models.PixelMatrix;
 import imagene.view.ImageHolder;
+import imagene.watchmaker.UnexpectedParentsException;
 import imagene.watchmaker.endpoint.Watchmaker;
 import imagene.watchmaker.gp.node.Node;
 
 import javax.swing.*;
 
 /*****************************************
- * Written by Callum McLennan (s3367407) *
- * for                                   *
- * Programming Project 1                 *
- * SP3 2016                              *
+ * Written by Callum McLennan (s3367407)
+ * and Dorothea Baker (s3367422)
+ * for
+ * Programming Project 1
+ * SP3 2016
  ****************************************/
 
 public class ImageneViewModel 
@@ -57,7 +59,6 @@ public class ImageneViewModel
 
 			for (int channel = 0; channel < 3; channel++) {
 				Node n = nodes.get(channel + curNode);
-				System.out.println(n.toString());
 				colorChannels.add(parser.getArithmetic(n.toString()));
 			}
 
@@ -110,7 +111,7 @@ public class ImageneViewModel
 		watchmaker.chooseWinners(winners);
 	}
 	
-	public void newGeneration()
+	public void newGeneration() throws UnexpectedParentsException
 	{
 		watchmaker.Evolve();
 	}

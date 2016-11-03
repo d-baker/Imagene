@@ -3,6 +3,7 @@ package imagene.watchmaker.endpoint;
 import java.util.ArrayList;
 import java.util.List;
 
+import imagene.watchmaker.UnexpectedParentsException;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvaluatedCandidate;
@@ -39,7 +40,7 @@ public class Watchmaker<T> {
 
 	}
 	
-	public void Evolve()
+	public void Evolve() throws UnexpectedParentsException
 	{
 		_engine.evolve();
 	}	
