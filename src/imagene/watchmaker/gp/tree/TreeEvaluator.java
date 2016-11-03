@@ -69,6 +69,15 @@ public class TreeEvaluator implements FitnessEvaluator<Node>
         return error;
     }
 
+    public void setFitness(Node candidate) {
+        double error = 0;
+        for (Map.Entry<double[], Double> entry : data.entrySet())
+        {
+            double actualValue = candidate.evaluate(entry.getKey());
+            double diff = actualValue - entry.getValue();
+            error += (diff * diff);
+        }
+    }
 
     /**
      * This fitness evaluator is a minimising function.  A fitness of zero

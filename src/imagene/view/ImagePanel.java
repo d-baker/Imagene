@@ -470,9 +470,10 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                 btnGenerate.setEnabled(false);
                 label.setText("Please click to select 2 Images before generating.");
 
-                // TODO I don't think these conditionals cover all possibilities, obviously it shouldn't be done like this
+                // TODO I don't think these conditionals cover all possibilities
                 // TODO handle selection of a single image, at some point
                 // TODO 4 parents being selected, apparently - why?
+                // TODO 1 "parent" is actually 3 formulas - how to handle this?
                 if (sumOfTotalClicked==2) {
 
                     if ((count1 == 1) && (count2 == 1)) {
@@ -533,6 +534,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     try {
                         viewModel.newGeneration();
 
+                        // TODO array out of bounds here
                         java.util.List<PixelMatrix> formulas = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
                         imageHolder.generateRealImages(formulas, SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
                         icon = imageHolder.returnImageIcon();

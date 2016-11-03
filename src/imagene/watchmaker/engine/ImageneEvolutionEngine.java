@@ -49,7 +49,8 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 		_crossover = new TreeCrossover();
 		_rng = rng;
 
-		_populationSize = populationSize;
+		// TODO this needs to be * 3
+		_populationSize = populationSize * 3;
 		_population = GenerateInitialPopulation();
 	}
 
@@ -107,8 +108,12 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			newPopulation.addAll((List<T>) _mutation.apply((List<Node>)remainingPopulation, _rng));
 
 		} else {
-			throw new UnexpectedParentsException("Number of parents: " + _parents.size());
+			System.out.println("num parents is " + _parents.size());
+			//throw new UnexpectedParentsException("Number of parents: " + _parents.size());
 		}
+
+		// TODO reset fitness of previous parents
+		_evaluatedCandidates.clear(); // Empty the list for future use
 
 		return newPopulation;
 	}
@@ -125,7 +130,8 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	}
 	
 	public void survive(List<Integer> winners)
-	{			
+	{
+		// TODO 4 here!!
 		for(int i = 0; i < _populationSize; i++)
 		{
 			if(winners.contains(i))

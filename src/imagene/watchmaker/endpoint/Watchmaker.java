@@ -37,7 +37,7 @@ public class Watchmaker<T> {
         int parameterCount, maxDepth;
         Probability oneArgFuncProb, paramProb;
         
-        maxDepth = 10;
+        maxDepth = 3; // TODO just for testing to speed it up
         oneArgFuncProb = new Probability(0.2);
         paramProb = new Probability(0.3);
         parameterCount = 3;

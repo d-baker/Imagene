@@ -37,17 +37,19 @@ public class ImageneViewModel
 	private IProgramInterface imageGen;
 	private ParserInterface parser;
 	private Watchmaker<Node> watchmaker;
+	SampleFormulaGenerator dummyWatchmaker;
 	
 	public ImageneViewModel()
 	{
 		imageGen = new ProgramInterface();
 		parser = ParserInterface.getInstance();
 		watchmaker = new Watchmaker<Node>(populationSize);
+		dummyWatchmaker = new SampleFormulaGenerator();
 	}
 
 	public List<PixelMatrix> getPopulation(int width, int height) throws InvalidArgumentException, IncorrectVariablesException
 	{
-
+		/*
 		ArrayList<ArrayList<ArithmeticNode>> arithFormulas = new ArrayList<ArrayList<ArithmeticNode>>();
 
 		int curNode = 0;
@@ -69,16 +71,33 @@ public class ImageneViewModel
 			//double y = 15.0;
 			//double nodeEval = n.evaluate(new double[] {0.0, 1.0});
 		}
-
-		String[][] formulas;
-
-		// dummy formula generator (will eventually be replaced with watchmaker calls)
-		SampleFormulaGenerator gen = new SampleFormulaGenerator();
-		formulas = gen.getFormulaArray(populationSize);
+		*/
 
 		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
+		String[][] arithFormulas = dummyWatchmaker.getFormulaArray(populationSize);
 
-		for (int a = 0; a < formulas.length; a++) {
+		for (int a = 0; a < arithFormulas.length; a++) {
+			String formula1 = arithFormulas[a][0];
+			String formula2 = arithFormulas[a][1];
+			String formula3 = arithFormulas[a][2];
+
+			final ArithmeticNode node1 = parser.getArithmetic(formula1);
+			final ArithmeticNode node2 = parser.getArithmetic(formula2);
+			final ArithmeticNode node3 = parser.getArithmetic(formula3);
+
+			IManipulator[] channels = new IManipulator[] {
+					(x, y) -> node1.operation(x, y),
+					(x, y) -> node2.operation(x, y),
+					(x, y) -> node3.operation(x, y)
+			};
+
+			PixelMatrix pixelMatrix = imageGen.CreateImage(width, height, channels);
+			matrices.add(pixelMatrix);
+		}
+
+		// TODO check that nested array is actually working
+		/*
+		for (int a = 0; a < arithFormulas.size(); a++) {
 			ArrayList<ArithmeticNode> colorChannels = arithFormulas.get(a);
 			ArithmeticNode r = colorChannels.get(0);
 			ArithmeticNode g = colorChannels.get(1);
@@ -97,6 +116,7 @@ public class ImageneViewModel
 				e.printStackTrace();
 			}
 		}
+		*/
 
 		return matrices;
 	}
