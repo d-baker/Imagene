@@ -49,7 +49,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 		_crossover = new TreeCrossover();
 		_rng = rng;
 
-		// TODO this needs to be * 3
 		_populationSize = populationSize * 3;
 		_population = GenerateInitialPopulation();
 	}

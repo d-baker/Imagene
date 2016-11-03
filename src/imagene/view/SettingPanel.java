@@ -25,14 +25,13 @@ import java.io.InputStream;
 import java.nio.file.FileSystems;
 
 /*****************************************
- * Written by Avishkar Giri (s3346203)   *
- * for                                   *
- * Programming Project 1                 *
- * SP3 2016                              *
+ * Written by Avishkar Giri (s3346203)
+ * and Dorothea Baker
+ * for
+ * Programming Project 1
+ * SP3 2016
  ****************************************/
 
-/* TODO fix xml issues related to jar file
- */
 
 public class SettingPanel extends JPanel implements ConstantArrayField {
 

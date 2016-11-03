@@ -7,10 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 
 /*****************************************
- * Written by Avishkar Giri (s3346203)   *
- * for                                   *
- * Programming Project 1                 *
- * SP3 2016                              *
+ * Written by Avishkar Giri (s3346203)
+ * and Dorothea Baker (s3367422)
+ * for
+ * Programming Project 1
+ * SP3 2016
  ****************************************/
 
 

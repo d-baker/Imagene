@@ -20,10 +20,11 @@ import java.io.IOException;
 import java.util.*;
 
 /*****************************************
- * Written by Avishkar Giri (s3346203)   *
- * for                                   *
- * Programming Project 1                 *
- * SP3 2016                              *
+ * Written by Avishkar Giri (s3346203)
+ * and Dorothea Baker (s3367422)
+ * for
+ * Programming Project 1
+ * SP3 2016
  ****************************************/
 
 /*
@@ -187,8 +188,9 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if(e.isPopupTrigger())
+                if(SwingUtilities.isRightMouseButton(e))
                 {
+                    System.out.println("image 1 right-clicked");
                     holdMenuItemsImage1.show( holdImage[0],e.getX(),e.getY());
                 }
             }
@@ -216,7 +218,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
 
-                if(e.isPopupTrigger())
+                if(SwingUtilities.isRightMouseButton(e))
                 {
                     holdMenuItemsImage2.show( holdImage[1],e.getX(),e.getY());
                 }
@@ -243,7 +245,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if(e.isPopupTrigger())
+                if(SwingUtilities.isRightMouseButton(e))
                 {
                     holdMenuItemsImage3.show( holdImage[2],e.getX(),e.getY());
                 }
@@ -270,7 +272,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                if(e.isPopupTrigger())
+                if(SwingUtilities.isRightMouseButton(e))
                 {
                     holdMenuItemsImage4.show( holdImage[3],e.getX(),e.getY());
                 }
@@ -558,12 +560,12 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
     public void saveImage(ImageIcon image, JPanel panel) {
         System.out.println("saved");
-        Rectangle rec=panel.getBounds();
 
-        BufferedImage imageToSave = new BufferedImage(rec.width, rec.height, BufferedImage.TYPE_INT_ARGB);
-
+        BufferedImage imageToSave = new BufferedImage(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = imageToSave.createGraphics();
-        panel.paint(imageToSave.getGraphics());
+        ImageIcon imageIcon = imageHolder.resize(image);
+        imageIcon.paintIcon(null, g, 0,0);
+        g.dispose();
 
         JFileChooser fileChooser = new JFileChooser();
 
