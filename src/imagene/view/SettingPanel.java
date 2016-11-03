@@ -31,8 +31,7 @@ import java.nio.file.FileSystems;
  * SP3 2016                              *
  ****************************************/
 
-/*
--fix xml issues related to jar file
+/* TODO fix xml issues related to jar file
  */
 
 public class SettingPanel extends JPanel implements ConstantArrayField {
@@ -68,22 +67,12 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
     private JTextField imageWidth;
     private JTextField imageHeight;
-    // private JLabel imageHeight;
-
-
-
 
     private int initial_imageWidth;
     private int initial_imageHeight;
 
-
-    private int cartesianInt;
-    private int polarInt;
-    private int symmetricInt;
-    private int asymmetricInt;
-
-    public static String strHold1;
-    public static String strHold2;
+    public static String coordSetting;
+    public static String symmetrySetting;
 
     private String defaultCoordinate;
     private String defaultSymmetry;
@@ -95,10 +84,10 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
     private int defaultImageWidth;
     private int defaultImageHeight;
 
-
-    /* constructor                  */
-
+    // constructor
     public SettingPanel(){
+        default_imageWidth = 300;
+        default_imageHeight = 300;
 
         Dimension size = getPreferredSize();
         size.width=300;
@@ -128,6 +117,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         this.btnSave=settingButton.getBtnSave();
         this.btnDefault=settingButton.getBtnDefault();
+
         warning=new JLabel();
         warning.setForeground(colorRed);
 
@@ -141,19 +131,17 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         final int limit = 10;
 
-        /* limits textField to  max 10 digits */
+        /* limits textField to max 10 digits */
         this.imageWidth .setDocument(new PlainDocument(){
             @Override
-            public void insertString(int offs, String str, AttributeSet a)
-                    throws BadLocationException {
+            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
                 if(getLength() + str.length() <= limit) super.insertString(offs, str, a);
-
             }
         });
+
         this.imageHeight .setDocument(new PlainDocument(){
             @Override
-            public void insertString(int offs, String str, AttributeSet a)
-                    throws BadLocationException {
+            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
                 if(getLength() + str.length() <= limit)  super.insertString(offs, str, a);
             }
         });
@@ -232,20 +220,20 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         if (defaultCoordinate.equals("Cartesian")) {
             radioButtonCartesian.setSelected(true);
-            strHold1="Cartesian";
+            coordSetting="Cartesian";
         }
         if (defaultCoordinate.equals("Polar")) {
             radioButtonPolar.setSelected(true);
-            strHold1="Polar";
+            coordSetting="Polar";
         }
         if (defaultSymmetry.equals("Symmetric"))
         {
             radioButtonSymmetric.setSelected(true);
-            strHold2="Symmetric";
+            symmetrySetting="Symmetric";
         }
         if (defaultSymmetry.equals("Asymmetric")) {
             radioButtonAsymmetric.setSelected(true);
-            strHold2="Asymmetric";
+            symmetrySetting="Asymmetric";
         }
 
         imageWidth.setText(String.valueOf(default_imageWidth));
@@ -269,17 +257,17 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
                 System.out.println("Image width: " + initial_imageWidth);
                 System.out.println("Image width: " + initial_imageHeight);
 
-                if (strHold1.equals("Cartesian")) {
+                if (coordSetting.equals("Cartesian")) {
                     infoCoordinate.setText("Coordinate: " + "Cartesian");
                 }
-                if (strHold1.equals("Polar")) {
+                if (coordSetting.equals("Polar")) {
                     infoCoordinate.setText("Coordinate: " + "Polar");
                 }
 
-                if (strHold2.equals("Symmetric")) {
+                if (symmetrySetting.equals("Symmetric")) {
                     infoSymmetry.setText("Symmetry: " + "Symmetric");
                 }
-                if (strHold2.equals("Asymmetric")) {
+                if (symmetrySetting.equals("Asymmetric")) {
                     infoSymmetry.setText("Symmetry: " + "Asymmetric");
                 }
 
@@ -320,19 +308,19 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
             public void actionPerformed(ActionEvent ae){
                 if (defaultCoordinate.equals("Cartesian")) {
                     radioButtonCartesian.setSelected(true);
-                    strHold1="Cartesian";
+                    coordSetting="Cartesian";
                 }
                 if (defaultCoordinate.equals("Polar")) {
                     radioButtonPolar.setSelected(true);
-                    strHold1="Polar";
+                    coordSetting="Polar";
                 }
                 if (defaultSymmetry.equals("Symmetric")) {
                     radioButtonSymmetric.setSelected(true);
-                    strHold2="Symmetric";
+                    symmetrySetting="Symmetric";
                 }
                 if (defaultSymmetry.equals("Asymmetric")) {
                     radioButtonAsymmetric.setSelected(true);
-                    strHold2="Asymmetric";
+                    symmetrySetting="Asymmetric";
                 }
 
                 imageWidth.setText(String.valueOf(defaultImageWidth));
@@ -366,9 +354,9 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
             String hold = aButton.getText();
 
             if (hold.equals("Cartesian")) {
-                strHold1 = "Cartesian";
+                coordSetting = "Cartesian";
             } else {
-                strHold1 = "Polar";
+                coordSetting = "Polar";
             }
         }
     };
@@ -378,14 +366,14 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
             AbstractButton aButton = (AbstractButton) actionEvent.getSource();
             String hold=aButton.getText();
             if (hold.equals("Symmetric")) {
-                strHold2="Symmetric";
+                symmetrySetting="Symmetric";
             } else {
-                strHold2="Asymmetric";
+                symmetrySetting="Asymmetric";
             }
         }
     };
 
-    public  void readUserSettingFromXML() {
+    public void readUserSettingFromXML() {
         String sys = System.getProperty("user.home");
         String fileurl = sys + File.separator + "ImageEvolver" + File.separator + "UserSettings.xml";
 
@@ -419,9 +407,6 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         NodeList nList = doc.getElementsByTagName("setting");
 
-        int k = 0;
-        int l = 0;
-
         for (int i = 0; i < nList.getLength(); i++) {
 
             Node nNode = nList.item(i);
@@ -441,8 +426,8 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
                 System.out.println("imageWidth : " + hold1);
                 System.out.println("imageHeight : " + hold2);
 
-                strHold1 = defaultCoordinate;
-                strHold2 = defaultSymmetry;
+                coordSetting = defaultCoordinate;
+                symmetrySetting = defaultSymmetry;
 
                 infoCoordinate.setText("Coordinate: " + defaultCoordinate);
                 infoSymmetry.setText("Symmetry: " + defaultSymmetry);
@@ -484,11 +469,11 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         doc.appendChild(rootElement);
 
         Element coordinateInfo = doc.createElement("coordinate");
-        coordinateInfo.setTextContent(strHold1);
+        coordinateInfo.setTextContent(coordSetting);
         rootElement.appendChild(coordinateInfo);
 
         Element symmetryInfo = doc.createElement("symmetry");
-        symmetryInfo.setTextContent(strHold2);
+        symmetryInfo.setTextContent(symmetrySetting);
         rootElement.appendChild(symmetryInfo);
 
         Element imageWidthInfo = doc.createElement("imageWidth");

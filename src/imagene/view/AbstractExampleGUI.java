@@ -25,7 +25,7 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * Base class for examples that run as applets.
+ * GUI base class from original watchmaker example code.
  * @author Daniel Dyer
  */
 public abstract class AbstractExampleGUI extends JFrame implements ConstantArrayField

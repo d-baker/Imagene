@@ -22,8 +22,8 @@ import java.io.IOException;
  ****************************************/
 
 /*
--have to fix image saving to the default image dimension
--fix button and label alignment
+TODO have to fix image saving to the default image dimension
+TODO fix button and label alignment
 
  */
 
@@ -72,7 +72,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         setPreferredSize(size);
 
         this.imageHolder = image_Contents.getImageHolder();
-        imageHolder.generateRealImages();
+        imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
 
         setBackground(colorLightGray);
         setBorder(BorderFactory.createTitledBorder(" "));
@@ -504,7 +504,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                     sumOfTotalClicked=0;
 
-                    imageHolder.generateRealImages();
+                    imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
                     icon = imageHolder.returnImageIcon();
 
                     for(int i=0;i<ARRAY_INDEX;i++) {

@@ -32,16 +32,14 @@ public class DataToProcess {
         image1=toBufferedImage(image_getImage1);
         image2=toBufferedImage(image_getImage2);
 
-        this.coordinate= SettingPanel.strHold1;
-        this.symmetry= SettingPanel.strHold2;
         this.imageWidth= SettingPanel.default_imageWidth;
         this.imageHeight= SettingPanel.default_imageHeight;
 
         System.out.println("\n\nafter save button \n");
-        System.out.println("coordinate " +coordinate);
-        System.out.println("symmetry: " +symmetry);
-        System.out.println("image width " +imageWidth);
-        System.out.println("image height " +imageHeight);
+        System.out.println("coordinate " + SettingPanel.coordSetting);
+        System.out.println("symmetry: " + SettingPanel.symmetrySetting);
+        System.out.println("image width " + imageWidth);
+        System.out.println("image height " + imageHeight);
 
     }
 

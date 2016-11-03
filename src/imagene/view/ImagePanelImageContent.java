@@ -12,8 +12,8 @@ import java.awt.*;
 
 
 /*
--have to fix image saving to the default image dimension
--fix button and label alignment
+ TODO have to fix image saving to the default image dimension
+TODO fix button and label alignment
 
  */
 
@@ -31,7 +31,7 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
     public ImagePanelImageContent() {
         setBackground(colorLightGray);
 
-        imageHolder.generateRealImages();
+        imageHolder.generateRealImages(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
         setLayout(new GridBagLayout());
         GridBagConstraints constraint = new GridBagConstraints();
         icon = imageHolder.returnImageIcon();
