@@ -293,13 +293,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     if ((e.getClickCount() == 1)) {
                         ++count;
 
-                        if (count == 2) {
-                            label.setText(null);
-                            btnGenerate.setEnabled(true);
-                        } else {
-                            label.setText("Please click to select 2 Images before generating.");
-                            btnGenerate.setEnabled(false);
-                        }
+                        validateSelection(count);
 
                         hold_imagePanel[0].setBackground(colorWhite);
                         holdImageLabel[0].setBackground(colorWhite);
@@ -320,13 +314,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                     --count;
 
-                    if (count == 2) {
-                        label.setText(null);
-                        btnGenerate.setEnabled(true);
-                    } else {
-                        label.setText("Please click to select 2 Images before generating.");
-                        btnGenerate.setEnabled(false);
-                    }
+                    validateSelection(count);
                     System.out.println("count is: " + count);
 
                 }
@@ -342,13 +330,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     if ((e.getClickCount() == 1)) {
                         ++count;
 
-                        if (count == 2) {
-                            label.setText(null);
-                            btnGenerate.setEnabled(true);
-                        } else {
-                            label.setText("Please click to select 2 Images before generating.");
-                            btnGenerate.setEnabled(false);
-                        }
+                        validateSelection(count);
 
                         hold_imagePanel[1].setBackground(colorWhite);
                         holdImageLabel[1].setBackground(colorWhite);
@@ -359,8 +341,8 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         System.out.println("count is: " +count);
                         // set image to process stringImage1="image1";
-
                     }
+
                 } else {
                     hold_imagePanel[1].setBackground(colorLightGray);
                     holdImageLabel[1].setBackground(colorLightGray);
@@ -370,13 +352,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                     --count;
 
-                    if (count == 2) {
-                        label.setText(null);
-                        btnGenerate.setEnabled(true);
-                    } else {
-                        label.setText("Please click to select 2 Images before generating.");
-                        btnGenerate.setEnabled(false);
-                    }
+                    validateSelection(count);
 
                     System.out.println("count is: " + count);
                 }
@@ -390,13 +366,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     if ((e.getClickCount() == 1)) {
                         ++count;
 
-                        if (count == 2) {
-                            label.setText(null);
-                            btnGenerate.setEnabled(true);
-                        } else {
-                            label.setText("Please click to select 2 Images before generating.");
-                            btnGenerate.setEnabled(false);
-                        }
+                        validateSelection(count);
 
                         hold_imagePanel[2].setBackground(colorWhite);
                         holdImageLabel[2].setBackground(colorWhite);
@@ -418,14 +388,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                     --count;
 
-                    if (count == 2) {
-                        label.setText(null);
-                        btnGenerate.setEnabled(true);
-                    } else {
-                        label.setText("Please click to select 2 Images before generating.");
-                        btnGenerate.setEnabled(false);
-                    }
-
+                    validateSelection(count);
                     System.out.println("count is: " + count);
                 }
             }
@@ -437,13 +400,8 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                     if ((e.getClickCount() == 1)) {
                         ++count;
-                        if (count == 2) {
-                            label.setText(null);
-                            btnGenerate.setEnabled(true);
-                        } else {
-                            label.setText("Please click to select 2 Images before generating.");
-                            btnGenerate.setEnabled(false);
-                        }
+
+                        validateSelection(count);
 
                         hold_imagePanel[3].setBackground(colorWhite);
                         holdImageLabel[3].setBackground(colorWhite);
@@ -465,13 +423,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                     --count;
 
-                    if (count == 2) {
-                        label.setText(null);
-                        btnGenerate.setEnabled(true);
-                    } else {
-                        label.setText("Please click to select 2 Images before generating.");
-                        btnGenerate.setEnabled(false);
-                    }
+                    validateSelection(count);
 
                     System.out.println("count is: " + count);
                 }
@@ -481,7 +433,16 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         processGenerateButton();
     }
 
-
+    // check how many images the user selected and display an appropriate error message if it's wrong
+    private void validateSelection(int count) {
+        if (count == 2) {
+            label.setText(null);
+            btnGenerate.setEnabled(true);
+        } else {
+            label.setText("Please click to select 2 Images before generating.");
+            btnGenerate.setEnabled(false);
+        }
+    }
 
     public void processGenerateButton()
     {
@@ -550,7 +511,8 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                         holdImageLabel[i].setBackground(colorLightGray);
                         hold_imagePanel[i].setBackground(colorLightGray);
                     }
-                }}
+                }
+            }
         });
     }
 
@@ -598,7 +560,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
         }
     }
-
 
 
     public void fullImage(ImageIcon image)

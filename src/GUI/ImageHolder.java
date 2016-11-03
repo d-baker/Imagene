@@ -1,6 +1,5 @@
-package GUI; /**
- * Created by avishkar on 10/26/2016.
- */
+package GUI;
+
 import imagene.arithmeticParser.ParserInterface;
 import imagene.arithmeticParser.SampleFormulaGenerator;
 import imagene.arithmeticParser.parserNodes.ArithmeticNode;
@@ -13,7 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,25 +19,11 @@ import java.util.ArrayList;
  * Created by avishkar on 10/26/2016.
  */
 public class ImageHolder implements ConstantArrayField {
-
     private BufferedImage[] image=new BufferedImage[ARRAY_INDEX];
     private BufferedImage[] image1=new BufferedImage[ARRAY_INDEX];
     private Image[] imageResized=new Image[ARRAY_INDEX];
     private ImageIcon [] imageIcon=new ImageIcon[ARRAY_INDEX];
     private ImageIcon [] imageIconResized=new ImageIcon[ARRAY_INDEX];
-    private ArrayList<Image> imageList=new ArrayList<>();
-
-//    public ImageHolder(ImageBuffered [] image)
-//    {
-//        for(int i=0;i<ARRAY_INDEX;i++)
-//        {
-//            image[i]=new BufferedImage();
-//            this.image[i]=image;
-             // imageIcon[i]=new ImageIcon(image[i]);
-
-//        }
-//    }
-
 
     public void generateRealImages() {
         PixelMatrix pixelMatrix;
@@ -48,8 +32,8 @@ public class ImageHolder implements ConstantArrayField {
         // TODO population probably shouldn't be hardcoded here, but it'll do for now
         int POPULATION_SIZE = 4;
 
-        // TODO for some reason when setting to the user-defined dimensions,
-        // pixel matrix throws index out of bounds exception
+        /* TODO for some reason when setting to the user-defined dimensions,
+        pixel matrix throws index out of bounds exception */
         int WIDTH = 200;
         int HEIGHT = 200;
         //int WIDTH = SettingPanel.default_imageWidth;
@@ -96,7 +80,7 @@ public class ImageHolder implements ConstantArrayField {
             imageIcon[i] = new ImageIcon(image[i]);
         }
 
-        resize();
+        resizeAllImages();
     }
 
     // Creates the BufferedImage from a pixel matrix, for display in the gui
@@ -124,7 +108,7 @@ public class ImageHolder implements ConstantArrayField {
         imageIcon[2]=new ImageIcon(image1[2] );
         imageIcon[3]=new ImageIcon(image1[3]);
 
-        resize();
+        resizeAllImages();
     }
 
 
@@ -141,7 +125,7 @@ public class ImageHolder implements ConstantArrayField {
     }
 
 
-    public void resize()
+    public void resizeAllImages()
     {
         for(int i=0;i<ARRAY_INDEX;i++) {
             imageResized[i] =  imageIcon[i].getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
@@ -153,5 +137,4 @@ public class ImageHolder implements ConstantArrayField {
     {
         return imageIconResized;
     }
-
 }

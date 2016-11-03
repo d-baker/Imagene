@@ -28,7 +28,6 @@ public class DataToProcess {
         image1=toBufferedImage(image_getImage1);
         image2=toBufferedImage(image_getImage2);
 
-
         this.coordinate= SettingPanel.strHold1;
         this.symmetry= SettingPanel.strHold2;
         this.imageWidth= SettingPanel.default_imageWidth;
@@ -82,14 +81,11 @@ public class DataToProcess {
             return (BufferedImage) img;
         }
 
-
         BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
 
         Graphics2D bGr = bimage.createGraphics();
         bGr.drawImage(img, 0, 0, null);
         bGr.dispose();
-
 
         return bimage;
     }
