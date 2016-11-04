@@ -49,11 +49,11 @@ public class ImageneViewModel
 
 	public List<PixelMatrix> getPopulation(int width, int height) throws InvalidArgumentException, IncorrectVariablesException
 	{
-		/*
 		ArrayList<ArrayList<ArithmeticNode>> arithFormulas = new ArrayList<ArrayList<ArithmeticNode>>();
 
 		int curNode = 0;
 		List<Node> nodes = watchmaker.getPopulation();
+		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
 
 		for(int i = 0; i < nodes.size(); i++)
 		{
@@ -71,9 +71,8 @@ public class ImageneViewModel
 			//double y = 15.0;
 			//double nodeEval = n.evaluate(new double[] {0.0, 1.0});
 		}
-		*/
 
-		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
+/*
 		String[][] arithFormulas = dummyWatchmaker.getFormulaArray(populationSize);
 
 		for (int a = 0; a < arithFormulas.length; a++) {
@@ -94,9 +93,9 @@ public class ImageneViewModel
 			PixelMatrix pixelMatrix = imageGen.CreateImage(width, height, channels);
 			matrices.add(pixelMatrix);
 		}
-
+*/
 		// TODO check that nested array is actually working
-		/*
+
 		for (int a = 0; a < arithFormulas.size(); a++) {
 			ArrayList<ArithmeticNode> colorChannels = arithFormulas.get(a);
 			ArithmeticNode r = colorChannels.get(0);
@@ -116,7 +115,7 @@ public class ImageneViewModel
 				e.printStackTrace();
 			}
 		}
-		*/
+
 
 		return matrices;
 	}
@@ -124,17 +123,17 @@ public class ImageneViewModel
 	public void chooseWinners(int[] winners)
 	{
 		System.out.println("choosing winners");
-		// watchmaker.chooseWinners(winners);
+		watchmaker.chooseWinners(winners);
 	}
 	
 	public void chooseWinners(List<Integer> winners)
 	{
 		System.out.println("choosing winners");
-		// watchmaker.chooseWinners(winners);
+		watchmaker.chooseWinners(winners);
 	}
 	
 	public void newGeneration() throws UnexpectedParentsException
 	{
-		//watchmaker.Evolve();
+		watchmaker.Evolve();
 	}
 }

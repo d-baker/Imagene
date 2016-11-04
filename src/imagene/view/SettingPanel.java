@@ -375,8 +375,9 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
     public void readUserSettingFromXML() {
         String sys = System.getProperty("user.home");
         String fileurl = sys + File.separator + "ImageEvolver" + File.separator + "UserSettings.xml";
+        String absolutePath = FileSystems.getDefault().getPath(fileurl).normalize().toAbsolutePath().toString();
 
-        File xmlFile = new File(fileurl);
+        File xmlFile = new File(absolutePath);
         if (xmlFile.exists()) {
             try {
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

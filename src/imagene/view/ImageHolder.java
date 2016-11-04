@@ -43,6 +43,8 @@ public class ImageHolder implements ConstantArrayField {
     public void generateRealImages(List<PixelMatrix> pixelMatrices, int width, int height) {
         for (int i = 0; i < ARRAY_INDEX; i++) {
             // TODO getting index out of bounds here when using real watchmaker, why?
+            System.out.println(">>> Image length: " + image.length);
+            System.out.println(">>> i: " + i);
             image[i] = makeImage(width, height, pixelMatrices.get(i));
             this.image[i] = image[i];
             imageIcon[i] = new ImageIcon(image[i]);

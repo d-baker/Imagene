@@ -66,7 +66,7 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	
 	public void evolve() throws UnexpectedParentsException
 	{
-		_population = Evaluate();		
+		_population = Evaluate();
 	}
 	
 	private List<T> Evaluate() throws UnexpectedParentsException
@@ -108,11 +108,12 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 
 		} else {
 			System.out.println("num parents is " + _parents.size());
-			//throw new UnexpectedParentsException("Number of parents: " + _parents.size());
+			throw new UnexpectedParentsException("Number of parents: " + _parents.size());
 		}
 
-		// TODO reset fitness of previous parents
-		_evaluatedCandidates.clear(); // Empty the list for future use
+		// TODO trying to reset fitness of previous parents - not working
+		_evaluatedCandidates.clear();
+		_parents.clear();
 
 		return newPopulation;
 	}
