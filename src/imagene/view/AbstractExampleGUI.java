@@ -28,6 +28,14 @@ import java.lang.reflect.InvocationTargetException;
  * GUI base class from original watchmaker example code.
  * @author Daniel Dyer
  */
+
+/*****************************************
+ * Written by Avishkar Giri (s3346203)
+ * for
+ * Programming Project 1
+ * SP3 2016
+ ****************************************/
+
 public abstract class AbstractExampleGUI extends JFrame implements ConstantArrayField
 {
     public void init()
@@ -94,6 +102,7 @@ public abstract class AbstractExampleGUI extends JFrame implements ConstantArray
         JPanel panelAbout=new JPanel();
         JPanel panelInstruction=new JPanel();
         JMenuBar menuBar=new JMenuBar();
+        menuBar.setBackground(colorLightGray);
         JMenu file=new JMenu("File");
         JMenu help=new JMenu("Help");
         JMenuItem close=new JMenuItem("Close");

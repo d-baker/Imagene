@@ -43,14 +43,13 @@ public class ImageHolder implements ConstantArrayField {
     public void generateRealImages(List<PixelMatrix> pixelMatrices, int width, int height) {
         for (int i = 0; i < ARRAY_INDEX; i++) {
             // TODO getting index out of bounds here when using real watchmaker, why?
-            System.out.println(">>> Image length: " + image.length);
-            System.out.println(">>> i: " + i);
             image[i] = makeImage(width, height, pixelMatrices.get(i));
             this.image[i] = image[i];
             imageIcon[i] = new ImageIcon(image[i]);
         }
 
         resizeAllImages();
+
     }
 
     // Creates the BufferedImage from a pixel matrix, for display in the view
@@ -86,25 +85,34 @@ public class ImageHolder implements ConstantArrayField {
     {
         Image image_hold;
 
-        ImageIcon temp;
+        ImageIcon returnImage;
+
 
         image_hold = image.getImage().getScaledInstance(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight, Image.SCALE_DEFAULT);
-        temp=new ImageIcon(image_hold);
+        BufferedImage temp=DataToProcess.toBufferedImage(image_hold);
+        returnImage=new ImageIcon(temp);
 
-        return temp;
+        return returnImage;
     }
 
 
     public void resizeAllImages()
     {
+        BufferedImage[] temp=new BufferedImage[4];
         for(int i=0;i<ARRAY_INDEX;i++) {
             imageResized[i] =  imageIcon[i].getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
-            imageIconResized[i]=new ImageIcon(imageResized[i]);
+
+            temp[i]=DataToProcess.toBufferedImage(imageResized[i]);
+            imageIconResized[i]=new ImageIcon(temp[i]);
         }
+
+
     }
 
     public ImageIcon[] returnImageIcon()
     {
         return imageIconResized;
     }
+
+
 }

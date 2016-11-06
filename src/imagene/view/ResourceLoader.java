@@ -16,11 +16,11 @@ final class ResourceLoader {
 
 
         InputStream input= ResourceLoader.class.getResourceAsStream(path);
-        //fileReader=new InputStreamReader(input);
+
         if(input==null)
         {
             input= ResourceLoader.class.getResourceAsStream("/"+path);
-           // fileReader=new InputStreamReader(input);
+
         }
          return input;
     }

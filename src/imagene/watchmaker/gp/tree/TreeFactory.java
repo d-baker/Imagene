@@ -56,6 +56,8 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
     // gp.node rather than a constant gp.node.
     private final Probability parameterProbability;
 
+    private final Probability constantProbability;
+
 
     /**
      * @param parameterCount The number of program parameters that each
@@ -70,7 +72,8 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
     public TreeFactory(int parameterCount,
                        int maxDepth,
                        Probability oneArgFunctionProbability,
-                       Probability parameterProbability)
+                       Probability parameterProbability,
+                       Probability constantProbability)
     {
         if (parameterCount < 0)
         {
@@ -85,6 +88,7 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
         this.maxDepth = maxDepth;
         this.oneArgFunctionProbability = oneArgFunctionProbability;
         this.parameterProbability = parameterProbability;
+        this.constantProbability = constantProbability;
     }
 
 
@@ -126,6 +130,7 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
                 }
 
             } else {
+
                 switch (rng.nextInt(4))
                 {
                     case 0: return new Addition(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
@@ -136,9 +141,11 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
             }
 
         } else if (parameterProbability.nextEvent(rng)) {
-            return new Parameter(rng.nextInt(parameterCount));
-        } else {
+            return new Parameter(rng.nextInt(parameterCount)); // TODO reduce rand probability
+        } else if (constantProbability.nextEvent(rng)) {
             return new Constant(Math.PI);
+        } else {
+            return new Parameter(rng.nextInt(parameterCount)); // TODO workaround
         }
 
     }

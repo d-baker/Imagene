@@ -18,6 +18,8 @@ public interface ConstantArrayField {
     public static final String WARNING_IMAGE_VALUE="InValid user input";
     public static final String WARNING_IMAGE_VALUE_EXCEEDS="Input values too large to process";
 
+    public static final int SETTEXTFIELD_LIMIT = 5; //increasing the limit more than 5 will cause java.lang.outofmemory ERROR
+
     public static final Color colorWhite=new Color(255,255,255);
     public static final Color colorBlue_generateBtn=new Color(0,51,204);
     public static final Color colorBlue=new Color(0,0,255);

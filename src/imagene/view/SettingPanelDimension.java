@@ -47,9 +47,7 @@ public class SettingPanelDimension extends JPanel {
         constraint.gridy=0;
         add(imageWidth,constraint); //set labelCoordinate to 0,0
 
-//        constraint.gridx=0;
-//        constraint.gridy=1;
-//        add(pixel_width,constraint); //set labelCoordinate to 0,0
+
 
         constraint.insets=new Insets(10,30,10,10);
         constraint.gridx=1;
@@ -57,10 +55,7 @@ public class SettingPanelDimension extends JPanel {
         add(imageHeight,constraint);//set radioButtonCartesian to 0,1
 
 
-//        constraint.gridx=1;
-//        constraint.gridy=1;
-//        constraint.insets=new Insets(10,10,10,10);
-//        add(pixel_height,constraint); //set labelCoordinate to 0,0
+
 
 
     }

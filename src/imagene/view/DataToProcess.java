@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static com.sun.javafx.fxml.expression.Expression.add;
+
 public class DataToProcess {
 
     private String coordinate;
@@ -46,27 +48,49 @@ public class DataToProcess {
 
     // function to delete  later
     //test function
-    public void testImagesToProcess()
+    public static void testImagesToProcess(ImageIcon image1,ImageIcon image2,ImageIcon image3,ImageIcon image4)
     {
         JPanel panel=new JPanel();
-        JLabel label1=new JLabel(image1_1);
-        JLabel label2=new JLabel(image2_1);
-        JLabel label3=new JLabel(coordinate);
-        JLabel label4=new JLabel(symmetry);
-        JLabel label5=new JLabel(String.valueOf(imageWidth));
-        JLabel label6=new JLabel(String.valueOf(imageHeight));
+        JLabel label1=new JLabel(image1);
+        JLabel label2=new JLabel(image2);
+        JLabel label3=new JLabel(image3);
+        JLabel label4=new JLabel(image4);
+
 
         JFrame frame=new JFrame("About");
 
-        panel.setLayout(new GridLayout(6,0));
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints constraint=new GridBagConstraints();
+
+        constraint.anchor=GridBagConstraints.LINE_START; //0 column, texts display at the right
+        constraint.weightx=0.5;
+        constraint.weighty=0.5;
+
+
+        constraint.gridx=0;
+        constraint.gridy=0;
+        add(label1,constraint);
+
+        constraint.gridx=0;
+        constraint.gridy=1;
+        add(label1,constraint);
+
+        constraint.gridx=1;
+        constraint.gridy=0;
+        add(label1,constraint);
+
+        constraint.gridx=1;
+        constraint.gridy=1;
+        add(label1,constraint);
+
+
 
         frame.add(panel);
         panel.add(label1);
         panel.add(label2);
         panel.add(label3);
         panel.add(label4);
-        panel.add(label5);
-        panel.add(label6);
+
 
         panel.setBackground(Color.GRAY);
 
@@ -76,22 +100,64 @@ public class DataToProcess {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    public static BufferedImage toBufferedImage(Image img)
+
+    public static void testImagesToProcess(ImageIcon image1)
     {
-        if (img instanceof BufferedImage)
-        {
-            return (BufferedImage) img;
-        }
+        JPanel panel=new JPanel();
+        JLabel label1=new JLabel(image1);
 
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
-        Graphics2D bGr = bimage.createGraphics();
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
 
-        return bimage;
+        JFrame frame=new JFrame("About");
+
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints constraint=new GridBagConstraints();
+
+        constraint.anchor=GridBagConstraints.LINE_START; //0 column, texts display at the right
+        constraint.weightx=0.5;
+        constraint.weighty=0.5;
+
+
+        constraint.gridx=0;
+        constraint.gridy=0;
+        add(label1,constraint);
+
+
+
+
+
+        frame.add(panel);
+        panel.add(label1);
+
+
+
+        panel.setBackground(Color.GRAY);
+
+        frame.setVisible(true);
+        frame.setTitle("test");
+        frame.setSize(400,400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
+
+    public static BufferedImage toBufferedImage(Image img) {
+
+            if (img instanceof BufferedImage) {
+                return (BufferedImage) img;
+            }
+
+            BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+            Graphics2D bGr = bimage.createGraphics();
+            bGr.drawImage(img, 0, 0, null);
+            bGr.dispose();
+
+
+            return bimage;
+
+
+
+    }
 
 
 

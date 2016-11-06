@@ -35,14 +35,15 @@ public class Watchmaker<T> {
 	private void SetSpecies()
 	{
         int parameterCount, maxDepth;
-        Probability oneArgFuncProb, paramProb;
-        
-        maxDepth = 3; // TODO just for testing to speed it up
-        oneArgFuncProb = new Probability(0.2);
+        Probability oneArgFuncProb, paramProb, constantProb;
+
+		parameterCount = 3;
+		maxDepth = 5;
+        oneArgFuncProb = new Probability(0.3);
         paramProb = new Probability(0.3);
-        parameterCount = 3;
-        
-        _factory = new TreeFactory(parameterCount, maxDepth, oneArgFuncProb, paramProb);
+		constantProb = new Probability(0.1);
+
+        _factory = new TreeFactory(parameterCount, maxDepth, oneArgFuncProb, paramProb, constantProb);
         _engine = new ImageneEvolutionEngine<T>(_populationSize, _factory, new MersenneTwisterRNG());
 
 	}

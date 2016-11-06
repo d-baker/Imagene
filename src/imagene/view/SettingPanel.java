@@ -23,10 +23,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
 /*****************************************
  * Written by Avishkar Giri (s3346203)
- * and Dorothea Baker
+ * and Dorothea Baker (s3367422)
  * for
  * Programming Project 1
  * SP3 2016
@@ -51,7 +52,8 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
     private JButton btnSave;
     private  JButton btnDefault;
-    private  JLabel warning;
+    public static  JLabel warning;
+    private JLabel insertPixelValue;
 
     private JRadioButton radioButtonCartesian;
     private JRadioButton radioButtonPolar;
@@ -80,8 +82,8 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
     private String default_Coordinate;
     private String default_Symmetry;
-    private int defaultImageWidth;
-    private int defaultImageHeight;
+    public static int defaultImageWidth;
+    public static int defaultImageHeight;
 
     // constructor
     public SettingPanel(){
@@ -118,7 +120,11 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         this.btnDefault=settingButton.getBtnDefault();
 
         warning=new JLabel();
-        warning.setForeground(colorRed);
+        //warning.setForeground(colorRed);
+        warning.setForeground(colorBlue);
+
+        insertPixelValue=new JLabel();
+
 
         this.infoCoordinate=info.getInfoCoordinate();
         this.infoSymmetry=info.getInfoSymmetry();
@@ -128,20 +134,20 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         this.imageWidth=imageDimension.getImageWidth();
         this.imageHeight=imageDimension.getImageHeight();
 
-        final int limit = 10;
+        //final int limit = 10;
 
-        /* limits textField to max 10 digits */
+        /* limits textField to max SETTEXTFIELD_LIMIT digits */
         this.imageWidth .setDocument(new PlainDocument(){
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-                if(getLength() + str.length() <= limit) super.insertString(offs, str, a);
+                if(getLength() + str.length() <= SETTEXTFIELD_LIMIT) super.insertString(offs, str, a);
             }
         });
 
         this.imageHeight .setDocument(new PlainDocument(){
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-                if(getLength() + str.length() <= limit)  super.insertString(offs, str, a);
+                if(getLength() + str.length() <= SETTEXTFIELD_LIMIT)  super.insertString(offs, str, a);
             }
         });
         /* end */
@@ -240,6 +246,8 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         imageHeight.setText(String.valueOf(default_imageHeight));
         infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
 
+        warning.setText("press ok to save new user settings");
+
          /*  event handler for save button  */
         btnSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae){
@@ -275,14 +283,17 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
                 if ((initial_imageWidth <=0)||(initial_imageHeight<=0)) {
                     warning.setText(WARNING_IMAGE_VALUE);
+                    warning.setForeground(colorRed);
                     initial_imageWidth = default_imageWidth;
                     initial_imageHeight = default_imageHeight;
                     infoImageWidth.setText("ImageWidth: " +String.valueOf(default_imageWidth));
                     infoImageHeight.setText("ImageHeight: " +String.valueOf(default_imageHeight));
                 } else if ((initial_imageWidth >800)||(initial_imageHeight >800)) {
                     warning.setText(WARNING_IMAGE_SIZE);
+                    warning.setForeground(colorRed);
                 } else {
-                    warning.setText(null);
+                    warning.setText("input saved");
+                    warning.setForeground(colorBlue);
                 }
 
                 default_imageWidth = initial_imageWidth;
@@ -295,6 +306,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
             }
         });
         /* end */
+
 
         default_Coordinate=defaultCoordinate;
         default_Symmetry=defaultSymmetry;
@@ -338,6 +350,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
                 infoImageWidth.setText("ImageWidth: " + defaultImageWidth);
                 infoImageHeight.setText("ImageHeight: " + defaultImageHeight);
+                warning.setText("press ok to save new user settings");
             }
         });
 
@@ -374,10 +387,42 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
     public void readUserSettingFromXML() {
         String sys = System.getProperty("user.home");
-        String fileurl = sys + File.separator + "ImageEvolver" + File.separator + "UserSettings.xml";
-        String absolutePath = FileSystems.getDefault().getPath(fileurl).normalize().toAbsolutePath().toString();
+        String userSetting_fileName="UserSettings.xml";
+        String imageEvolver_folder="ImageEvolver";
+        String filename="";
+        String operatingSys_name=System.getProperty("os.name").toLowerCase();
+        System.out.println(operatingSys_name);
 
-        File xmlFile = new File(absolutePath);
+        if (operatingSys_name.indexOf("win") >= 0) {
+
+
+            filename =   sys+"\\" +imageEvolver_folder+"\\"+userSetting_fileName;
+
+        } else if (operatingSys_name.indexOf("nix") >= 0 ||
+                operatingSys_name.indexOf("nux") >= 0 ||
+                operatingSys_name.indexOf("mac") >= 0) {
+
+
+            filename =  sys + "/"+imageEvolver_folder+ "/" + userSetting_fileName;
+
+        }else{
+
+
+            filename = sys + "/"+imageEvolver_folder+ "/" + userSetting_fileName;
+
+        }
+        //filename=createPath(userSetting_fileName);
+
+        // String absolutePath = FileSystems.getDefault().getPath(fileurl).normalize().toAbsolutePath().toString();
+
+
+
+        // String fileurl = sys + "\\desktop\\ImageEvolver\\UserSettings.xml";
+
+
+          //String fileurl = sys + File.separator + "ImageEvolver" + File.separator + "UserSettings.xml";
+
+        File xmlFile = new File(filename);
         if (xmlFile.exists()) {
             try {
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -388,7 +433,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
                 e.printStackTrace();
             }
         } else {
-            //writeUserSettingToXML("800","800","default");
+            //writeUserSettingToXML("50","50","default");
             try {
                 InputStream readFile = ResourceLoader.load("imagene/view/resources/DefaultSettings.xml");
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -400,7 +445,11 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
             }
         }
 
+
+
     }
+
+
 
     public void passObjectToReadFromXML(Document doc) {
         doc.getDocumentElement().normalize();
@@ -443,6 +492,49 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         }
 
     }
+
+//    public void passObjectToReadFromXML(Document doc) {
+//        doc.getDocumentElement().normalize();
+//
+//        NodeList nList = doc.getElementsByTagName("setting");
+//
+//        for (int i = 0; i < nList.getLength(); i++) {
+//
+//            Node nNode = nList.item(i);
+//
+//            System.out.println("\nCurrent Element :" + nNode.getNodeName());
+//
+//            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//                Element eElement = (Element) nNode;
+//
+//                defaultCoordinate = eElement.getElementsByTagName("coordinate").item(0).getTextContent();
+//                defaultSymmetry = eElement.getElementsByTagName("symmetry").item(0).getTextContent();
+//                String hold1 = String.valueOf(eElement.getElementsByTagName("imageWidth").item(0).getTextContent());
+//                String hold2 = String.valueOf(eElement.getElementsByTagName("imageHeight").item(0).getTextContent());
+//
+//                System.out.println("coordinate : " + defaultCoordinate);
+//                System.out.println("symmetry : " + defaultSymmetry);
+//                System.out.println("imageWidth : " + hold1);
+//                System.out.println("imageHeight : " + hold2);
+//
+//                coordSetting = defaultCoordinate;
+//                symmetrySetting = defaultSymmetry;
+//
+//                infoCoordinate.setText("Coordinate: " + defaultCoordinate);
+//                infoSymmetry.setText("Symmetry: " + defaultSymmetry);
+//
+//                int specifiedWidth = Integer.valueOf(hold1);
+//                int specifiedHeight = Integer.valueOf(hold2);
+//
+//                validateImageDimensions(specifiedWidth, specifiedHeight);
+//
+//                default_imageWidth = specifiedWidth;
+//                default_imageHeight = specifiedHeight;
+//            }
+//        }
+//
+//    }
+
 
     // Display an appropriate warning if image dimensions are wrong
     public void validateImageDimensions(int dimX, int dimY) {
@@ -499,15 +591,75 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         StreamResult result = null;
 
         String sys = System.getProperty("user.home");
+        String userSetting_fileName="UserSettings.xml";
+        String imageEvolver_folder="ImageEvolver";
+        String filename="";
+        String operatingSys_name=System.getProperty("os.name").toLowerCase();
+        System.out.println(operatingSys_name);
 
-        String folderPath = sys + File.separator + "ImageEvolver";
-        String absolutePath = FileSystems.getDefault().getPath(folderPath).normalize().toAbsolutePath().toString();
+        if (operatingSys_name.indexOf("win") >= 0) {
 
-        File folder = new File(absolutePath);
 
+            filename =   sys+"\\"+imageEvolver_folder;
+
+        } else if (operatingSys_name.indexOf("nix") >= 0 ||
+                operatingSys_name.indexOf("nux") >= 0 ||
+                operatingSys_name.indexOf("mac") >= 0) {
+
+
+            filename =  sys +  "/" + imageEvolver_folder;
+
+        }else{
+
+
+            filename = sys + "/" + imageEvolver_folder;
+
+        }
+
+       // filename=createPath(userSetting_fileName);
+        //String folderPath = sys + File.separator + "Desktop"+File.separator + "ImageEvolver"+ File.separator + "UserSettings.xml";
+       // String folderPath = sys + File.separator + "Desktop"+File.separator + "ImageEvolver";
+        System.out.println(filename);
+//        String folderPath = sys + "\\desktop\\ImageEvolver";
+//        String absolutePath = FileSystems.getDefault().getPath(folderPath).normalize().toAbsolutePath().toString();
+//        String temp=absolutePath.replace("\\","\\\\");
+
+        File folder = new File(filename);
         folder.mkdir();
-        File file=new File(folderPath + File.separator + "UserSettings.xml");
-        System.out.println(file.toString());
+       // had to create two file class objects(folder and file) ....folder.mkdir() will create a new folder  if not found and
+        // than the userSetting_fileName is added to  the string filename and pass that string to next file class.
+        // got to fix duplicated code issues...i will do that tomorrow
+
+
+        if (operatingSys_name.indexOf("win") >= 0) {
+
+
+            filename =  filename+"\\"+userSetting_fileName;
+
+        } else if (operatingSys_name.indexOf("nix") >= 0 ||
+                operatingSys_name.indexOf("nux") >= 0 ||
+                operatingSys_name.indexOf("mac") >= 0) {
+
+
+            filename =  filename+ "/" + userSetting_fileName;
+
+        }else{
+
+
+            filename = filename+ "/" + userSetting_fileName;
+
+        }
+
+//        File folder = new File(folderPath);
+//       folder.mkdir();
+        System.out.println(filename);
+        File file=new File(filename);
+
+       // File file=new File(folderPath+File.separator+"UserSettings.xml");
+
+
+
+        //System.out.println(folderPath.toString());
         result=new StreamResult(file);
 
         try {
@@ -518,5 +670,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         return true;
     }
+
+
 
 }

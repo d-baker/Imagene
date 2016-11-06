@@ -38,12 +38,16 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
         this.viewModel = viewModel;
         // TODO halp
         try {
-            java.util.List<PixelMatrix> population = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
-            imageHolder.generateRealImages(population, SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+            java.util.List<PixelMatrix> population = viewModel.getPopulation(SettingPanel.defaultImageWidth, SettingPanel.defaultImageHeight);
+            imageHolder.generateRealImages(population, SettingPanel.defaultImageWidth, SettingPanel.defaultImageHeight);
+
+            System.out.println("ImagePanelImageContent_class " +"imageWidth: " +SettingPanel.defaultImageWidth +" imageHeight: " +SettingPanel.defaultImageHeight);//delete later
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         icon = imageHolder.returnImageIcon();
+
 
         setBackground(colorLightGray);
 

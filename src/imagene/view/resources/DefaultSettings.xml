@@ -2,6 +2,6 @@
 <setting>
      <coordinate>Cartesian</coordinate>
      <symmetry>Symmetric</symmetry>
-     <imageWidth>800</imageWidth>
-     <imageHeight>800</imageHeight>
+     <imageWidth>50</imageWidth>
+     <imageHeight>50</imageHeight>
 </setting>

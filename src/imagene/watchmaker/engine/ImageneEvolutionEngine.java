@@ -27,7 +27,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 
 	private List<T> _population;
 	private int _populationSize;
-	private List<T> _parents;
 
 	private List<EvaluatedCandidate<T>> _evaluatedCandidates;
 
@@ -42,7 +41,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	public ImageneEvolutionEngine(final int populationSize, TreeFactory factory, Random rng)
 	{
 		super(null, null, null);
-		_parents = new ArrayList<T>();
 		_evaluatedCandidates = new ArrayList<EvaluatedCandidate<T>>();
 
 		_factory = factory;
@@ -72,6 +70,10 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	private List<T> Evaluate() throws UnexpectedParentsException
 	{
 		List<T> newPopulation = new ArrayList<T>();
+
+		// TODO not fixing the problem
+		List<T> _parents = new ArrayList<T>();
+
 		for(EvaluatedCandidate<T> t : _evaluatedCandidates)
 		{
 			if (t.getFitness() > 0d) {
@@ -113,7 +115,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 
 		// TODO trying to reset fitness of previous parents - not working
 		_evaluatedCandidates.clear();
-		_parents.clear();
 
 		return newPopulation;
 	}

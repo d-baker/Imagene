@@ -49,15 +49,17 @@ public class ImageneViewModel
 
 	public List<PixelMatrix> getPopulation(int width, int height) throws InvalidArgumentException, IncorrectVariablesException
 	{
-		ArrayList<ArrayList<ArithmeticNode>> arithFormulas = new ArrayList<ArrayList<ArithmeticNode>>();
+		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
+
 
 		int curNode = 0;
 		List<Node> nodes = watchmaker.getPopulation();
-		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
+		ArrayList<ArrayList<ArithmeticNode>> arithFormulas = new ArrayList<ArrayList<ArithmeticNode>>();
 
-		for(int i = 0; i < nodes.size(); i++)
+		for(int i = 0; i < (nodes.size() - 3); i++)
 		{
 			ArrayList<ArithmeticNode> colorChannels = new ArrayList<ArithmeticNode>();
+			//System.out.println(nodes.get(i).toString());
 
 			for (int channel = 0; channel < 3; channel++) {
 				Node n = nodes.get(channel + curNode);
@@ -71,6 +73,30 @@ public class ImageneViewModel
 			//double y = 15.0;
 			//double nodeEval = n.evaluate(new double[] {0.0, 1.0});
 		}
+
+		// TODO check that nested array is actually working
+
+		for (int a = 0; a < arithFormulas.size(); a++) {
+			ArrayList<ArithmeticNode> colorChannels = arithFormulas.get(a);
+			ArithmeticNode r = colorChannels.get(0);
+			ArithmeticNode g = colorChannels.get(1);
+			ArithmeticNode b = colorChannels.get(2);
+
+			try {
+				IManipulator[] channels = new IManipulator[] {
+						(x, y) -> r.operation(x, y),
+						(x, y) -> g.operation(x, y),
+						(x, y) -> b.operation(x, y)
+				};
+
+				PixelMatrix pixelMatrix = imageGen.CreateImage(width, height, channels);
+				matrices.add(pixelMatrix);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+
 
 /*
 		String[][] arithFormulas = dummyWatchmaker.getFormulaArray(populationSize);
@@ -94,28 +120,6 @@ public class ImageneViewModel
 			matrices.add(pixelMatrix);
 		}
 */
-		// TODO check that nested array is actually working
-
-		for (int a = 0; a < arithFormulas.size(); a++) {
-			ArrayList<ArithmeticNode> colorChannels = arithFormulas.get(a);
-			ArithmeticNode r = colorChannels.get(0);
-			ArithmeticNode g = colorChannels.get(1);
-			ArithmeticNode b = colorChannels.get(2);
-
-			try {
-				IManipulator[] channels = new IManipulator[] {
-						(x, y) -> r.operation(x, y),
-						(x, y) -> g.operation(x, y),
-						(x, y) -> b.operation(x, y)
-				};
-
-				PixelMatrix pixelMatrix = imageGen.CreateImage(width, height, channels);
-				matrices.add(pixelMatrix);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
 
 		return matrices;
 	}

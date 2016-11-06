@@ -14,7 +14,7 @@ public class SettingPanelButton extends JPanel {
 
     private JButton btnSave;
     private  JButton btnDefault;
-    //private  JLabel warning;
+
 
     public SettingPanelButton()
     {
@@ -31,12 +31,7 @@ public class SettingPanelButton extends JPanel {
         constraint.weighty=0.5;
 
 
-//        constraint.gridx=0;
-//        constraint.gridy=0;
-//        add(warning,constraint); //set labelCoordinate to 0,0
 
-
-//        constraint.insets=new Insets(30,0,0,0);
         constraint.gridx=0;
         constraint.gridy=0;
         add(btnSave,constraint); //set labelCoordinate to 0,0
@@ -58,7 +53,5 @@ public class SettingPanelButton extends JPanel {
         return btnDefault;
     }
 
-//    public JLabel getWarning() {
-//        return warning;
-//    }
+
 }
