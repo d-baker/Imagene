@@ -56,10 +56,13 @@ public class ImageneViewModel
 		List<Node> nodes = watchmaker.getPopulation();
 		ArrayList<ArrayList<ArithmeticNode>> arithFormulas = new ArrayList<ArrayList<ArithmeticNode>>();
 
+		System.out.println(">>>>>>POPULATION<<<<<");
+
 		for(int i = 0; i < (nodes.size() - 3); i++)
 		{
 			ArrayList<ArithmeticNode> colorChannels = new ArrayList<ArithmeticNode>();
-			//System.out.println(nodes.get(i).toString());
+
+			System.out.println(nodes.get(i).toString());
 
 			for (int channel = 0; channel < 3; channel++) {
 				Node n = nodes.get(channel + curNode);
@@ -73,8 +76,6 @@ public class ImageneViewModel
 			//double y = 15.0;
 			//double nodeEval = n.evaluate(new double[] {0.0, 1.0});
 		}
-
-		// TODO check that nested array is actually working
 
 		for (int a = 0; a < arithFormulas.size(); a++) {
 			ArrayList<ArithmeticNode> colorChannels = arithFormulas.get(a);

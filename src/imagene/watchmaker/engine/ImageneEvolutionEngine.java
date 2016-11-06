@@ -110,7 +110,23 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 
 		} else {
 			System.out.println("num parents is " + _parents.size());
-			throw new UnexpectedParentsException("Number of parents: " + _parents.size());
+			//throw new UnexpectedParentsException("Number of parents: " + _parents.size());
+
+			System.out.println(">>>>> PARENTS <<<<<<");
+			System.out.println(_parents.get(0).toString());
+			System.out.println(_parents.get(1).toString());
+
+			// TODO this is a workaround - initial population for some reason has 4 parents,
+			// so we only use the first 2 parents from the array.
+
+			for (int i = 0; i < _populationSize; i++) {
+				List<Node> twoNewChildren = (_crossover.mate((Node) _parents.get(0), (Node) _parents.get(1), crossoverPoints, _rng));
+
+				T favoriteChild = (T)twoNewChildren.get(0);
+
+				newPopulation.add(favoriteChild);
+			}
+
 		}
 
 		// TODO trying to reset fitness of previous parents - not working
