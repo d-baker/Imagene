@@ -60,9 +60,7 @@ public class ImageneViewModel
 
 		System.out.println(">>>>>>POPULATION<<<<<");
 
-		int curNode = 0;
-
-		for(int i = 0; curNode < nodes.size() / 3; i++)
+		for(int curNode = 0; curNode < nodes.size() / 3; curNode++)
 		{
 			ArrayList<ArithmeticNode> colorChannels = new ArrayList<ArithmeticNode>();
 
@@ -73,8 +71,6 @@ public class ImageneViewModel
 				Node n = nodes.get(channel);
 				colorChannels.add(parser.getArithmetic(n.toString()));
 			}
-
-			curNode++;
 
 			arithFormulas.add(colorChannels);
 
