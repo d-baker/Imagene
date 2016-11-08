@@ -65,10 +65,9 @@ public class ImageneViewModel
 			ArrayList<ArithmeticNode> colorChannels = new ArrayList<ArithmeticNode>();
 
 			for (int channel = curNode * 3; channel < (curNode * 3) + 3; channel++) {
-				System.out.println(nodes.get(channel).toString());
-				System.out.println(channel);
-
 				Node n = nodes.get(channel);
+				System.out.println(n.toString());
+
 				colorChannels.add(parser.getArithmetic(n.toString()));
 			}
 

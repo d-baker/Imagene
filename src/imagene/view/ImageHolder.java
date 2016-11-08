@@ -27,7 +27,7 @@ import java.util.List;
  * SP3 2016
  ****************************************/
 
-public class ImageHolder implements ConstantArrayField {
+public class ImageHolder implements ConstantArrayField{
     private BufferedImage[] image=new BufferedImage[ARRAY_INDEX];
     private BufferedImage[] image1=new BufferedImage[ARRAY_INDEX];
     private Image[] imageResized=new Image[ARRAY_INDEX];
@@ -41,10 +41,15 @@ public class ImageHolder implements ConstantArrayField {
     }
 
     public void generateRealImages(List<PixelMatrix> pixelMatrices, int width, int height) {
+
+
+        // i had to create new image_1 object to fix the error
+        //earlier it was written this.image[i]=image[i];
+        BufferedImage[] image_1=new BufferedImage[ARRAY_INDEX];
         for (int i = 0; i < ARRAY_INDEX; i++) {
             // TODO getting index out of bounds here when using real watchmaker, why?
-            image[i] = makeImage(width, height, pixelMatrices.get(i));
-            this.image[i] = image[i];
+            image_1[i] = makeImage(width, height, pixelMatrices.get(i));
+            this.image[i] = image_1[i];
             imageIcon[i] = new ImageIcon(image[i]);
         }
 

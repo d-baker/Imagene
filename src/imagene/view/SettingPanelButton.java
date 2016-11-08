@@ -19,7 +19,7 @@ public class SettingPanelButton extends JPanel {
     public SettingPanelButton()
     {
         btnSave=new JButton("OK");
-        btnDefault=new JButton("Default");
+        btnDefault=new JButton("set to Default value");
        // warning=new JLabel();
 
 

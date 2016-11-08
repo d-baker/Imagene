@@ -14,13 +14,16 @@ public interface ConstantArrayField {
     public static final int ARRAY_INDEX=4;
     public static final int GRID_ROW=2;
     public static final int GRID_COlUMN=2;
-    public static final String WARNING_IMAGE_SIZE="!!!warning..takes longer to process";
+    public static final String WARNING_IMAGE_SIZE="!!!warning..image with larger dimension will take longer to process";
     public static final String WARNING_IMAGE_VALUE="InValid user input";
     public static final String WARNING_IMAGE_VALUE_EXCEEDS="Input values too large to process";
+    public static final String USER_INPUT="press ok to save new user settings";
+    public static final String SAVED_USER_INPUT="input saved.Proceed with image generation";
 
     public static final int SETTEXTFIELD_LIMIT = 5; //increasing the limit more than 5 will cause java.lang.outofmemory ERROR
 
     public static final Color colorWhite=new Color(255,255,255);
+   //public static final Color colorWhite=new Color(255,0,0);
     public static final Color colorBlue_generateBtn=new Color(0,51,204);
     public static final Color colorBlue=new Color(0,0,255);
     public static final Color colorLightGray=new Color(192,192,192);

@@ -33,9 +33,13 @@ public class DataToProcess {
         Image image_getImage2=image2_1.getImage();
         image1=toBufferedImage(image_getImage1);
         image2=toBufferedImage(image_getImage2);
+        this.coordinate=SettingPanel.coordSetting;
+        this.symmetry=SettingPanel.symmetrySetting;
 
         this.imageWidth= SettingPanel.default_imageWidth;
         this.imageHeight= SettingPanel.default_imageHeight;
+
+
 
         System.out.println("\n\nafter save button \n");
         System.out.println("coordinate " + SettingPanel.coordSetting);
@@ -101,14 +105,33 @@ public class DataToProcess {
     }
 
 
-    public static void testImagesToProcess(ImageIcon image1)
+    public  void testImagesToProcess()
     {
+
+
+        JPanel panel1=new JPanel();
+        JLabel label1=new JLabel(image1_1);
+        panel1.add(label1);
+
+        JPanel panel2=new JPanel();
+        JLabel label2=new JLabel(image2_1);
+        panel2.add(label2);
+
         JPanel panel=new JPanel();
-        JLabel label1=new JLabel(image1);
+
+        JLabel label3=new JLabel(String.valueOf(imageWidth));
+        JLabel label4=new JLabel(String.valueOf(imageHeight));
+        JLabel label5=new JLabel(coordinate);
+        JLabel label6=new JLabel(symmetry);
+
+        panel.add(panel1);
+        panel.add(panel2);
+        panel.add(label3);
+        panel.add(label4);
+        panel.add(label5);
+        panel.add(label6);
 
 
-
-        JFrame frame=new JFrame("About");
 
         panel.setLayout(new GridBagLayout());
         GridBagConstraints constraint=new GridBagConstraints();
@@ -120,16 +143,29 @@ public class DataToProcess {
 
         constraint.gridx=0;
         constraint.gridy=0;
-        add(label1,constraint);
+        add(panel,constraint);
+
+        constraint.gridx=1;
+        constraint.gridy=0;
+        add(label3,constraint);
+
+        constraint.gridx=2;
+        constraint.gridy=0;
+        add(label4,constraint);
+
+        constraint.gridx=3;
+        constraint.gridy=0;
+        add(label5,constraint);
+
+        constraint.gridx=4;
+        constraint.gridy=0;
+        add(label6,constraint);
 
 
 
 
-
+        JFrame frame=new JFrame("About");
         frame.add(panel);
-        panel.add(label1);
-
-
 
         panel.setBackground(Color.GRAY);
 

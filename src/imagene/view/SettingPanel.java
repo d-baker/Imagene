@@ -27,7 +27,6 @@ import java.nio.file.Path;
 
 /*****************************************
  * Written by Avishkar Giri (s3346203)
- * and Dorothea Baker (s3367422)
  * for
  * Programming Project 1
  * SP3 2016
@@ -85,10 +84,13 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
     public static int defaultImageWidth;
     public static int defaultImageHeight;
 
+    int k;
+
     // constructor
     public SettingPanel(){
-        default_imageWidth = 300;
-        default_imageHeight = 300;
+//        default_imageWidth = 300;
+//        default_imageHeight = 300;
+//        k=0;
 
         Dimension size = getPreferredSize();
         size.width=300;
@@ -118,6 +120,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         this.btnSave=settingButton.getBtnSave();
         this.btnDefault=settingButton.getBtnDefault();
+        this.btnDefault.setEnabled(false);
 
         warning=new JLabel();
         //warning.setForeground(colorRed);
@@ -140,17 +143,26 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         this.imageWidth .setDocument(new PlainDocument(){
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-                if(getLength() + str.length() <= SETTEXTFIELD_LIMIT) super.insertString(offs, str, a);
+                if(getLength() + str.length() <= SETTEXTFIELD_LIMIT) {
+                    super.insertString(offs, str, a);
+                    warning.setForeground(colorBlue);
+                    warning.setText("press ok to save new user settings");
+                }
             }
         });
 
         this.imageHeight .setDocument(new PlainDocument(){
             @Override
             public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-                if(getLength() + str.length() <= SETTEXTFIELD_LIMIT)  super.insertString(offs, str, a);
+                if(getLength() + str.length() <= SETTEXTFIELD_LIMIT) {
+                    super.insertString(offs, str, a);
+                    warning.setForeground(colorBlue);
+                    warning.setText("press ok to save new user settings");
+                }
             }
         });
         /* end */
+
 
 
         setBorder(new EmptyBorder(10,40,10,10));
@@ -246,6 +258,9 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         imageHeight.setText(String.valueOf(default_imageHeight));
         infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
 
+
+
+
         warning.setText("press ok to save new user settings");
 
          /*  event handler for save button  */
@@ -254,9 +269,16 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
                 String textFieldValue1 = imageWidth.getText();
                 String textFieldValue2 = imageHeight.getText();
 
+
+
                 try {
                     initial_imageWidth = Integer.parseInt(textFieldValue1);
                     initial_imageHeight = Integer.parseInt(textFieldValue2);
+                    if ((initial_imageWidth >= 700) || (initial_imageHeight >= 700)) {
+                        JOptionPane.showMessageDialog(null, WARNING_IMAGE_SIZE);
+                        //label.setText("!!!!!warning..image with larger dimension will take longer to process ");
+                        //int i = JOptionPane.showConfirmDialog(null, "image with larger dimension will take longer to process...do you want to continue?", "", JOptionPane.YES_NO_OPTION);
+                    }
                 } catch (NumberFormatException nfe) {
                     warning.setText(WARNING_IMAGE_VALUE_EXCEEDS);
                 }
@@ -286,13 +308,15 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
                     warning.setForeground(colorRed);
                     initial_imageWidth = default_imageWidth;
                     initial_imageHeight = default_imageHeight;
-                    infoImageWidth.setText("ImageWidth: " +String.valueOf(default_imageWidth));
-                    infoImageHeight.setText("ImageHeight: " +String.valueOf(default_imageHeight));
-                } else if ((initial_imageWidth >800)||(initial_imageHeight >800)) {
-                    warning.setText(WARNING_IMAGE_SIZE);
-                    warning.setForeground(colorRed);
-                } else {
-                    warning.setText("input saved");
+                    infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
+                    infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
+                }
+//                } else if ((initial_imageWidth >800)||(initial_imageHeight >800)) {
+//                    warning.setText("press ok to save new user settings");
+//                    warning.setForeground(colorRed);
+//                }
+                else {
+                    warning.setText(SAVED_USER_INPUT);
                     warning.setForeground(colorBlue);
                 }
 
@@ -302,6 +326,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
                 default_imageHeight = initial_imageHeight;
                 String hold2=String.valueOf(initial_imageHeight);
 
+                btnDefault.setEnabled(true);
                 writeUserSettingToXML(hold1,hold2); // function called
             }
         });
@@ -315,44 +340,49 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         /* event handler for default button */
 
-        btnDefault.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                if (defaultCoordinate.equals("Cartesian")) {
-                    radioButtonCartesian.setSelected(true);
-                    coordSetting="Cartesian";
-                }
-                if (defaultCoordinate.equals("Polar")) {
-                    radioButtonPolar.setSelected(true);
-                    coordSetting="Polar";
-                }
-                if (defaultSymmetry.equals("Symmetric")) {
-                    radioButtonSymmetric.setSelected(true);
-                    symmetrySetting="Symmetric";
-                }
-                if (defaultSymmetry.equals("Asymmetric")) {
-                    radioButtonAsymmetric.setSelected(true);
-                    symmetrySetting="Asymmetric";
-                }
 
-                imageWidth.setText(String.valueOf(defaultImageWidth));
-                imageHeight.setText(String.valueOf(defaultImageHeight));
+              btnDefault.addActionListener(new ActionListener() {
+                  public void actionPerformed(ActionEvent ae) {
 
-                infoCoordinate.setText("Coordinate: " + default_Coordinate);
-                infoSymmetry.setText("Symmetry: " + default_Symmetry);
+                      btnDefault.setEnabled(false);
+                      if (defaultCoordinate.equals("Cartesian")) {
+                          radioButtonCartesian.setSelected(true);
+                          coordSetting = "Cartesian";
+                      }
+                      if (defaultCoordinate.equals("Polar")) {
+                          radioButtonPolar.setSelected(true);
+                          coordSetting = "Polar";
+                      }
+                      if (defaultSymmetry.equals("Symmetric")) {
+                          radioButtonSymmetric.setSelected(true);
+                          symmetrySetting = "Symmetric";
+                      }
+                      if (defaultSymmetry.equals("Asymmetric")) {
+                          radioButtonAsymmetric.setSelected(true);
+                          symmetrySetting = "Asymmetric";
+                      }
 
-                int specifiedWidth = Integer.valueOf(defaultImageWidth);
-                int specifiedHeight = Integer.valueOf(defaultImageHeight);
+                      imageWidth.setText(String.valueOf(defaultImageWidth));
+                      imageHeight.setText(String.valueOf(defaultImageHeight));
 
-                validateImageDimensions(specifiedWidth, specifiedHeight);
+                      infoCoordinate.setText("Coordinate: " + default_Coordinate);
+                      infoSymmetry.setText("Symmetry: " + default_Symmetry);
 
-                default_imageWidth = Integer.valueOf(imageWidth.getText());
-                default_imageHeight = Integer.valueOf(imageHeight.getText());
+                      int specifiedWidth = Integer.valueOf(defaultImageWidth);
+                      int specifiedHeight = Integer.valueOf(defaultImageHeight);
 
-                infoImageWidth.setText("ImageWidth: " + defaultImageWidth);
-                infoImageHeight.setText("ImageHeight: " + defaultImageHeight);
-                warning.setText("press ok to save new user settings");
-            }
-        });
+                      validateImageDimensions(specifiedWidth, specifiedHeight);
+
+                      default_imageWidth = Integer.valueOf(imageWidth.getText());
+                      default_imageHeight = Integer.valueOf(imageHeight.getText());
+
+                      infoImageWidth.setText("ImageWidth: " + defaultImageWidth);
+                      infoImageHeight.setText("ImageHeight: " + defaultImageHeight);
+                      warning.setText(USER_INPUT);
+                  }
+
+              });
+
 
         radioButtonCartesian.addActionListener(radioButtonActionListener_Coordinate);
         radioButtonPolar.addActionListener(radioButtonActionListener_Coordinate);
@@ -364,7 +394,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         public void actionPerformed(ActionEvent actionEvent) {
             AbstractButton aButton = (AbstractButton) actionEvent.getSource();
             String hold = aButton.getText();
-
+            warning.setText(USER_INPUT);
             if (hold.equals("Cartesian")) {
                 coordSetting = "Cartesian";
             } else {
@@ -377,6 +407,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         public void actionPerformed(ActionEvent actionEvent) {
             AbstractButton aButton = (AbstractButton) actionEvent.getSource();
             String hold=aButton.getText();
+            warning.setText(USER_INPUT);
             if (hold.equals("Symmetric")) {
                 symmetrySetting="Symmetric";
             } else {
@@ -493,47 +524,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
     }
 
-//    public void passObjectToReadFromXML(Document doc) {
-//        doc.getDocumentElement().normalize();
-//
-//        NodeList nList = doc.getElementsByTagName("setting");
-//
-//        for (int i = 0; i < nList.getLength(); i++) {
-//
-//            Node nNode = nList.item(i);
-//
-//            System.out.println("\nCurrent Element :" + nNode.getNodeName());
-//
-//            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-//                Element eElement = (Element) nNode;
-//
-//                defaultCoordinate = eElement.getElementsByTagName("coordinate").item(0).getTextContent();
-//                defaultSymmetry = eElement.getElementsByTagName("symmetry").item(0).getTextContent();
-//                String hold1 = String.valueOf(eElement.getElementsByTagName("imageWidth").item(0).getTextContent());
-//                String hold2 = String.valueOf(eElement.getElementsByTagName("imageHeight").item(0).getTextContent());
-//
-//                System.out.println("coordinate : " + defaultCoordinate);
-//                System.out.println("symmetry : " + defaultSymmetry);
-//                System.out.println("imageWidth : " + hold1);
-//                System.out.println("imageHeight : " + hold2);
-//
-//                coordSetting = defaultCoordinate;
-//                symmetrySetting = defaultSymmetry;
-//
-//                infoCoordinate.setText("Coordinate: " + defaultCoordinate);
-//                infoSymmetry.setText("Symmetry: " + defaultSymmetry);
-//
-//                int specifiedWidth = Integer.valueOf(hold1);
-//                int specifiedHeight = Integer.valueOf(hold2);
-//
-//                validateImageDimensions(specifiedWidth, specifiedHeight);
-//
-//                default_imageWidth = specifiedWidth;
-//                default_imageHeight = specifiedHeight;
-//            }
-//        }
-//
-//    }
+
 
 
     // Display an appropriate warning if image dimensions are wrong
@@ -616,19 +607,12 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         }
 
-       // filename=createPath(userSetting_fileName);
-        //String folderPath = sys + File.separator + "Desktop"+File.separator + "ImageEvolver"+ File.separator + "UserSettings.xml";
-       // String folderPath = sys + File.separator + "Desktop"+File.separator + "ImageEvolver";
         System.out.println(filename);
-//        String folderPath = sys + "\\desktop\\ImageEvolver";
-//        String absolutePath = FileSystems.getDefault().getPath(folderPath).normalize().toAbsolutePath().toString();
-//        String temp=absolutePath.replace("\\","\\\\");
+
 
         File folder = new File(filename);
         folder.mkdir();
-       // had to create two file class objects(folder and file) ....folder.mkdir() will create a new folder  if not found and
-        // than the userSetting_fileName is added to  the string filename and pass that string to next file class.
-        // got to fix duplicated code issues...i will do that tomorrow
+
 
 
         if (operatingSys_name.indexOf("win") >= 0) {

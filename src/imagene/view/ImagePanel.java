@@ -89,7 +89,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
 
 
-        viewModel.chooseWinners(new int[] {0, 1});
+       viewModel.chooseWinners(new int[] {0, 1});
 
 //        try {
 //            java.util.List<PixelMatrix> population = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
@@ -337,6 +337,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
     public void selectImages()
     {
+
         holdImage[0].addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (count1 == 0) {
@@ -348,8 +349,12 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                         validateSelection(count);
 
                         hold_imagePanel[0].setBackground(colorWhite);
+
                         holdImageLabel[0].setBackground(colorWhite);
-                        e.consume();
+
+
+
+                        //e.consume();
                         count1=1;
                         System.out.println("image1 pressed " );
                         countImageClicked1=1;
@@ -386,7 +391,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         hold_imagePanel[1].setBackground(colorWhite);
                         holdImageLabel[1].setBackground(colorWhite);
-                        e.consume();
+                        //e.consume();
                         count2=1;
                         System.out.println("image2 pressed " );
                         countImageClicked2=1;
@@ -422,7 +427,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         hold_imagePanel[2].setBackground(colorWhite);
                         holdImageLabel[2].setBackground(colorWhite);
-                        e.consume();
+                       // e.consume();
                         count3=1;
                         System.out.println("image3 pressed " );
                         countImageClicked3=1;
@@ -457,7 +462,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         hold_imagePanel[3].setBackground(colorWhite);
                         holdImageLabel[3].setBackground(colorWhite);
-                        e.consume();
+                      //  e.consume();
                         count4=1;
                         System.out.println("image4 pressed " );
                         countImageClicked4=1;
@@ -500,10 +505,13 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
     public void processGenerateButton()
     {
+
         btnGenerate.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
                 if (!SettingPanel.warning.getText().equals(WARNING_IMAGE_VALUE)) {
                     sumOfTotalClicked = countImageClicked1 + countImageClicked2 + countImageClicked3 + countImageClicked4;
                     count = 0;
@@ -517,41 +525,41 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     if (sumOfTotalClicked == 2) {
 
                         if ((count1 == 1) && (count2 == 1)) {
-                            JOptionPane.showMessageDialog(null, "image 1 and 2 selected");
+                            // JOptionPane.showMessageDialog(null, "image 1 and 2 selected");
                             viewModel.chooseWinners(new int[]{0, 1});
                             setImagesToProcess(icon[0], icon[1]);
                         }
 
                         if ((count1 == 1) && (count3 == 1)) {
-                            JOptionPane.showMessageDialog(null, "image 1 and 3 selected");
+                            //JOptionPane.showMessageDialog(null, "image 1 and 3 selected");
                             viewModel.chooseWinners(new int[]{0, 2});
 
                             setImagesToProcess(icon[0], icon[2]);
                         }
 
                         if ((count1 == 1) && (count4 == 1)) {
-                            JOptionPane.showMessageDialog(null, "image 1 and 4 selected");
+                            // JOptionPane.showMessageDialog(null, "image 1 and 4 selected");
                             viewModel.chooseWinners(new int[]{0, 3});
 
                             setImagesToProcess(icon[0], icon[3]);
                         }
 
                         if ((count2 == 1) && (count3 == 1)) {
-                            JOptionPane.showMessageDialog(null, "image 2 and 3 selected");
+                            // JOptionPane.showMessageDialog(null, "image 2 and 3 selected");
                             viewModel.chooseWinners(new int[]{1, 2});
 
                             setImagesToProcess(icon[1], icon[2]);
                         }
 
                         if ((count2 == 1) && (count4 == 1)) {
-                            JOptionPane.showMessageDialog(null, "image 2 and 4 selected");
+                            //  JOptionPane.showMessageDialog(null, "image 2 and 4 selected");
                             viewModel.chooseWinners(new int[]{1, 3});
 
                             setImagesToProcess(icon[1], icon[3]);
                         }
 
                         if ((count3 == 1) && (count4 == 1)) {
-                            JOptionPane.showMessageDialog(null, "image 3 and 4 selected");
+                            //  JOptionPane.showMessageDialog(null, "image 3 and 4 selected");
                             viewModel.chooseWinners(new int[]{2, 3});
 
                             setImagesToProcess(icon[2], icon[3]);
@@ -569,7 +577,12 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         sumOfTotalClicked = 0;
 
+
+
+
                         try {
+
+
                             viewModel.newGeneration();
 
                             // TODO array out of bounds here
@@ -590,8 +603,8 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                         }
 
                     }
-                }else{
-                    label.setText("!!!!!Invalid User Input."+" Value cannot be 0 or negative ");
+                } else {
+                    label.setText("!!!!!Invalid User Input." + " Value cannot be 0 or negative ");
                 }
             }
         });
@@ -631,13 +644,16 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
         if (hold == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
+            String temp=file.toString()+".png";
+            File fileWriter=new File(temp);
 
             try {
-                ImageIO.write(imageToSave, "png", file);
+                ImageIO.write(imageToSave, "png", fileWriter);
 
             } catch (IOException e) {
 
             }
+
 
         }
     }
@@ -678,8 +694,8 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
     {
         ImageIcon returnImage1=imageHolder.resize(image1);
         ImageIcon returnImage2=imageHolder.resize(image2);
-        //dataProcess=new DataToProcess(returnImage1,returnImage2);
-        //dataProcess.testImagesToProcess(); // test function call....delete later
+        dataProcess=new DataToProcess(returnImage1,returnImage2);
+       // dataProcess.testImagesToProcess(); // test function call....delete later
     }
 
 }
