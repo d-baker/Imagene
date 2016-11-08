@@ -37,7 +37,7 @@ public class Main extends AbstractExampleGUI
     @Override
     protected void prepareGUI(Container container)
     {
-        viewModel = new ImageneViewModel();
+        viewModel = ImageneViewModel.getInstance();
 
         settingPanel = new SettingPanel();
         imagePanel = new ImagePanel(viewModel);
@@ -48,7 +48,7 @@ public class Main extends AbstractExampleGUI
 
     public static void main(String[] args)
     {
-        new Main().displayInFrame("Imagene v1.1");
+        new Main().displayInFrame("Imagene v1.2");
     }
 
 }

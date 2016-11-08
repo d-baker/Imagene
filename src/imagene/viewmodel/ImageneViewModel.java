@@ -1,8 +1,5 @@
 package imagene.viewmodel;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,12 +12,9 @@ import imagene.imagegen.api.*;
 import imagene.imagegen.api.interfaces.IProgramInterface;
 import imagene.imagegen.manipulator.interfaces.IManipulator;
 import imagene.imagegen.models.PixelMatrix;
-import imagene.view.ImageHolder;
 import imagene.watchmaker.UnexpectedParentsException;
 import imagene.watchmaker.endpoint.Watchmaker;
 import imagene.watchmaker.gp.node.Node;
-
-import javax.swing.*;
 
 /*****************************************
  * Written by Callum McLennan (s3367407)
@@ -30,21 +24,30 @@ import javax.swing.*;
  * SP3 2016
  ****************************************/
 
-public class ImageneViewModel 
+public class ImageneViewModel
 {
 	private final int populationSize = 4;
-	
+
 	private IProgramInterface imageGen;
 	private ParserInterface parser;
 	private Watchmaker<Node> watchmaker;
-	SampleFormulaGenerator dummyWatchmaker;
-	
-	public ImageneViewModel()
-	{
+	private SampleFormulaGenerator dummyWatchmaker;
+
+	private static ImageneViewModel instance = null;
+
+	private ImageneViewModel() {
 		imageGen = new ProgramInterface();
 		parser = ParserInterface.getInstance();
 		watchmaker = new Watchmaker<Node>(populationSize);
 		dummyWatchmaker = new SampleFormulaGenerator();
+	}
+
+	public static ImageneViewModel getInstance()
+	{
+		if(instance == null) {
+			instance = new ImageneViewModel();
+		}
+		return instance;
 	}
 
 	public List<PixelMatrix> getPopulation(int width, int height) throws InvalidArgumentException, IncorrectVariablesException
@@ -52,22 +55,26 @@ public class ImageneViewModel
 		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
 
 
-		int curNode = 0;
 		List<Node> nodes = watchmaker.getPopulation();
 		ArrayList<ArrayList<ArithmeticNode>> arithFormulas = new ArrayList<ArrayList<ArithmeticNode>>();
 
 		System.out.println(">>>>>>POPULATION<<<<<");
 
-		for(int i = 0; i < (nodes.size() - 3); i++)
+		int curNode = 0;
+
+		for(int i = 0; curNode < nodes.size() / 3; i++)
 		{
 			ArrayList<ArithmeticNode> colorChannels = new ArrayList<ArithmeticNode>();
 
-			System.out.println(nodes.get(i).toString());
+			for (int channel = curNode * 3; channel < (curNode * 3) + 3; channel++) {
+				System.out.println(nodes.get(channel).toString());
+				System.out.println(channel);
 
-			for (int channel = 0; channel < 3; channel++) {
-				Node n = nodes.get(channel + curNode);
+				Node n = nodes.get(channel);
 				colorChannels.add(parser.getArithmetic(n.toString()));
 			}
+
+			curNode++;
 
 			arithFormulas.add(colorChannels);
 
@@ -124,19 +131,19 @@ public class ImageneViewModel
 
 		return matrices;
 	}
-	
+
 	public void chooseWinners(int[] winners)
 	{
 		System.out.println("choosing winners");
 		watchmaker.chooseWinners(winners);
 	}
-	
+
 	public void chooseWinners(List<Integer> winners)
 	{
 		System.out.println("choosing winners");
 		watchmaker.chooseWinners(winners);
 	}
-	
+
 	public void newGeneration() throws UnexpectedParentsException
 	{
 		watchmaker.Evolve();

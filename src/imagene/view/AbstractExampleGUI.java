@@ -97,7 +97,7 @@ public abstract class AbstractExampleGUI extends JFrame implements ConstantArray
      */
     protected void displayInFrame(String title)
     {
-        JFrame frame = new JFrame("Imagene v1.2");
+        JFrame frame = new JFrame(title);
 
         JPanel panelAbout=new JPanel();
         JPanel panelInstruction=new JPanel();
