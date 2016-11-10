@@ -4,6 +4,7 @@ import imagene.viewmodel.ImageneViewModel;
 
 /**
  * Created by avishkar on 11/10/2016.
+ * and Dorothea
  */
 public class ImageneViewModelObject {
 

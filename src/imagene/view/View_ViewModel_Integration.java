@@ -6,7 +6,9 @@ import imagene.viewmodel.ImageneViewModel;
 import imagene.watchmaker.UnexpectedParentsException;
 
 /*****************************************
- * Written by Avishkar Giri (s3346203)   *
+ * Written by Avishkar Giri (s3346203)
+ * and Dorothea
+ * and Andrew
  * for                                   *
  * Programming Project 1                 *
  * SP3 2016                              *
@@ -47,7 +49,8 @@ public class View_ViewModel_Integration implements ConstantArrayField{
         //this.viewModel=VIEWMODEL;
         object=new ImageneViewModelObject();
         viewModel=object.getViewModel();
-        viewModel.chooseWinners(new int[]{0,1});
+       // viewModel.chooseWinners(new int[]{0,1});
+        initiateImages(0,1);
         imageWidth=SettingPanel.default_imageWidth;
         imageHeight=SettingPanel.default_imageHeight;
         setFormula( );

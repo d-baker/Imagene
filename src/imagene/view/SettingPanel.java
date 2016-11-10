@@ -206,17 +206,17 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         constraint.gridy=7;
         add(settingButton,constraint);//set btnSave(button) to 0,6
 
-//        constraint.weighty=2;
-//        constraint.weightx=2;
+        constraint.weighty=2;
+        constraint.weightx=2;
         constraint.gridx=0;
         constraint.gridy=8;
         add(info,constraint);//set btnSave(button) to 0,6
 
-        constraint.weighty=2;
-        constraint.weightx=2;
-        constraint.gridx=0;
-        constraint.gridy=9;
-        add(labelImageOption,constraint);//set btnSave(button) to 0,6
+//        constraint.weighty=2;
+//        constraint.weightx=2;
+//        constraint.gridx=0;
+//        constraint.gridy=9;
+//        add(labelImageOption,constraint);//set btnSave(button) to 0,6
 
          /* calls and set setting panel  */
         setSettingPanel();

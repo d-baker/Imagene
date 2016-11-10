@@ -22,7 +22,7 @@ public class SettingPanelInfo extends JPanel implements ConstantArrayField {
 
    public  SettingPanelInfo()
     {
-        setBackground(Color.green);
+       // setBackground(Color.green);
         infoCoordinate=new JLabel();
         infoSymmetry=new JLabel();
         infoImageWidth=new JLabel();
@@ -36,7 +36,7 @@ public class SettingPanelInfo extends JPanel implements ConstantArrayField {
         info.setForeground(colorBlue);
 
 
-        setBorder(new EmptyBorder(10,10,20,60));
+        //setBorder(new EmptyBorder(10,10,20,60));
 
         setLayout(new GridBagLayout());
         GridBagConstraints constraint=new GridBagConstraints();
