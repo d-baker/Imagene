@@ -88,9 +88,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
     // constructor
     public SettingPanel(){
-//        default_imageWidth = 300;
-//        default_imageHeight = 300;
-//        k=0;
+
 
         Dimension size = getPreferredSize();
         size.width=300;
@@ -137,7 +135,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         this.imageWidth=imageDimension.getImageWidth();
         this.imageHeight=imageDimension.getImageHeight();
 
-        //final int limit = 10;
+
 
         /* limits textField to max SETTEXTFIELD_LIMIT digits */
         this.imageWidth .setDocument(new PlainDocument(){
@@ -163,7 +161,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         });
         /* end */
 
-
+        JLabel labelImageOption=new JLabel("right click on the images for the options");
 
         setBorder(new EmptyBorder(10,40,10,10));
         setLayout(new GridBagLayout()); // layout type GridLayout
@@ -173,8 +171,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         constraint.weightx=0.5;
         constraint.weighty=0.5;
 
-        //set window coordinate to 0,0
-        //set components to column 0
+
         constraint.gridx=0;
         constraint.gridy=0;
         add(labelCoordinate,constraint); //set labelCoordinate to 0,0
@@ -209,11 +206,17 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         constraint.gridy=7;
         add(settingButton,constraint);//set btnSave(button) to 0,6
 
-        constraint.weighty=2;
-        constraint.weightx=2;
+//        constraint.weighty=2;
+//        constraint.weightx=2;
         constraint.gridx=0;
         constraint.gridy=8;
         add(info,constraint);//set btnSave(button) to 0,6
+
+        constraint.weighty=2;
+        constraint.weightx=2;
+        constraint.gridx=0;
+        constraint.gridy=9;
+        add(labelImageOption,constraint);//set btnSave(button) to 0,6
 
          /* calls and set setting panel  */
         setSettingPanel();
@@ -311,10 +314,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
                     infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
                     infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
                 }
-//                } else if ((initial_imageWidth >800)||(initial_imageHeight >800)) {
-//                    warning.setText("press ok to save new user settings");
-//                    warning.setForeground(colorRed);
-//                }
+
                 else {
                     warning.setText(SAVED_USER_INPUT);
                     warning.setForeground(colorBlue);
@@ -442,16 +442,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
             filename = sys + "/"+imageEvolver_folder+ "/" + userSetting_fileName;
 
         }
-        //filename=createPath(userSetting_fileName);
 
-        // String absolutePath = FileSystems.getDefault().getPath(fileurl).normalize().toAbsolutePath().toString();
-
-
-
-        // String fileurl = sys + "\\desktop\\ImageEvolver\\UserSettings.xml";
-
-
-          //String fileurl = sys + File.separator + "ImageEvolver" + File.separator + "UserSettings.xml";
 
         File xmlFile = new File(filename);
         if (xmlFile.exists()) {
@@ -634,16 +625,10 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         }
 
-//        File folder = new File(folderPath);
-//       folder.mkdir();
+
         System.out.println(filename);
         File file=new File(filename);
 
-       // File file=new File(folderPath+File.separator+"UserSettings.xml");
-
-
-
-        //System.out.println(folderPath.toString());
         result=new StreamResult(file);
 
         try {

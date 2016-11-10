@@ -1,9 +1,5 @@
 package imagene.view;
 
-import imagene.imagegen.models.PixelMatrix;
-import imagene.viewmodel.ImageneViewModel;
-import imagene.watchmaker.UnexpectedParentsException;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -17,11 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 
 /*****************************************
- * Written by Avishkar Giri (s3346203)
- * and Dorothea Baker (s3367422)
+ * Written by Avishkar Giri (s3346203) *
  * for
  * Programming Project 1
  * SP3 2016
@@ -45,7 +39,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
     private JPanel panelForButton;
     private JPanel panelForLabel;
     private Insets insets;
-    private ImageHolder imageHolder;
+
     private ImagePanelImageContent image_Contents;
     private ImagePanelGenerateBtn generateBtn;
     private ImagePanelLabel labelObject;
@@ -70,37 +64,17 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
     private JPopupMenu holdMenuItemsImage2;
     private JPopupMenu holdMenuItemsImage3;
     private JPopupMenu holdMenuItemsImage4;
-    private DataToProcess dataProcess;
+    private View_ViewModel_Integration dataProcess;
     private int count=0;
 
-    private ImageneViewModel viewModel;
+    //private ImageneViewModel viewModel;
 
-    public ImagePanel(ImageneViewModel viewModel)  {
-
-
+    public ImagePanel()  {
 
 
-        // The viewModel is called to get new images.
-        this.viewModel = viewModel;
-
-        // Viewmodel is passed around to those components that will need to access it.
-        // TODO is this really needed?
-
-
-
-
-       viewModel.chooseWinners(new int[] {0, 1});
-
-//        try {
-//            java.util.List<PixelMatrix> population = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
-//            //imageHolder.generateRealImages(population, SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
-        imageHolder = new ImageHolder(viewModel);
-        image_Contents = new ImagePanelImageContent(viewModel, imageHolder);
+        //imageHolder = new ImageHolder(0,1);
+        dataProcess=new View_ViewModel_Integration();
+        image_Contents = new ImagePanelImageContent(dataProcess);
 
 
         this.holdImage = image_Contents.getHoldImage();
@@ -123,14 +97,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
         setBorder(new EmptyBorder(0,25,0,0));
 
-//        label=new JLabel("Please click to select 2 Images before generating.");
-//        btnGenerate=new JButton("Generate");
-//        btnGenerate.setPreferredSize(new Dimension(150,35));
-//        btnGenerate.setFocusPainted(true);
-//        btnGenerate.setFont(new Font("Serif",Font.BOLD,15));
-//        btnGenerate.setBackground(colorBlue);
-//        btnGenerate.setForeground(colorWhite);
-//        btnGenerate.setEnabled(false);
+
 
         generateBtn=new ImagePanelGenerateBtn();
         btnGenerate=generateBtn.getGenerateBtn();
@@ -162,18 +129,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         holdMenuItemsImage4.add(itemSaveImage4);
         holdMenuItemsImage4.add(itemFullSizeImage4);
 
-//        panelForButton = new JPanel();
-//        panelForLabel = new JPanel();
 
-
-
-//        panelForButton.add(btnGenerate);
-//        panelForButton.setBackground(colorLightGray);
-//        panelForButton.setBorder(new EmptyBorder(0,200,0,0));
-//
-//        panelForLabel.add(label);
-//        panelForLabel.setBackground(colorLightGray);
-//        panelForLabel.setBorder(new EmptyBorder(0,0,0,0));
 
         constraint.anchor=GridBagConstraints.LINE_START;
         constraint.weightx=0.5;
@@ -184,14 +140,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         constraint.gridy=0;
         add(image_Contents,constraint);
 
-//        constraint.gridx=0;
-//        constraint.gridy=1;
-//        add(panelForLabel,constraint);
-//
-//        constraint.insets=new Insets(10,0,10,10);
-//        constraint.gridx=0;
-//        constraint.gridy=2;
-//        add(panelForButton,constraint);
+
 
         constraint.gridx=0;
         constraint.gridy=1;
@@ -216,7 +165,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
          */
 
         //panel 1
-        // TODO "no such instance field" error here
+
         holdImage[0].addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -518,51 +467,61 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     btnGenerate.setEnabled(false);
                     label.setText("Please click to select 2 Images before generating.");
 
-                    // TODO I don't think these conditionals cover all possibilities
-                    // TODO handle selection of a single image, at some point
-                    // TODO 4 parents being selected, apparently - why?
-                    // TODO 1 "parent" is actually 3 formulas - how to handle this?
+
                     if (sumOfTotalClicked == 2) {
 
                         if ((count1 == 1) && (count2 == 1)) {
-                            // JOptionPane.showMessageDialog(null, "image 1 and 2 selected");
-                            viewModel.chooseWinners(new int[]{0, 1});
-                            setImagesToProcess(icon[0], icon[1]);
+
+                            dataProcess.initiateImages(0,1);
+                            setImagesToProcess(icon[0], icon[1],0,1);
+
+                            //imageHolder=new ImageHolder(0,1);
+                            //image_Contents = new ImagePanelImageContent(imageHolder);
                         }
 
                         if ((count1 == 1) && (count3 == 1)) {
-                            //JOptionPane.showMessageDialog(null, "image 1 and 3 selected");
-                            viewModel.chooseWinners(new int[]{0, 2});
 
-                            setImagesToProcess(icon[0], icon[2]);
+                            dataProcess.initiateImages(0,2);
+                            setImagesToProcess(icon[0], icon[2],0,2);
+
+                           // imageHolder=new ImageHolder(0,2);
+                          //  image_Contents = new ImagePanelImageContent(imageHolder);
                         }
 
                         if ((count1 == 1) && (count4 == 1)) {
-                            // JOptionPane.showMessageDialog(null, "image 1 and 4 selected");
-                            viewModel.chooseWinners(new int[]{0, 3});
 
-                            setImagesToProcess(icon[0], icon[3]);
+                            dataProcess.initiateImages(0,3);
+                            setImagesToProcess(icon[0], icon[3],0,3);
+
+                           // imageHolder=new ImageHolder(0,3);
+                           // image_Contents = new ImagePanelImageContent(imageHolder);
                         }
 
                         if ((count2 == 1) && (count3 == 1)) {
-                            // JOptionPane.showMessageDialog(null, "image 2 and 3 selected");
-                            viewModel.chooseWinners(new int[]{1, 2});
 
-                            setImagesToProcess(icon[1], icon[2]);
+                            dataProcess.initiateImages(1,2);
+                            setImagesToProcess(icon[1], icon[2],1,2);
+
+                           // imageHolder=new ImageHolder(0,2);
+                          //  image_Contents = new ImagePanelImageContent(imageHolder);
                         }
 
                         if ((count2 == 1) && (count4 == 1)) {
-                            //  JOptionPane.showMessageDialog(null, "image 2 and 4 selected");
-                            viewModel.chooseWinners(new int[]{1, 3});
 
-                            setImagesToProcess(icon[1], icon[3]);
+                            dataProcess.initiateImages(1,3);
+                            setImagesToProcess(icon[1], icon[3],1,3);
+
+                           // imageHolder=new ImageHolder(1,3);
+                          //  image_Contents = new ImagePanelImageContent(imageHolder);
                         }
 
                         if ((count3 == 1) && (count4 == 1)) {
-                            //  JOptionPane.showMessageDialog(null, "image 3 and 4 selected");
-                            viewModel.chooseWinners(new int[]{2, 3});
 
-                            setImagesToProcess(icon[2], icon[3]);
+                            dataProcess.initiateImages(2,3);
+                            setImagesToProcess(icon[2], icon[3],2,3);
+
+                           // imageHolder=new ImageHolder(2,3);
+                          //  image_Contents = new ImagePanelImageContent(imageHolder);
                         }
 
                         count1 = 0;
@@ -578,18 +537,8 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                         sumOfTotalClicked = 0;
 
 
-
-
-                        try {
-
-
-                            viewModel.newGeneration();
-
-                            // TODO array out of bounds here
-                            java.util.List<PixelMatrix> formulas = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
-                            imageHolder.generateRealImages(formulas, SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
                             System.out.println("ImagePanelImageContent_class " + "imageWidth: " + SettingPanel.default_imageWidth + " imageHeight: " + SettingPanel.default_imageHeight);//delete later
-                            icon = imageHolder.returnImageIcon();
+                            icon = dataProcess.returnImageIcon();
 
                             for (int i = 0; i < ARRAY_INDEX; i++) {
                                 holdImage[i].setIcon(null);
@@ -598,9 +547,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                                 holdImageLabel[i].setBackground(colorLightGray);
                                 hold_imagePanel[i].setBackground(colorLightGray);
                             }
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
+
 
                     }
                 } else {
@@ -616,7 +563,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
         BufferedImage imageToSave = new BufferedImage(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = imageToSave.createGraphics();
-        ImageIcon imageIcon = imageHolder.resize(image);
+        ImageIcon imageIcon = resize(image);
         imageIcon.paintIcon(null, g, 0,0);
         g.dispose();
 
@@ -663,7 +610,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
     {
         System.out.println("full_size");
 
-        ImageIcon temp=imageHolder.resize(image);
+        ImageIcon temp=resize(image);
         JPanel panel=new JPanel();
 
         JLabel label=new JLabel(temp);
@@ -690,12 +637,36 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
     }
 
 
-    public void setImagesToProcess(ImageIcon image1,ImageIcon image2)
+    public void setImagesToProcess(ImageIcon image1,ImageIcon image2,int x,int y)
     {
-        ImageIcon returnImage1=imageHolder.resize(image1);
-        ImageIcon returnImage2=imageHolder.resize(image2);
-        dataProcess=new DataToProcess(returnImage1,returnImage2);
-       // dataProcess.testImagesToProcess(); // test function call....delete later
+        ImageIcon returnImage1=resize(image1);
+        ImageIcon returnImage2=resize(image2);
+        //dataProcess=new View_ViewModel_Integration(returnImage1,returnImage2,x, y);
+        dataProcess.setImage1_1(returnImage1);
+        dataProcess.setImage2_1(returnImage2);
+        dataProcess.setX(x);
+        dataProcess.setY(y);
+        dataProcess.setCoordinate(SettingPanel.coordSetting);
+        dataProcess.setSymmetry(SettingPanel.symmetrySetting);
+        dataProcess.setImageWidth(SettingPanel.default_imageWidth);
+        dataProcess.setImageHeight(SettingPanel.default_imageHeight);
+        dataProcess.setGeneration();
+        dataProcess.setFormula();
+
+        dataProcess.testImagesToProcess(); // test function call....delete later
+
+    }
+
+    public ImageIcon resize(ImageIcon image)
+    {
+        Image image_hold;
+        ImageIcon returnImage;
+
+        image_hold = image.getImage().getScaledInstance(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight, Image.SCALE_DEFAULT);
+        BufferedImage temp= View_ViewModel_Integration.toBufferedImage(image_hold);
+        returnImage=new ImageIcon(temp);
+
+        return returnImage;
     }
 
 }

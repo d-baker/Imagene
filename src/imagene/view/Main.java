@@ -15,8 +15,6 @@ package imagene.view;
 //=============================================================================
 
 
-import imagene.viewmodel.ImageneViewModel;
-
 import java.awt.*;
 
 /*****************************************
@@ -28,19 +26,21 @@ import java.awt.*;
  ****************************************/
 
 
-public class Main extends AbstractExampleGUI
+public class Main extends MainFrame
 {
     private ImagePanel imagePanel;
     private SettingPanel settingPanel;
-    private ImageneViewModel viewModel;
+   // private ImageneViewModel viewModel;
 
     @Override
     protected void prepareGUI(Container container)
     {
-        viewModel = ImageneViewModel.getInstance();
+        //viewModel = new ImageneViewModel();
 
         settingPanel = new SettingPanel();
-        imagePanel = new ImagePanel(viewModel);
+        imagePanel = new ImagePanel();
+
+        //imagePanel = new ImagePanel();
 
         container.add(settingPanel, BorderLayout.WEST);
         container.add(imagePanel, BorderLayout.EAST);

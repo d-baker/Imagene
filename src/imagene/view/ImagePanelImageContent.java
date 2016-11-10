@@ -1,8 +1,5 @@
 package imagene.view;
 
-import imagene.imagegen.models.PixelMatrix;
-import imagene.viewmodel.ImageneViewModel;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,25 +25,17 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
     private JPanel[] hold_imagePanel = new JPanel[ARRAY_INDEX];
     private ImageIcon[] icon = new ImageIcon[ARRAY_INDEX];
 
-    private ImageHolder imageHolder;
-    private ImageneViewModel viewModel;
+    private View_ViewModel_Integration viewViewModelIntegration;
+
 
     private Insets insets = new Insets(10, 10, 10, 10);
 
-    public ImagePanelImageContent(ImageneViewModel viewModel, ImageHolder imageHolder) {
-        this.imageHolder = imageHolder;
-        this.viewModel = viewModel;
-        // TODO halp
-        try {
-            java.util.List<PixelMatrix> population = viewModel.getPopulation(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
-            imageHolder.generateRealImages(population, SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
+    public ImagePanelImageContent(View_ViewModel_Integration viewViewModelIntegration) {
+        this.viewViewModelIntegration = viewViewModelIntegration;
 
-            System.out.println("ImagePanelImageContent_class " +"imageWidth: " +SettingPanel.defaultImageWidth +" imageHeight: " +SettingPanel.defaultImageHeight);//delete later
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        icon = imageHolder.returnImageIcon();
+
+        icon = viewViewModelIntegration.returnImageIcon();
 
 
         setBackground(colorLightGray);
@@ -110,9 +99,9 @@ public class ImagePanelImageContent extends JPanel implements ConstantArrayField
         return icon;
     }
 
-    public ImageHolder getImageHolder() {
-        return imageHolder;
-    }
+//    //public ImageHolder getImageHolder() {
+//        return imageHolder;
+//    }
 
     @Override
     public Insets getInsets() {
