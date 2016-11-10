@@ -1,6 +1,6 @@
 package imagene.imagegen.models;
 
-import imagene.imagegen.polar.models.Coordinate;
+import imagene.imagegen.polar.models.PolarCoordinate;
 
 /*****************************************
  * Written by Callum McLennan (s3367407) *
@@ -152,60 +152,22 @@ public class PixelMatrix
 		return iArray;
 	}
 	
-	//TODO this is wrong. :c
-	public int[] getPolarArray()
+	public PolarCoordinate[][] getPolarArray(int xOrigin, int yOrigin)
 	{
 		int  width = matrix[0].length, height = matrix.length;
-		int[][] pArray = new int[height][width];
+		PolarCoordinate[][] pArray = new PolarCoordinate[height][width];
 		
 		for(int y = 0; y < height; y++)
 		{
 			for(int x = 0; x < width; x++)
 			{
-				Coordinate c = getPolarCoordFromCartesian(y, x, height);
-				try {
-					pArray[c.y][c.x] = getRGB(matrix[y][x].r().value(), matrix[y][x].g().value(), matrix[y][x].b().value());
-				} catch(Exception ex) {  }
+				PolarCoordinate pc = new PolarCoordinate(xOrigin, yOrigin, x, y);
+				
+					pArray[y][x] = pc;
 			}
 		}
 		
-		return dimensionalConversion(pArray);
-	}
-	
-	//TODO Change this
-	private int[] dimensionalConversion (int[][] array2D)
-	{
-		int[] array = new int[array2D.length*array2D[0].length];
-		int i = 0;
-	    for (int y= 0; y < array2D.length; y++) {
-	        for (int x = 0; x < array2D[i].length; x++) {
-	        	try {
-	        		array[i] = array2D[y][x];
-	        	} catch (Exception ex) {
-	        		System.err.println("["+y+","+x+"] = "+i);
-	        	}
-	            i++;
-	        }
-	    } 
-	    return array;
-	}
-	
-	private Coordinate getPolarCoordFromCartesian(int y, int x, int height)
-	{
-		double r, q;
-		
-		r = Math.sqrt(Math.pow(y, 2) + Math.pow(x, 2));
-		try {
-			q = Math.toDegrees(Math.atan2((double)y,(double)x));
-		} catch(Exception e) {
-			q = 0;
-		}
-		
-		return new Coordinate((int)r, scale(q, height));
-	}
-	
-	private int scale(double magnitude, double max) {
-		  return (int)Math.round(max * magnitude/max);
+		return pArray;
 	}
 	
 	public int getSize()
