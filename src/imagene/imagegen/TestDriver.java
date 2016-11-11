@@ -1,4 +1,5 @@
 package imagene.imagegen;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -7,6 +8,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import imagene.imagegen.models.PixelMatrix;
+
+/*****************************************
+ * Written by Callum McLennan (s3367407) *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
 public class TestDriver 
 {
 	static imagene.imagegen.api.interfaces.IProgramInterface api;

@@ -6,12 +6,12 @@ import imagene.viewmodel.ImageneViewModel;
 import imagene.watchmaker.UnexpectedParentsException;
 
 /*****************************************
- * Written by Avishkar Giri (s3346203)
- * and Dorothea
- * and Andrew
- * for                                   *
- * Programming Project 1                 *
- * SP3 2016                              *
+ * Written by Avishkar Giri (s3346203),
+ * Dorothea Baker (s3367422)
+ * and Andrew Sanger (s3440468)
+ * for
+ * Programming Project 1
+ * SP3 2016
  ****************************************/
 
 
@@ -42,14 +42,9 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     private Image[] imageResized=new Image[ARRAY_INDEX];
     private ImageIcon [] imageIconResized=new ImageIcon[ARRAY_INDEX];
 
-    public View_ViewModel_Integration()
-
-    {
-
-        //this.viewModel=VIEWMODEL;
+    public View_ViewModel_Integration() {
         object=new ImageneViewModelObject();
         viewModel=object.getViewModel();
-       // viewModel.chooseWinners(new int[]{0,1});
         initiateImages(0,1);
         imageWidth=SettingPanel.default_imageWidth;
         imageHeight=SettingPanel.default_imageHeight;
@@ -90,17 +85,15 @@ public class View_ViewModel_Integration implements ConstantArrayField{
 
     public void generateRealImages(List<PixelMatrix> pixelMatrices, int width, int height) {
 
-
-        // i had to create new image_1 object to fix the error
-        //earlier it was written this.image[i]=image[i];
         BufferedImage[] image_1=new BufferedImage[ARRAY_INDEX];
+
         for (int i = 0; i < ARRAY_INDEX; i++) {
-            // TODO getting index out of bounds here when using real watchmaker, why?
             image_1[i] = makeImage(width, height, pixelMatrices.get(i));
             this.image[i] = image_1[i];
             imageIcon[i] = new ImageIcon(image[i]);
         }
-       resizeAllImages();
+
+        resizeAllImages();
     }
 
 
@@ -145,21 +138,12 @@ public class View_ViewModel_Integration implements ConstantArrayField{
         return image;
     }
 
-
-
-
-
     public void initiateImages(int x,int y)
     {
         viewModel.chooseWinners(new int[]{x,y});
     }
 
-
-
-
-
-    public void resizeAllImages()
-    {
+    public void resizeAllImages() {
         BufferedImage[] temp=new BufferedImage[4];
         for(int i=0;i<ARRAY_INDEX;i++) {
             imageResized[i] =  imageIcon[i].getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT);
@@ -168,16 +152,12 @@ public class View_ViewModel_Integration implements ConstantArrayField{
             imageIconResized[i]=new ImageIcon(temp[i]);
         }
 
-
     }
 
     public ImageIcon[] returnImageIcon()
     {
         return imageIconResized;
     }
-
-
-
 
 
     public static BufferedImage toBufferedImage(Image img) {
@@ -192,11 +172,7 @@ public class View_ViewModel_Integration implements ConstantArrayField{
             bGr.drawImage(img, 0, 0, null);
             bGr.dispose();
 
-
             return bimage;
-
-
-
     }
 
     // function to delete  later
@@ -256,10 +232,7 @@ public class View_ViewModel_Integration implements ConstantArrayField{
 
     // function to delete  later
     //test function
-    public  void testImagesToProcess()
-    {
-
-
+    public  void testImagesToProcess() {
         JPanel panel1=new JPanel();
         JLabel label1=new JLabel(image1_1);
         panel1.add(label1);

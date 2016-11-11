@@ -2,6 +2,14 @@ package imagene.imagegen.polar.models;
 
 import imagene.imagegen.polar.models.Coordinate;
 
+/*****************************************
+ * Written by Callum McLennan (s3367407) *
+ * for                                   *
+ * Programming Project 1                 *
+ * SP3 2016                              *
+ ****************************************/
+
+
 public class PolarCoordinate extends Coordinate 
 {
 	private double radius;

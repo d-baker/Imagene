@@ -3,9 +3,13 @@ package imagene.view;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by avishkar on 11/5/2016.
- */
+/*****************************************
+ * Written by Avishkar Giri (s3346203)
+ * for
+ * Programming Project 1
+ * SP3 2016
+ ****************************************/
+
 public class ImagePanelGenerateBtn extends JPanel implements ConstantArrayField{
 
     private JButton generateBtn;
