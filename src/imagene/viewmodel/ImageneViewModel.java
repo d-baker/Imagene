@@ -54,42 +54,37 @@ public class ImageneViewModel
 	{
 		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
 
-
 		List<Node> nodes = watchmaker.getPopulation();
-		ArrayList<ArrayList<ArithmeticNode>> arithFormulas = new ArrayList<ArrayList<ArithmeticNode>>();
+		ArrayList<ArrayList<Node>> formulas = new ArrayList<ArrayList<Node>>();
 
 		System.out.println(">>>>>>POPULATION<<<<<");
 
 		for(int curNode = 0; curNode < nodes.size() / 3; curNode++)
 		{
-			ArrayList<ArithmeticNode> colorChannels = new ArrayList<ArithmeticNode>();
+			ArrayList<Node> colorChannels = new ArrayList<Node>();
 
 			for (int channel = curNode * 3; channel < (curNode * 3) + 3; channel++) {
 				Node n = nodes.get(channel);
 				System.out.println(n.toString());
 
-				colorChannels.add(parser.getArithmetic(n.toString()));
+				colorChannels.add(n);
 			}
 
-			arithFormulas.add(colorChannels);
-
-			// TODO using watchmaker to parse nodes doesn't work yet cause I configured parameters wrong.
-			//double x = 3.0;
-			//double y = 15.0;
-			//double nodeEval = n.evaluate(new double[] {0.0, 1.0});
+			formulas.add(colorChannels);
 		}
 
-		for (int a = 0; a < arithFormulas.size(); a++) {
-			ArrayList<ArithmeticNode> colorChannels = arithFormulas.get(a);
-			ArithmeticNode r = colorChannels.get(0);
-			ArithmeticNode g = colorChannels.get(1);
-			ArithmeticNode b = colorChannels.get(2);
+
+		for (int a = 0; a < formulas.size(); a++) {
+			ArrayList<Node> colorChannels = formulas.get(a);
+			Node r = colorChannels.get(0);
+			Node g = colorChannels.get(1);
+			Node b = colorChannels.get(2);
 
 			try {
 				IManipulator[] channels = new IManipulator[] {
-						(x, y) -> r.operation(x, y),
-						(x, y) -> g.operation(x, y),
-						(x, y) -> b.operation(x, y)
+						(x, y) -> r.evaluate(new double[] {x, y}),
+						(x, y) -> g.evaluate(new double[] {x, y}),
+						(x, y) -> b.evaluate(new double[] {x, y})
 				};
 
 				PixelMatrix pixelMatrix = imageGen.CreateImage(width, height, channels);
@@ -98,7 +93,6 @@ public class ImageneViewModel
 				e.printStackTrace();
 			}
 		}
-
 
 
 /*

@@ -41,19 +41,19 @@ import java.util.Random;
 
 public class TreeFactory extends AbstractCandidateFactory<Node>
 {
-    // The number of program parameters that each program gp.tree will be provided.
+    // The number of program parameters that each program tree will be provided.
     private final int parameterCount;
 
-    // The maximum depth of a program gp.tree.  No function nodes will be created below
+    // The maximum depth of a program tree.  No function nodes will be created below
     // this depth (branches will be terminated with parameters or constants).
     private final int maxDepth;
 
-    // Probability that a created gp.node is a function gp.node rather
-    // than a value gp.node.
+    // Probability that a created node is a function node rather
+    // than a value node.
     private final Probability oneArgFunctionProbability;
 
-    // Probability that a value (non-function) gp.node is a parameter
-    // gp.node rather than a constant gp.node.
+    // Probability that a value (non-function) node is a parameter
+    // node rather than a constant node.
     private final Probability parameterProbability;
 
     private final Probability constantProbability;
@@ -140,12 +140,10 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
                 }
             }
 
-        } else if (parameterProbability.nextEvent(rng)) {
-            return new Parameter(rng.nextInt(parameterCount)); // TODO reduce rand probability
         } else if (constantProbability.nextEvent(rng)) {
             return new Constant(Math.PI);
         } else {
-            return new Parameter(rng.nextInt(parameterCount)); // TODO workaround
+            return new Parameter(rng.nextInt(parameterCount));
         }
 
     }

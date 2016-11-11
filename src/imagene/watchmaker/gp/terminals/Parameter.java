@@ -25,9 +25,8 @@ import imagene.watchmaker.gp.node.*;
 
 public class Parameter extends LeafNode
 {
-    // TODO the way I'm handling this is wrong, fix it
     private final int parameterIndex;
-    String[] paramTypes = new String[] {"x", "y", "rand"};
+    String[] paramTypes = new String[] {"x", "y"}; // TODO add rand back in at some point
 
     /**
      * @param parameterIndex Which of the program's (zero-indexed) parameter
