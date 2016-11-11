@@ -41,7 +41,7 @@ public class TreeMutation implements EvolutionaryOperator<Node>
      * TreeFactory that is used to create the initial population should be
      * used.
      * @param treeFactory Used to generate the new sub-trees required for mutation.
-     * @param mutationProbability The probability that any given gp.node in a gp.tree is
+     * @param mutationProbability The probability that any given node in a tree is
      * mutated by this operator.
      */
     public TreeMutation(TreeFactory treeFactory,

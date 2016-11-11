@@ -9,6 +9,7 @@ import imagene.watchmaker.UnexpectedParentsException;
 import imagene.watchmaker.gp.node.Node;
 import imagene.watchmaker.gp.tree.TreeCrossover;
 import imagene.watchmaker.gp.tree.TreeMutation;
+import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.AbstractEvolutionEngine;
 import org.uncommons.watchmaker.framework.EvaluatedCandidate;
 
@@ -45,6 +46,7 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 
 		_factory = factory;
 		_crossover = new TreeCrossover();
+		_mutation = new TreeMutation(factory, new Probability(0.5));
 		_rng = rng;
 
 		_populationSize = populationSize * 3;
@@ -89,8 +91,14 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			// Elitism - add parents first
 			newPopulation.addAll(_parents);
 
+			// 50% chance of mutating parents before crossover
+			if (_rng.nextDouble() > 0.5) {
+				_parents = (List<T>) _mutation.apply((List<Node>)_parents, _rng);
+			}
+
 			// Then crossover of parents to create remaining population
 			for (int i = 0; i < _populationSize - _parents.size(); i++) {
+
 				// TreeCrossover generates 2 children by crossover
 				List<Node> twoNewChildren = (_crossover.mate((Node) _parents.get(0), (Node) _parents.get(1), crossoverPoints, _rng));
 
@@ -127,6 +135,11 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 
 			// TODO this is a workaround - initial population for some reason has 4 parents,
 			// so we only use the first 2 parents from the array.
+
+			// 50% chance of mutating parents before crossover
+			if (_rng.nextDouble() > 0.5) {
+				_parents = (List<T>) _mutation.apply((List<Node>)_parents, _rng);
+			}
 
 			for (int i = 0; i < _populationSize; i++) {
 				List<Node> twoNewChildren = (_crossover.mate((Node) _parents.get(0), (Node) _parents.get(1), crossoverPoints, _rng));
