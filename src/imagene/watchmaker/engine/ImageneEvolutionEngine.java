@@ -70,8 +70,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	private List<T> Evaluate() throws UnexpectedParentsException
 	{
 		List<T> newPopulation = new ArrayList<T>();
-
-		// TODO not fixing the problem
 		List<T> _parents = new ArrayList<T>();
 
 		for(EvaluatedCandidate<T> t : _evaluatedCandidates)
@@ -82,6 +80,12 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 		}
 
 		if (_parents.size() == 2) {
+			System.out.println("there are: TWO parents");
+
+			System.out.println(">>>>> PARENTS <<<<<<");
+			System.out.println(_parents.get(0).toString());
+			System.out.println(_parents.get(1).toString());
+
 			// Elitism - add parents first
 			newPopulation.addAll(_parents);
 
@@ -98,6 +102,11 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			}
 
 		} else if (_parents.size() == 1) {
+			System.out.println("there is: ONE parent");
+
+			System.out.println(">>>>> PARENTS <<<<<<");
+			System.out.println(_parents.get(0).toString());
+
 			// Elitism - add parents first
 			newPopulation.addAll(_parents);
 
@@ -129,7 +138,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 
 		}
 
-		// TODO trying to reset fitness of previous parents - not working
 		_evaluatedCandidates.clear();
 
 		return newPopulation;
@@ -148,7 +156,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	
 	public void survive(List<Integer> winners)
 	{
-		// TODO 4 here!!
 		for(int i = 0; i < _populationSize; i++)
 		{
 			if(winners.contains(i))

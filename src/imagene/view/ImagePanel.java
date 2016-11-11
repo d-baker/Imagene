@@ -653,7 +653,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         dataProcess.setGeneration();
         dataProcess.setFormula();
 
-        dataProcess.testImagesToProcess(); // test function call....delete later
+        //dataProcess.testImagesToProcess(); // test function call....delete later
 
     }
 

@@ -131,12 +131,13 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
 
             } else {
 
-                switch (rng.nextInt(4))
+                switch (rng.nextInt(5))
                 {
                     case 0: return new Addition(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
                     case 1: return new Subtraction(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
                     case 2: return new Division(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
-                    default: return new Multiplication(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
+                    case 3: return new Multiplication(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
+                    default: return new Circle(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
                 }
             }
 
