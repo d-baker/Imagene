@@ -50,7 +50,7 @@ public class ImageneViewModel
 		return instance;
 	}
 
-	public List<PixelMatrix> getPopulation(int width, int height) throws InvalidArgumentException, IncorrectVariablesException
+	public List<PixelMatrix> getPopulation(int width, int height, String coordType, String symmetryType) throws InvalidArgumentException, IncorrectVariablesException
 	{
 		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
 
@@ -87,8 +87,20 @@ public class ImageneViewModel
 						(x, y) -> b.evaluate(new double[] {x, y})
 				};
 
-				PixelMatrix pixelMatrix = imageGen.CreateImage(width, height, channels);
-				matrices.add(pixelMatrix);
+				PixelMatrix pixelMatrix;
+
+				// TODO add checks for symmetry too
+				System.out.println(coordType);
+				if (coordType == "Cartesian") {
+					pixelMatrix = imageGen.CreateImage(width, height, channels);
+					matrices.add(pixelMatrix);
+				} else if (coordType == "Polar") {
+					pixelMatrix = imageGen.CreatePolarImage(width/2, height/2, width, height, channels);
+					matrices.add(pixelMatrix);
+				} else {
+					throw new InvalidArgumentException("Unexpected coordinate type");
+				}
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

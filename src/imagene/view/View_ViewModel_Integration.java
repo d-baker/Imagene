@@ -19,13 +19,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Set;
 
 import static com.sun.javafx.fxml.expression.Expression.add;
 
 public class View_ViewModel_Integration implements ConstantArrayField{
 
-    private String coordinate;
-    private String symmetry;
+    private String coordType;
+    private String symmetryType;
     private int imageWidth;
     private int imageHeight;
     private BufferedImage image1;
@@ -48,6 +49,8 @@ public class View_ViewModel_Integration implements ConstantArrayField{
         initiateImages(0,1);
         imageWidth=SettingPanel.default_imageWidth;
         imageHeight=SettingPanel.default_imageHeight;
+        coordType = SettingPanel.coordSetting;
+        symmetryType = SettingPanel.coordSetting;
         setFormula( );
 
 
@@ -73,8 +76,9 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     public void setFormula()
     {
         try {
-            List<PixelMatrix> formulas = viewModel.getPopulation(imageWidth,imageHeight);
-            generateRealImages(formulas, imageWidth, imageHeight);
+            // TODO pass in coord and symmetry values here
+            List<PixelMatrix> pixelMatrices = viewModel.getPopulation(imageWidth, imageHeight, coordType, symmetryType);
+            generateRealImages(pixelMatrices, imageWidth, imageHeight);
         } catch (InvalidArgumentException e) {
             e.printStackTrace();
         } catch (IncorrectVariablesException e) {
@@ -106,11 +110,11 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     }
 
     public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
+        this.coordType = coordinate;
     }
 
     public void setSymmetry(String symmetry) {
-        this.symmetry = symmetry;
+        this.symmetryType = symmetry;
     }
 
     public void setImageWidth(int imageWidth) {
@@ -245,8 +249,8 @@ public class View_ViewModel_Integration implements ConstantArrayField{
 
         JLabel label3=new JLabel(String.valueOf(imageWidth));
         JLabel label4=new JLabel(String.valueOf(imageHeight));
-        JLabel label5=new JLabel(coordinate);
-        JLabel label6=new JLabel(symmetry);
+        JLabel label5=new JLabel(coordType);
+        JLabel label6=new JLabel(symmetryType);
 
         panel.add(panel1);
         panel.add(panel2);
