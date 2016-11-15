@@ -76,7 +76,6 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     public void setFormula()
     {
         try {
-            // TODO pass in coord and symmetry values here
             List<PixelMatrix> pixelMatrices = viewModel.getPopulation(imageWidth, imageHeight, coordType, symmetryType);
             generateRealImages(pixelMatrices, imageWidth, imageHeight);
         } catch (InvalidArgumentException e) {

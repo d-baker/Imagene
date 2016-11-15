@@ -22,9 +22,7 @@ import java.io.IOException;
  ****************************************/
 
 /*
-TODO have to fix image saving to the default image dimension
 TODO fix button and label alignment
-
  */
 
 public class ImagePanel extends JPanel implements ConstantArrayField {

@@ -16,8 +16,9 @@ import org.uncommons.watchmaker.framework.EvaluatedCandidate;
 import imagene.watchmaker.gp.tree.TreeFactory;
 
 /*****************************************
- * Written by Callum McLennan (s3367407)
- * and Dorothea Baker (s3367422)
+ * Written by Callum McLennan (s3367407),
+ * Dorothea Baker (s3367422) and
+ * Andrew Sanger (s3440468)
  * for
  * Programming Project 1
  * SP3 2016
@@ -25,6 +26,9 @@ import imagene.watchmaker.gp.tree.TreeFactory;
 
 public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	private final double WinScore = 1d, LossScore = 0d;
+	
+	// Added for readability
+	private final double _Channels = 3;
 
 	private List<T> _population;
 	private int _populationSize;
@@ -81,74 +85,47 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			}
 		}
 
-		if (_parents.size() == 2) {
-			System.out.println("there are: TWO parents");
+		System.out.println("num parents is " + _parents.size());
 
-			System.out.println(">>>>> PARENTS <<<<<<");
-			System.out.println(_parents.get(0).toString());
-			System.out.println(_parents.get(1).toString());
+		System.out.println(">>>>> PARENTS <<<<<<");
+		for (int a = 0; a < _parents.size(); a++) {
+			System.out.println(_parents.get(a).toString());
+		}
 
-			// Elitism - add parents first
-			newPopulation.addAll(_parents);
+		// Elitism
+		newPopulation.addAll(_parents);
 
-			// 50% chance of mutating parents before crossover
-			if (_rng.nextDouble() > 0.5) {
-				_parents = (List<T>) _mutation.apply((List<Node>)_parents, _rng);
+		// Generate the remaining population by mating parents
+		// >= 2 is a workaround for the weird first-generation bug of having too many parents
+		if (_parents.size() >= 2) {
+
+			int numNewIndividuals = 2;
+
+			for (int i = 0; i < numNewIndividuals; i++) {
+				List<Node> twoNewChildrenR = (_crossover.mate((Node) _parents.get(0), (Node) _parents.get(3), crossoverPoints, _rng));
+				List<Node> twoNewChildrenG = (_crossover.mate((Node) _parents.get(1), (Node) _parents.get(4), crossoverPoints, _rng));
+				List<Node> twoNewChildrenB = (_crossover.mate((Node) _parents.get(2), (Node) _parents.get(5), crossoverPoints, _rng));
+
+				T favoriteChildR = (T) twoNewChildrenR.get(0);
+				T favoriteChildG = (T) twoNewChildrenG.get(0);
+				T favoriteChildB = (T) twoNewChildrenB.get(0);
+
+				System.out.println(i);
+
+				newPopulation.add(favoriteChildR);
+				newPopulation.add(favoriteChildG);
+				newPopulation.add(favoriteChildB);
 			}
 
-			// Then crossover of parents to create remaining population
-			for (int i = 0; i < _populationSize - _parents.size(); i++) {
-
-				// TreeCrossover generates 2 children by crossover
-				List<Node> twoNewChildren = (_crossover.mate((Node) _parents.get(0), (Node) _parents.get(1), crossoverPoints, _rng));
-
-				// Discard one of the two children generated - this seems to be the standard thing to do in GP?
-				T favoriteChild = (T)twoNewChildren.get(0);
-
-				// Add the newly generated individual to the population
-				newPopulation.add(favoriteChild);
-			}
-
-		} else if (_parents.size() == 1) {
-			System.out.println("there is: ONE parent");
-
-			System.out.println(">>>>> PARENTS <<<<<<");
-			System.out.println(_parents.get(0).toString());
-
-			// Elitism - add parents first
-			newPopulation.addAll(_parents);
-
-			// Remaining population is population minus parent we added via elitism, as we don't want to mutate the parent
-			List<T> remainingPopulation = newPopulation;
+		} else  if (_parents.size() == 1) {
+			// If only one parent is supplied, mutate it to create the rest of the next generation.
+			// Possible future functionality, not currently operable due to frontend limitations.
+			List<T> remainingPopulation = _population;
 			remainingPopulation.remove(_parents.get(0));
-
-			// Create rest of the population by randomly mutating the remaining population
 			newPopulation.addAll((List<T>) _mutation.apply((List<Node>)remainingPopulation, _rng));
-
 		} else {
-			System.out.println("num parents is " + _parents.size());
-			//throw new UnexpectedParentsException("Number of parents: " + _parents.size());
-
-			System.out.println(">>>>> PARENTS <<<<<<");
-			System.out.println(_parents.get(0).toString());
-			System.out.println(_parents.get(1).toString());
-
-			// TODO this is a workaround - initial population for some reason has 4 parents,
-			// so we only use the first 2 parents from the array.
-
-			// 50% chance of mutating parents before crossover
-			if (_rng.nextDouble() > 0.5) {
-				_parents = (List<T>) _mutation.apply((List<Node>)_parents, _rng);
-			}
-
-			for (int i = 0; i < _populationSize; i++) {
-				List<Node> twoNewChildren = (_crossover.mate((Node) _parents.get(0), (Node) _parents.get(1), crossoverPoints, _rng));
-
-				T favoriteChild = (T)twoNewChildren.get(0);
-
-				newPopulation.add(favoriteChild);
-			}
-
+			// We don't want, or know how, to handle other numbers of parents
+			throw new UnexpectedParentsException("Number of parents: " + _parents.size());
 		}
 
 		_evaluatedCandidates.clear();
@@ -169,12 +146,22 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 	
 	public void survive(List<Integer> winners)
 	{
-		for(int i = 0; i < _populationSize; i++)
+		for(int i = 0; i < _populationSize / _Channels; i++)
 		{
-			if(winners.contains(i))
-				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(i), WinScore));
-			else
-				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(i), LossScore));
+			// Added these for the sake of readability
+			int redNum = i * 3;
+			int greenNum = redNum + 1;
+			int blueNum = redNum + 2;
+			
+			if(winners.contains(i)) {				
+				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(redNum), WinScore));
+				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(greenNum), WinScore));
+				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(blueNum), WinScore));			
+			} else {
+				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(redNum), LossScore));
+				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(greenNum), LossScore));
+				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(blueNum), LossScore));	
+			}
 		}
-	}	
+	}
 }

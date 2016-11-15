@@ -90,7 +90,6 @@ public class ImageneViewModel
 				PixelMatrix pixelMatrix;
 
 				// TODO add checks for symmetry too
-				System.out.println(coordType);
 				if (coordType == "Cartesian") {
 					pixelMatrix = imageGen.CreateImage(width, height, channels);
 					matrices.add(pixelMatrix);

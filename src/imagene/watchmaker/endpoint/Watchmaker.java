@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import imagene.watchmaker.UnexpectedParentsException;
+import imagene.watchmaker.engine.ImageneEvolutionEngine;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.EvaluatedCandidate;
 import org.uncommons.watchmaker.framework.EvolutionaryOperator;
 
-import imagene.watchmaker.engine.ImageneEvolutionEngine;
 import imagene.watchmaker.gp.tree.TreeFactory;
 
 /*****************************************
