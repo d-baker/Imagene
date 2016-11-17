@@ -49,8 +49,8 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 		_evaluatedCandidates = new ArrayList<EvaluatedCandidate<T>>();
 
 		_factory = factory;
-		_crossover = new TreeCrossover();
 		_mutation = new TreeMutation(factory, new Probability(0.5));
+		_crossover = new TreeCrossover(_mutation);
 		_rng = rng;
 
 		_populationSize = populationSize * 3;

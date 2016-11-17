@@ -30,12 +30,15 @@ import java.util.Random;
  */
 public class TreeCrossover extends AbstractCrossover<Node>
 {
+    TreeMutation mutation;
+    
     /**
      * Creates a single-point cross-over operator.
      */
-    public TreeCrossover()
+    public TreeCrossover(TreeMutation mutation)
     {
         super(1);
+        this.mutation = mutation;
     }
 
 
@@ -70,6 +73,11 @@ public class TreeCrossover extends AbstractCrossover<Node>
 
         offspring.add(offspring1);
         offspring.add(offspring2);
+
+        // Mutate the offspring to add variety. This happens randomly 50% of the time,
+        // as determined by the mutation probability in TreeMutation class.
+        offspring = (mutation.apply(offspring, rng));
+
         return offspring;
     }
 }
