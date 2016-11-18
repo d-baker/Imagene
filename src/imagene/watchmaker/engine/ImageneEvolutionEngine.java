@@ -92,18 +92,11 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			System.out.println(_parents.get(a).toString());
 		}
 
+		// Elitism
+		newPopulation.addAll(_parents);
+
 		// Generate the remaining population by mating parents
-		// >= 6 is a workaround for the weird first-generation bug of having too many parents
-		if (_parents.size() >= 6) {
-
-			// Elitism
-			// TODO we are truncating this to avoid issues at the first generation when all 12 formulas are (wrongly) chosen,
-			// but this hard-codes the first 2 images as parents rather than selecting the images the user chose -
-			// because there is no way for us to tell which ones the user did chooses!
-			// THIS IS A BUG AND MUST BE FIXED
-			_parents.subList(6, _parents.size()).clear();
-			newPopulation.addAll(_parents);
-
+		if (_parents.size() == 6) {
 			int numNewIndividuals = 2;
 
 			for (int i = 0; i < numNewIndividuals; i++) {
@@ -126,7 +119,6 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			// If only one parent is supplied, mutate it to create the rest of the next generation.
 			// Possible future functionality, not currently operable due to frontend limitations.
 			List<T> remainingPopulation = _population;
-			newPopulation.add(_parents.get(0));
 			remainingPopulation.remove(_parents.get(0));
 			newPopulation.addAll((List<T>) _mutation.apply((List<Node>)remainingPopulation, _rng));
 		} else {
@@ -159,7 +151,7 @@ public class ImageneEvolutionEngine<T> extends AbstractEvolutionEngine<T> {
 			int greenNum = redNum + 1;
 			int blueNum = redNum + 2;
 			
-			if(winners.contains(i)) {				
+			if(winners.contains(i)) {
 				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(redNum), WinScore));
 				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(greenNum), WinScore));
 				_evaluatedCandidates.add(new EvaluatedCandidate<T>(_population.get(blueNum), WinScore));			

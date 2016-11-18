@@ -46,7 +46,6 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     public View_ViewModel_Integration() {
         object=new ImageneViewModelObject();
         viewModel=object.getViewModel();
-        initiateImages(0,1);
         imageWidth=SettingPanel.default_imageWidth;
         imageHeight=SettingPanel.default_imageHeight;
         coordType = SettingPanel.coordSetting;
