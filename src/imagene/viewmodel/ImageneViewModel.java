@@ -2,6 +2,7 @@ package imagene.viewmodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import imagene.arithmeticParser.ParserInterface;
 import imagene.arithmeticParser.SampleFormulaGenerator;
@@ -34,6 +35,9 @@ public class ImageneViewModel
 	private SampleFormulaGenerator dummyWatchmaker;
 
 	private static ImageneViewModel instance = null;
+
+	private final int randomNum = new Random().nextInt(10);
+
 
 	private ImageneViewModel() {
 		imageGen = new ProgramInterface();
@@ -82,9 +86,9 @@ public class ImageneViewModel
 
 			try {
 				IManipulator[] channels = new IManipulator[] {
-						(x, y) -> r.evaluate(new double[] {x, y}),
-						(x, y) -> g.evaluate(new double[] {x, y}),
-						(x, y) -> b.evaluate(new double[] {x, y})
+						(x, y) -> r.evaluate(new double[] {x, y, randomNum}),
+						(x, y) -> g.evaluate(new double[] {x, y, randomNum}),
+						(x, y) -> b.evaluate(new double[] {x, y, randomNum})
 				};
 
 				PixelMatrix pixelMatrix;
