@@ -36,7 +36,11 @@ public class ImageneViewModel
 
 	private static ImageneViewModel instance = null;
 
-	private final int randomNum = new Random().nextInt(10);
+	private final double[] randomNumbers = new double[]{
+			new Random().nextInt(10),
+			new Random().nextInt(10),
+			new Random().nextInt(10)
+	};
 
 
 	private ImageneViewModel() {
@@ -44,6 +48,7 @@ public class ImageneViewModel
 		parser = ParserInterface.getInstance();
 		watchmaker = new Watchmaker<Node>(populationSize);
 		dummyWatchmaker = new SampleFormulaGenerator();
+		System.out.println("RANDOM NUMBERS: " + randomNumbers.toString());
 	}
 
 	public static ImageneViewModel getInstance()
@@ -86,9 +91,9 @@ public class ImageneViewModel
 
 			try {
 				IManipulator[] channels = new IManipulator[] {
-						(x, y) -> r.evaluate(new double[] {x, y, randomNum}),
-						(x, y) -> g.evaluate(new double[] {x, y, randomNum}),
-						(x, y) -> b.evaluate(new double[] {x, y, randomNum})
+						(x, y) -> r.evaluate(new double[] {x, y, randomNumbers[0], randomNumbers[1], randomNumbers[2]}),
+						(x, y) -> g.evaluate(new double[] {x, y, randomNumbers[0], randomNumbers[1], randomNumbers[2]}),
+						(x, y) -> b.evaluate(new double[] {x, y, randomNumbers[0], randomNumbers[1], randomNumbers[2]})
 				};
 
 				PixelMatrix pixelMatrix;
