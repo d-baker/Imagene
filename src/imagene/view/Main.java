@@ -30,17 +30,12 @@ public class Main extends MainFrame
 {
     private ImagePanel imagePanel;
     private SettingPanel settingPanel;
-   // private ImageneViewModel viewModel;
 
     @Override
     protected void prepareGUI(Container container)
     {
-        //viewModel = new ImageneViewModel();
-
         settingPanel = new SettingPanel();
         imagePanel = new ImagePanel();
-
-        //imagePanel = new ImagePanel();
 
         container.add(settingPanel, BorderLayout.WEST);
         container.add(imagePanel, BorderLayout.EAST);
