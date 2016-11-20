@@ -3,9 +3,13 @@ package imagene.view;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by avishkar on 11/20/2016.
- */
+/*****************************************
+ * Written by Avishkar Giri (s3346203)
+ * for
+ * Programming Project 1
+ * SP3 2016
+ ****************************************/
+
 public class ImagePanelProgressbar extends JPanel implements  ConstantArrayField{
 
     public final static int interval=1000;
