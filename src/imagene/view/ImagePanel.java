@@ -10,10 +10,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 
 /*****************************************
  * Written by Avishkar Giri (s3346203) *
@@ -23,7 +23,9 @@ import java.util.Set;
  ****************************************/
 
 /*
+TODO have to fix image saving to the default image dimension
 TODO fix button and label alignment
+
  */
 
 public class ImagePanel extends JPanel implements ConstantArrayField {
@@ -65,6 +67,13 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
     private JPopupMenu holdMenuItemsImage4;
     private View_ViewModel_Integration dataProcess;
     private int count=0;
+    private ImagePanelProgressbar bar;
+
+    public final static int interval=1000;
+    private int m;
+    private Timer t;
+    JProgressBar progressBar;
+
 
     //private ImageneViewModel viewModel;
 
@@ -128,6 +137,11 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         holdMenuItemsImage4.add(itemSaveImage4);
         holdMenuItemsImage4.add(itemFullSizeImage4);
 
+        bar=new ImagePanelProgressbar();
+        progressBar=bar.getProgressBar();
+        progressBar.setValue(0);
+        progressBar.setStringPainted(true);
+
 
 
         constraint.anchor=GridBagConstraints.LINE_START;
@@ -148,7 +162,13 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
         constraint.gridx=0;
         constraint.gridy=2;
-        add(generateBtn,constraint);
+       add(generateBtn,constraint);
+
+//        constraint.gridx=0;
+//        constraint.gridy=3;
+//        add(progressBar,constraint);
+
+
 
         setImagesPanel();
     }
@@ -462,10 +482,13 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     sumOfTotalClicked = countImageClicked1 + countImageClicked2 + countImageClicked3 + countImageClicked4;
                     count = 0;
                     btnGenerate.setEnabled(false);
+                    //label.setText("Please click to select 2 Images before generating.");
+
                     label.setText("Please click to select 2 Images before generating.");
 
 
                     if (sumOfTotalClicked == 2) {
+
 
                         if ((count1 == 1) && (count2 == 1)) {
 
@@ -521,6 +544,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                           //  image_Contents = new ImagePanelImageContent(imageHolder);
                         }
 
+
                         count1 = 0;
                         count2 = 0;
                         count3 = 0;
@@ -534,25 +558,76 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                         sumOfTotalClicked = 0;
 
 
-                            System.out.println("ImagePanelImageContent_class " + "imageWidth: " + SettingPanel.default_imageWidth + " imageHeight: " + SettingPanel.default_imageHeight);//delete later
-                            icon = dataProcess.returnImageIcon();
 
-                            for (int i = 0; i < ARRAY_INDEX; i++) {
-                                holdImage[i].setIcon(null);
-                                holdImage[i].setIcon(icon[i]);
-                                holdImageLabel[i].add(holdImage[i]);
-                                holdImageLabel[i].setBackground(colorLightGray);
-                                hold_imagePanel[i].setBackground(colorLightGray);
+
+
+
+                        Thread thread = new Thread(){
+                            public void run(){
+                                for (int i = 0; i <= 100; i+=10)
+                                {
+                                    final int selection = i;
+                                    SwingUtilities.invokeLater(new Runnable(){
+                                        public void run(){
+                                            btnGenerate.setText("loading.. "+selection+"%");
+
+                                        }
+                                    });
+                                    try
+                                    {
+                                        Thread.sleep(100);
+                                    }
+                                    catch (InterruptedException e) {e.printStackTrace();}
+                                }
+
+                                //loads generated images into the imageIcon
+
+                                icon = dataProcess.returnImageIcon();
+
+                                System.out.println("ImagePanelImageContent_class " + "imageWidth: " + SettingPanel.default_imageWidth + " imageHeight: " + SettingPanel.default_imageHeight);//delete later
+
+                                //loads generated images into the jlabel for the display
+                                for (int i = 0; i < ARRAY_INDEX; i++) {
+                                    holdImage[i].setIcon(null);
+                                    holdImage[i].setIcon(icon[i]);
+                                    holdImageLabel[i].add(holdImage[i]);
+                                    holdImageLabel[i].setBackground(colorLightGray);
+                                    hold_imagePanel[i].setBackground(colorLightGray);
+                                }
+
+
+
+                                SwingUtilities.invokeLater(new Runnable(){
+                                    public void run(){
+                                        btnGenerate.setText("Generate");
+                                    }
+                                });
                             }
+                        };
+                        thread.start();
+
 
 
                     }
-                } else {
-                    label.setText("!!!!!Invalid User Input." + " Value cannot be 0 or negative ");
+
+
+
+
+
                 }
+
+                else {
+                    label.setText("!!!!!Invalid User Input.");
+                }
+
             }
         });
+
+
     }
+
+
+
 
 
     public void saveImage(ImageIcon image, JPanel panel) {
@@ -625,7 +700,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         frameShowImageInLargeSize.add(scrollPane);
         panel.setBackground(Color.GRAY);
 
-        frameShowImageInLargeSize.setSize(600,600);
+        frameShowImageInLargeSize.setSize(SettingPanel.default_imageWidth,SettingPanel.default_imageHeight);
         frameShowImageInLargeSize.setVisible(true);
         //frameShowImageInLargeSize.setSize(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight);
         frameShowImageInLargeSize.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -647,8 +722,13 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         dataProcess.setSymmetry(SettingPanel.symmetrySetting);
         dataProcess.setImageWidth(SettingPanel.default_imageWidth);
         dataProcess.setImageHeight(SettingPanel.default_imageHeight);
+
         dataProcess.setGeneration();
         dataProcess.setFormula();
+
+
+
+
 
         //dataProcess.testImagesToProcess(); // test function call....delete later
 
@@ -665,5 +745,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
         return returnImage;
     }
+
+
 
 }
