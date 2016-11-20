@@ -15,4 +15,6 @@ public interface IProgramInterface
 	public PixelMatrix CreateImage(int x, int y, IManipulator[] m);
 	public boolean Validate(int x, int y, IManipulator m);
 	PixelMatrix CreatePolarImage(int xOrigin, int yOrigin, int x, int y, IManipulator[] channels);
+	PixelMatrix CreateSymmetricalImage(int x, int y, IManipulator[] channels);
+	PixelMatrix CreateSymmetricalPolarImage(int xOrigin, int yOrigin, int x, int y, IManipulator[] channels);
 }

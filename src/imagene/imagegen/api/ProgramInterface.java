@@ -32,6 +32,48 @@ public class ProgramInterface implements IProgramInterface
 	}
 	
 	@Override
+	public PixelMatrix CreateSymmetricalPolarImage(int xOrigin, int yOrigin, int x, int y, IManipulator[] channels)
+	{
+		PixelMatrix matrix = new PixelMatrix(x, y);
+		PolarCoordinate[][] pc = matrix.getPolarArray(xOrigin, yOrigin);
+
+		PixelValueBoundary boundary = new PixelValueBoundary();
+
+		for(int dimY = 0; dimY < y; dimY++)
+		{
+			for(int dimX = 0; dimX < x; dimX++)
+			{
+				int symX = dimX;
+				if(dimX > x/2) symX = x/2 - (dimX - x/2);
+				
+				Pixel pixel = new Pixel(channels[0].manipulate(pc[symX][dimY].getTheta(), pc[symX][dimY].getRadius()), 
+						channels[1].manipulate(pc[symX][dimY].getTheta(), pc[symX][dimY].getRadius()), 
+						channels[2].manipulate(pc[symX][dimY].getTheta(), pc[symX][dimY].getRadius()));
+
+				double r, g, b;
+				r = pixel.r().value();
+				g = pixel.g().value();
+				b = pixel.b().value();
+
+				if ( r > boundary.rMax() ) boundary.setRMax(r);
+				if ( g > boundary.gMax() ) boundary.setGMax(g);
+				if ( g > boundary.bMax() ) boundary.setBMax(b);
+
+
+				if ( r < boundary.rMin() ) boundary.setRMin(r);
+				if ( g < boundary.gMin() ) boundary.setGMin(g);
+				if ( g < boundary.bMin() ) boundary.setBMin(b);
+
+				matrix.set(dimY, dimX, pixel);
+			}
+		}
+
+		matrix = ScaleImage(matrix, boundary);
+
+		return matrix;
+	}
+	
+	@Override
 	public PixelMatrix CreatePolarImage(int xOrigin, int yOrigin, int x, int y, IManipulator[] channels)
 	{
 		PixelMatrix matrix = new PixelMatrix(x, y);
@@ -46,6 +88,43 @@ public class ProgramInterface implements IProgramInterface
 				Pixel pixel = new Pixel(channels[0].manipulate(pc[dimX][dimY].getTheta(), pc[dimX][dimY].getRadius()), 
 						channels[1].manipulate(pc[dimX][dimY].getTheta(), pc[dimX][dimY].getRadius()), 
 						channels[2].manipulate(pc[dimX][dimY].getTheta(), pc[dimX][dimY].getRadius()));
+
+				double r, g, b;
+				r = pixel.r().value();
+				g = pixel.g().value();
+				b = pixel.b().value();
+
+				if ( r > boundary.rMax() ) boundary.setRMax(r);
+				if ( g > boundary.gMax() ) boundary.setGMax(g);
+				if ( g > boundary.bMax() ) boundary.setBMax(b);
+
+
+				if ( r < boundary.rMin() ) boundary.setRMin(r);
+				if ( g < boundary.gMin() ) boundary.setGMin(g);
+				if ( g < boundary.bMin() ) boundary.setBMin(b);
+
+				matrix.set(dimY, dimX, pixel);
+			}
+		}
+
+		matrix = ScaleImage(matrix, boundary);
+
+		return matrix;
+	}
+	@Override
+	public PixelMatrix CreateSymmetricalImage(int x, int y, IManipulator[] channels)
+	{
+		PixelMatrix matrix = new PixelMatrix(x, y);
+		PixelValueBoundary boundary = new PixelValueBoundary();
+
+		for(int dimY = 0; dimY < y; dimY++)
+		{
+			for(int dimX = 0; dimX < x; dimX++)
+			{
+				int symX = dimX;
+				if(dimX > x/2) symX = x/2 - (dimX - x/2);
+				
+				Pixel pixel = new Pixel(channels[0].manipulate(symX, dimY), channels[1].manipulate(symX, dimY), channels[2].manipulate(symX, dimY));
 
 				double r, g, b;
 				r = pixel.r().value();

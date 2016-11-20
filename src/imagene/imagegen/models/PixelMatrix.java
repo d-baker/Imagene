@@ -162,8 +162,7 @@ public class PixelMatrix
 			for(int x = 0; x < width; x++)
 			{
 				PolarCoordinate pc = new PolarCoordinate(xOrigin, yOrigin, x, y);
-				
-					pArray[y][x] = pc;
+				pArray[y][x] = pc;
 			}
 		}
 		

@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 /*****************************************
  * Written by Avishkar Giri (s3346203) *
@@ -147,9 +148,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
         constraint.gridx=0;
         constraint.gridy=2;
-       add(generateBtn,constraint);
-
-
+        add(generateBtn,constraint);
 
         setImagesPanel();
     }

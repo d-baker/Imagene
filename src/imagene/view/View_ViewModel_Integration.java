@@ -49,10 +49,8 @@ public class View_ViewModel_Integration implements ConstantArrayField{
         imageWidth=SettingPanel.default_imageWidth;
         imageHeight=SettingPanel.default_imageHeight;
         coordType = SettingPanel.coordSetting;
-        symmetryType = SettingPanel.coordSetting;
+        symmetryType = SettingPanel.symmetrySetting;
         setFormula( );
-
-
     }
 
     public void convertImageToBufferedImage()

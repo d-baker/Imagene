@@ -98,16 +98,23 @@ public class ImageneViewModel
 
 				PixelMatrix pixelMatrix;
 
-				// TODO add checks for symmetry too
 				if (coordType == "Cartesian") {
-					pixelMatrix = imageGen.CreateImage(width, height, channels);
-					matrices.add(pixelMatrix);
+					if (symmetryType == "Symmetric") {
+						pixelMatrix = imageGen.CreateSymmetricalImage(width, height, channels);
+					} else {
+						pixelMatrix = imageGen.CreateImage(width, height, channels);
+					}
 				} else if (coordType == "Polar") {
-					pixelMatrix = imageGen.CreatePolarImage(width/2, height/2, width, height, channels);
-					matrices.add(pixelMatrix);
+					if (symmetryType == "Symmetric") {
+						pixelMatrix = imageGen.CreateSymmetricalPolarImage(width / 2, height / 2, width, height, channels);
+					} else {
+						pixelMatrix = imageGen.CreatePolarImage(width / 2, height / 2, width, height, channels);
+					}
 				} else {
 					throw new InvalidArgumentException("Unexpected coordinate type");
 				}
+
+				matrices.add(pixelMatrix);
 
 			} catch (Exception e) {
 				e.printStackTrace();
