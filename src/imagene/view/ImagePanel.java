@@ -559,29 +559,52 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
 
 
-                        final JDialog d = new JDialog();
-                        JPanel p1 = new JPanel(new GridBagLayout());
-//                        p1.add(new JLabel("Please Wait..."),new GridBagConstraints());
-//                        d.getContentPane().add(p1);
-//                        d.setSize(100,100);
-//                        d.setLocationRelativeTo(MainFrame.frame);
-//                        d.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-//                        d.setModal(true);
 
 
-                        icon = dataProcess.returnImageIcon();
 
-                        System.out.println("ImagePanelImageContent_class " + "imageWidth: " + SettingPanel.default_imageWidth + " imageHeight: " + SettingPanel.default_imageHeight);//delete later
+                        Thread thread = new Thread(){
+                            public void run(){
+                                for (int i = 0; i <= 100; i+=10)
+                                {
+                                    final int selection = i;
+                                    SwingUtilities.invokeLater(new Runnable(){
+                                        public void run(){
+                                            btnGenerate.setText("loading.. "+selection+"%");
 
-                        //loads generated images into the jlabel for the display
-                        for (int i = 0; i < ARRAY_INDEX; i++) {
-                            holdImage[i].setIcon(null);
-                            holdImage[i].setIcon(icon[i]);
-                            holdImageLabel[i].add(holdImage[i]);
-                            holdImageLabel[i].setBackground(colorLightGray);
-                            hold_imagePanel[i].setBackground(colorLightGray);
-                        }
+                                        }
+                                    });
+                                    try
+                                    {
+                                        Thread.sleep(100);
+                                    }
+                                    catch (InterruptedException e) {e.printStackTrace();}
+                                }
 
+                                //loads generated images into the imageIcon
+
+                                icon = dataProcess.returnImageIcon();
+
+                                System.out.println("ImagePanelImageContent_class " + "imageWidth: " + SettingPanel.default_imageWidth + " imageHeight: " + SettingPanel.default_imageHeight);//delete later
+
+                                //loads generated images into the jlabel for the display
+                                for (int i = 0; i < ARRAY_INDEX; i++) {
+                                    holdImage[i].setIcon(null);
+                                    holdImage[i].setIcon(icon[i]);
+                                    holdImageLabel[i].add(holdImage[i]);
+                                    holdImageLabel[i].setBackground(colorLightGray);
+                                    hold_imagePanel[i].setBackground(colorLightGray);
+                                }
+
+
+
+                                SwingUtilities.invokeLater(new Runnable(){
+                                    public void run(){
+                                        btnGenerate.setText("Generate");
+                                    }
+                                });
+                            }
+                        };
+                        thread.start();
 
 
 
@@ -700,37 +723,10 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         dataProcess.setImageWidth(SettingPanel.default_imageWidth);
         dataProcess.setImageHeight(SettingPanel.default_imageHeight);
 
-        Thread thread = new Thread(){
-            public void run(){
-                for (int i = 0; i <= 100; i+=10)
-                {
-                    final int selection = i;
-                    SwingUtilities.invokeLater(new Runnable(){
-                        public void run(){
-                            btnGenerate.setText("loading.. "+selection+"%");
-
-                        }
-                    });
-                    try
-                    {
-                        Thread.sleep(100);
-                    }
-                    catch (InterruptedException e) {e.printStackTrace();}
-                }
-
-                //loads generated images into the imageIcon
-                dataProcess.setGeneration();
-                dataProcess.setFormula();
+        dataProcess.setGeneration();
+        dataProcess.setFormula();
 
 
-                SwingUtilities.invokeLater(new Runnable(){
-                    public void run(){
-                        btnGenerate.setText("Generate");
-                    }
-                });
-            }
-        };
-        thread.start();
 
 
 
