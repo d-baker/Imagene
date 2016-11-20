@@ -162,6 +162,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         /* end */
 
         JLabel labelImageOption=new JLabel("right click on the images for the options");
+        labelImageOption.setFont(new Font("Serif", Font.PLAIN, 10));
 
         setBorder(new EmptyBorder(10,40,10,10));
         setLayout(new GridBagLayout()); // layout type GridLayout
@@ -206,17 +207,17 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         constraint.gridy=7;
         add(settingButton,constraint);//set btnSave(button) to 0,6
 
-        constraint.weighty=2;
-        constraint.weightx=2;
+       // constraint.weighty=2;
+       // constraint.weightx=2;
         constraint.gridx=0;
         constraint.gridy=8;
         add(info,constraint);//set btnSave(button) to 0,6
 
-//        constraint.weighty=2;
-//        constraint.weightx=2;
-//        constraint.gridx=0;
-//        constraint.gridy=9;
-//        add(labelImageOption,constraint);//set btnSave(button) to 0,6
+        constraint.weighty=2;
+        constraint.weightx=2;
+        constraint.gridx=0;
+        constraint.gridy=9;
+        add(labelImageOption,constraint);//set btnSave(button) to 0,6
 
          /* calls and set setting panel  */
         setSettingPanel();
@@ -268,68 +269,163 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
          /*  event handler for save button  */
         btnSave.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae){
+            public void actionPerformed(ActionEvent ae) {
                 String textFieldValue1 = imageWidth.getText();
                 String textFieldValue2 = imageHeight.getText();
 
 
 
-                try {
-                    initial_imageWidth = Integer.parseInt(textFieldValue1);
-                    initial_imageHeight = Integer.parseInt(textFieldValue2);
-                    if ((initial_imageWidth >= 700) || (initial_imageHeight >= 700)) {
-                        JOptionPane.showMessageDialog(null, WARNING_IMAGE_SIZE);
-                        //label.setText("!!!!!warning..image with larger dimension will take longer to process ");
-                        //int i = JOptionPane.showConfirmDialog(null, "image with larger dimension will take longer to process...do you want to continue?", "", JOptionPane.YES_NO_OPTION);
+
+
+                    try {
+                        initial_imageWidth = Integer.parseInt(textFieldValue1);
+                        initial_imageHeight = Integer.parseInt(textFieldValue2);
+                        if (((initial_imageWidth >= 700) && (initial_imageWidth < 3000)) || ((initial_imageHeight >= 700) && (initial_imageHeight < 3000))) {
+                            JOptionPane.showMessageDialog(null, WARNING_IMAGE_SIZE);
+
+                        }
+
+
+                    System.out.println("Image width: " + initial_imageWidth);
+                    System.out.println("Image width: " + initial_imageHeight);
+
+                    if (coordSetting.equals("Cartesian")) {
+                        infoCoordinate.setText("Coordinate: " + "Cartesian");
                     }
-                } catch (NumberFormatException nfe) {
-                    warning.setText(WARNING_IMAGE_VALUE_EXCEEDS);
-                }
+                    if (coordSetting.equals("Polar")) {
+                        infoCoordinate.setText("Coordinate: " + "Polar");
+                    }
 
-                System.out.println("Image width: " + initial_imageWidth);
-                System.out.println("Image width: " + initial_imageHeight);
+                    if (symmetrySetting.equals("Symmetric")) {
+                        infoSymmetry.setText("Symmetry: " + "Symmetric");
+                    }
+                    if (symmetrySetting.equals("Asymmetric")) {
+                        infoSymmetry.setText("Symmetry: " + "Asymmetric");
+                    }
 
-                if (coordSetting.equals("Cartesian")) {
-                    infoCoordinate.setText("Coordinate: " + "Cartesian");
-                }
-                if (coordSetting.equals("Polar")) {
-                    infoCoordinate.setText("Coordinate: " + "Polar");
-                }
+                    infoImageWidth.setText("ImageWidth: " + String.valueOf(initial_imageWidth));
+                    infoImageHeight.setText("ImageHeight: " + String.valueOf(initial_imageHeight));
 
-                if (symmetrySetting.equals("Symmetric")) {
-                    infoSymmetry.setText("Symmetry: " + "Symmetric");
-                }
-                if (symmetrySetting.equals("Asymmetric")) {
-                    infoSymmetry.setText("Symmetry: " + "Asymmetric");
-                }
 
-                infoImageWidth.setText("ImageWidth: " +String.valueOf(initial_imageWidth));
-                infoImageHeight.setText("ImageHeight: " +String.valueOf(initial_imageHeight));
+                    if ((initial_imageWidth <= 0) || (initial_imageHeight <= 0)) {
+                        warning.setText(WARNING_IMAGE_VALUE);
+                        warning.setForeground(colorRed);
+                        initial_imageWidth = default_imageWidth;
+                        initial_imageHeight = default_imageHeight;
+                        infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
+                        infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
+                    } else if ((initial_imageWidth >= 3000) || (initial_imageHeight >= 3000)) {
+                        warning.setText(WARNING_IMAGE_VALUE_EXCEEDS);
+                        warning.setForeground(colorRed);
+                        initial_imageWidth = default_imageWidth;
+                        initial_imageHeight = default_imageHeight;
+                        infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
+                        infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
+                    } else {
+                        warning.setText(SAVED_USER_INPUT);
+                        warning.setForeground(colorBlue);
+                    }
 
-                if ((initial_imageWidth <=0)||(initial_imageHeight<=0)) {
-                    warning.setText(WARNING_IMAGE_VALUE);
-                    warning.setForeground(colorRed);
-                    initial_imageWidth = default_imageWidth;
-                    initial_imageHeight = default_imageHeight;
-                    infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
-                    infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
-                }
 
-                else {
-                    warning.setText(SAVED_USER_INPUT);
-                    warning.setForeground(colorBlue);
-                }
+                    default_imageWidth = initial_imageWidth;
+                    String hold1 = String.valueOf(initial_imageWidth);
 
-                default_imageWidth = initial_imageWidth;
-                String hold1=String.valueOf(initial_imageWidth);
+                    default_imageHeight = initial_imageHeight;
+                    String hold2 = String.valueOf(initial_imageHeight);
 
-                default_imageHeight = initial_imageHeight;
-                String hold2=String.valueOf(initial_imageHeight);
+                    btnDefault.setEnabled(true);
+                    writeUserSettingToXML(hold1, hold2); // function called
 
-                btnDefault.setEnabled(true);
-                writeUserSettingToXML(hold1,hold2); // function called
+                    } catch (NumberFormatException e) {
+                        warning.setText(WARNING_IMAGE_VALUE);
+                        warning.setForeground(colorRed);
+                    }
+
             }
         });
+        /* end */
+
+
+//        btnSave.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent ae){
+//                String textFieldValue1 = imageWidth.getText();
+//                String textFieldValue2 = imageHeight.getText();
+//
+//
+//
+//                try {
+//
+//                    if (((initial_imageWidth >= 700)&&(initial_imageWidth < 3000)) || ((initial_imageHeight >= 700) &&(initial_imageHeight < 3000))) {
+//                        JOptionPane.showMessageDialog(null, WARNING_IMAGE_SIZE);
+//                        //label.setText("!!!!!warning..image with larger dimension will take longer to process ");
+//                        //int i = JOptionPane.showConfirmDialog(null, "image with larger dimension will take longer to process...do you want to continue?", "", JOptionPane.YES_NO_OPTION);
+//                    }
+//                } catch (NumberFormatException nfe) {
+//                    warning.setText(WARNING_IMAGE_VALUE_EXCEEDS);
+//                }
+//
+//                System.out.println("Image width: " + initial_imageWidth);
+//                System.out.println("Image width: " + initial_imageHeight);
+//
+//                if (coordSetting.equals("Cartesian")) {
+//                    infoCoordinate.setText("Coordinate: " + "Cartesian");
+//                }
+//                if (coordSetting.equals("Polar")) {
+//                    infoCoordinate.setText("Coordinate: " + "Polar");
+//                }
+//
+//                if (symmetrySetting.equals("Symmetric")) {
+//                    infoSymmetry.setText("Symmetry: " + "Symmetric");
+//                }
+//                if (symmetrySetting.equals("Asymmetric")) {
+//                    infoSymmetry.setText("Symmetry: " + "Asymmetric");
+//                }
+//
+//                infoImageWidth.setText("ImageWidth: " +String.valueOf(initial_imageWidth));
+//                infoImageHeight.setText("ImageHeight: " +String.valueOf(initial_imageHeight));
+//
+//                if ((initial_imageWidth <=0)||(initial_imageHeight<=0)) {
+//                    warning.setText(WARNING_IMAGE_VALUE);
+//                    warning.setForeground(colorRed);
+//                    initial_imageWidth = default_imageWidth;
+//                    initial_imageHeight = default_imageHeight;
+//                    infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
+//                    infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
+//                }else
+//                if((initial_imageWidth >=3000)||(initial_imageHeight>=3000))
+//                {
+//                    warning.setText(WARNING_IMAGE_VALUE_EXCEEDS);
+//                    warning.setForeground(colorRed);
+//                    initial_imageWidth = default_imageWidth;
+//                    initial_imageHeight = default_imageHeight;
+//                    infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
+//                    infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
+//                }else
+//                    if((initial_imageWidth > 0)||(initial_imageWidth < 3000) || (initial_imageHeight >0)||(initial_imageHeight < 3000))
+//                    {
+//                        warning.setText(SAVED_USER_INPUT);
+//                        warning.setForeground(colorBlue);
+//                    }
+//
+//                else {
+//                        warning.setText(WARNING_IMAGE_VALUE);
+//                        warning.setForeground(colorRed);
+//                        initial_imageWidth = default_imageWidth;
+//                        initial_imageHeight = default_imageHeight;
+//                        infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
+//                        infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
+//                }
+//
+//                default_imageWidth = initial_imageWidth;
+//                String hold1=String.valueOf(initial_imageWidth);
+//
+//                default_imageHeight = initial_imageHeight;
+//                String hold2=String.valueOf(initial_imageHeight);
+//
+//                btnDefault.setEnabled(true);
+//                writeUserSettingToXML(hold1,hold2); // function called
+//            }
+//        });
         /* end */
 
 
