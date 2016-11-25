@@ -16,7 +16,8 @@ import java.io.File;
 import java.io.IOException;
 
 /*****************************************
- * Written by Avishkar Giri (s3346203) *
+ * Written by Avishkar Giri (s3346203)
+ * and Dorothea Baker (s3367422)
  * for
  * Programming Project 1
  * SP3 2016
