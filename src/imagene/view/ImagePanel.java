@@ -487,83 +487,13 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     label.setText("Please click to select 2 Images before generating.");
 
 
-                    if (sumOfTotalClicked == 2) {
-
-
-                        if ((count1 == 1) && (count2 == 1)) {
-
-                            dataProcess.initiateImages(0,1);
-                            setImagesToProcess(icon[0], icon[1],0,1);
-
-                            //imageHolder=new ImageHolder(0,1);
-                            //image_Contents = new ImagePanelImageContent(imageHolder);
-                        }
-
-                        if ((count1 == 1) && (count3 == 1)) {
-
-                            dataProcess.initiateImages(0,2);
-                            setImagesToProcess(icon[0], icon[2],0,2);
-
-                           // imageHolder=new ImageHolder(0,2);
-                          //  image_Contents = new ImagePanelImageContent(imageHolder);
-                        }
-
-                        if ((count1 == 1) && (count4 == 1)) {
-
-                            dataProcess.initiateImages(0,3);
-                            setImagesToProcess(icon[0], icon[3],0,3);
-
-                           // imageHolder=new ImageHolder(0,3);
-                           // image_Contents = new ImagePanelImageContent(imageHolder);
-                        }
-
-                        if ((count2 == 1) && (count3 == 1)) {
-
-                            dataProcess.initiateImages(1,2);
-                            setImagesToProcess(icon[1], icon[2],1,2);
-
-                           // imageHolder=new ImageHolder(0,2);
-                          //  image_Contents = new ImagePanelImageContent(imageHolder);
-                        }
-
-                        if ((count2 == 1) && (count4 == 1)) {
-
-                            dataProcess.initiateImages(1,3);
-                            setImagesToProcess(icon[1], icon[3],1,3);
-
-                           // imageHolder=new ImageHolder(1,3);
-                          //  image_Contents = new ImagePanelImageContent(imageHolder);
-                        }
-
-                        if ((count3 == 1) && (count4 == 1)) {
-
-                            dataProcess.initiateImages(2,3);
-                            setImagesToProcess(icon[2], icon[3],2,3);
-
-                           // imageHolder=new ImageHolder(2,3);
-                          //  image_Contents = new ImagePanelImageContent(imageHolder);
-                        }
-
-
-                        count1 = 0;
-                        count2 = 0;
-                        count3 = 0;
-                        count4 = 0;
-
-                        countImageClicked1 = 0;
-                        countImageClicked2 = 0;
-                        countImageClicked3 = 0;
-                        countImageClicked4 = 0;
-
-                        sumOfTotalClicked = 0;
-
-
 
 
 
 
                         Thread thread = new Thread(){
                             public void run(){
+                                System.out.println("in first run method");
                                 for (int i = 0; i <= 100; i+=10)
                                 {
                                     final int selection = i;
@@ -583,7 +513,82 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                                 SwingUtilities.invokeLater(new Runnable(){
                                     public void run(){
-                                        //loads generated images into the imageIcon
+                                        System.out.println("in second run method");
+
+                                        if (sumOfTotalClicked == 2) {
+
+
+                                            if ((count1 == 1) && (count2 == 1)) {
+
+                                                dataProcess.initiateImages(0, 1);
+                                                setImagesToProcess(icon[0], icon[1], 0, 1);
+
+                                                //imageHolder=new ImageHolder(0,1);
+                                                //image_Contents = new ImagePanelImageContent(imageHolder);
+                                            }
+
+                                            if ((count1 == 1) && (count3 == 1)) {
+
+                                                dataProcess.initiateImages(0, 2);
+                                                setImagesToProcess(icon[0], icon[2], 0, 2);
+
+                                                // imageHolder=new ImageHolder(0,2);
+                                                //  image_Contents = new ImagePanelImageContent(imageHolder);
+                                            }
+
+                                            if ((count1 == 1) && (count4 == 1)) {
+
+                                                dataProcess.initiateImages(0, 3);
+                                                setImagesToProcess(icon[0], icon[3], 0, 3);
+
+                                                // imageHolder=new ImageHolder(0,3);
+                                                // image_Contents = new ImagePanelImageContent(imageHolder);
+                                            }
+
+                                            if ((count2 == 1) && (count3 == 1)) {
+
+                                                dataProcess.initiateImages(1, 2);
+                                                setImagesToProcess(icon[1], icon[2], 1, 2);
+
+                                                // imageHolder=new ImageHolder(0,2);
+                                                //  image_Contents = new ImagePanelImageContent(imageHolder);
+                                            }
+
+                                            if ((count2 == 1) && (count4 == 1)) {
+
+                                                dataProcess.initiateImages(1, 3);
+                                                setImagesToProcess(icon[1], icon[3], 1, 3);
+
+                                                // imageHolder=new ImageHolder(1,3);
+                                                //  image_Contents = new ImagePanelImageContent(imageHolder);
+                                            }
+
+                                            if ((count3 == 1) && (count4 == 1)) {
+
+                                                dataProcess.initiateImages(2, 3);
+                                                setImagesToProcess(icon[2], icon[3], 2, 3);
+
+                                                // imageHolder=new ImageHolder(2,3);
+                                                //  image_Contents = new ImagePanelImageContent(imageHolder);
+                                            }
+
+
+                                            count1 = 0;
+                                            count2 = 0;
+                                            count3 = 0;
+                                            count4 = 0;
+
+                                            countImageClicked1 = 0;
+                                            countImageClicked2 = 0;
+                                            countImageClicked3 = 0;
+                                            countImageClicked4 = 0;
+
+                                            sumOfTotalClicked = 0;
+
+
+                                        }
+
+                                            //loads generated images into the imageIcon
 
                                         icon = dataProcess.returnImageIcon();
 
@@ -608,15 +613,7 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
 
 
-                    }
-
-
-
-
-
-                }
-
-                else {
+                    } else {
                     label.setText("!!!!!Invalid User Input.");
                 }
 
