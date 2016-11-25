@@ -11,6 +11,7 @@ import imagene.arithmeticParser.parserExceptions.InvalidArgumentException;
 import imagene.arithmeticParser.parserNodes.ArithmeticNode;
 import imagene.imagegen.api.*;
 import imagene.imagegen.api.interfaces.IProgramInterface;
+import imagene.imagegen.api.interfaces.ProgramInterface;
 import imagene.imagegen.manipulator.interfaces.IManipulator;
 import imagene.imagegen.models.PixelMatrix;
 import imagene.watchmaker.UnexpectedParentsException;

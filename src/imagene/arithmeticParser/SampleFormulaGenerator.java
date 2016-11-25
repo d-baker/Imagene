@@ -1,12 +1,8 @@
 /****************************
- * SampleFormulaGenerator   *
- *                          *
- * Created by Dorothea Baker*
- * for                      *
- * Programming Project 1    *
- * SP3 2016                 *
- *                          *
- * Used with permisson      *
+ * Written by Dorothea Baker (s3367422)
+ * for
+ * Programming Project 1
+ * SP3 2016
  ****************************/
 
 package imagene.arithmeticParser;

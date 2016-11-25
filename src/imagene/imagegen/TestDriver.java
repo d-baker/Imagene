@@ -24,7 +24,7 @@ public class TestDriver
 	
 	public static void main(String[] args) 
 	{
-		api = new imagene.imagegen.api.ProgramInterface();
+		api = new imagene.imagegen.api.interfaces.ProgramInterface();
 		p = api.CreatePolarImage(50, 50, 100, 100, new imagene.imagegen.manipulator.interfaces.IManipulator[] { (x, y) -> (x + y), (x, y) -> (x - y), (x, y) -> (x * y) });
 		
 		draw(p, p.getIntArray(), "x+y.png");

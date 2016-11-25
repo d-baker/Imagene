@@ -1,4 +1,4 @@
-package imagene.imagegen.api;
+package imagene.imagegen.api.interfaces;
 
 import imagene.imagegen.manipulator.interfaces.IManipulator;
 import imagene.imagegen.models.Pixel;
@@ -10,6 +10,7 @@ import imagene.imagegen.polar.models.PolarCoordinate;
 /*****************************************
  * Written by Callum McLennan (s3367407) *
  * and Dorothea Baker (s3367422)         *
+ * and Andrew Sanger (s3440468)          *
  * for                                   *
  * Programming Project 1                 *
  * SP3 2016                              *
@@ -31,14 +32,17 @@ public class ProgramInterface implements IProgramInterface
 		return CreateImage(x, y, new IManipulator[] {formula, formula, formula});
 	}
 	
+	// BUG FIXED - Andrew Sanger
+	//
+	// Fixed error where Polar Coordinates didn't work properly
 	@Override
 	public PixelMatrix CreateSymmetricalPolarImage(int xOrigin, int yOrigin, int x, int y, IManipulator[] channels)
 	{
 		PixelMatrix matrix = new PixelMatrix(x, y);
 		PolarCoordinate[][] pc = matrix.getPolarArray(xOrigin, yOrigin);
-
+		
 		PixelValueBoundary boundary = new PixelValueBoundary();
-
+		
 		for(int dimY = 0; dimY < y; dimY++)
 		{
 			for(int dimX = 0; dimX < x; dimX++)
@@ -46,10 +50,10 @@ public class ProgramInterface implements IProgramInterface
 				int symX = dimX;
 				if(dimX > x/2) symX = x/2 - (dimX - x/2);
 				
-				Pixel pixel = new Pixel(channels[0].manipulate(pc[symX][dimY].getTheta(), pc[symX][dimY].getRadius()), 
-						channels[1].manipulate(pc[symX][dimY].getTheta(), pc[symX][dimY].getRadius()), 
-						channels[2].manipulate(pc[symX][dimY].getTheta(), pc[symX][dimY].getRadius()));
-
+				Pixel pixel = new Pixel(channels[0].manipulate(pc[dimY][symX].getTheta(), pc[dimY][symX].getRadius()), 
+						channels[1].manipulate(pc[dimY][symX].getTheta(), pc[dimY][symX].getRadius()), 
+						channels[2].manipulate(pc[dimY][symX].getTheta(), pc[dimY][symX].getRadius()));
+				
 				double r, g, b;
 				r = pixel.r().value();
 				g = pixel.g().value();
@@ -67,9 +71,9 @@ public class ProgramInterface implements IProgramInterface
 				matrix.set(dimY, dimX, pixel);
 			}
 		}
-
+		
 		matrix = ScaleImage(matrix, boundary);
-
+		
 		return matrix;
 	}
 	
@@ -85,9 +89,9 @@ public class ProgramInterface implements IProgramInterface
 		{
 			for(int dimX = 0; dimX < x; dimX++)
 			{
-				Pixel pixel = new Pixel(channels[0].manipulate(pc[dimX][dimY].getTheta(), pc[dimX][dimY].getRadius()), 
-						channels[1].manipulate(pc[dimX][dimY].getTheta(), pc[dimX][dimY].getRadius()), 
-						channels[2].manipulate(pc[dimX][dimY].getTheta(), pc[dimX][dimY].getRadius()));
+				Pixel pixel = new Pixel(channels[0].manipulate(pc[dimY][dimX].getTheta(), pc[dimY][dimX].getRadius()), 
+						channels[1].manipulate(pc[dimY][dimX].getTheta(), pc[dimY][dimX].getRadius()), 
+						channels[2].manipulate(pc[dimY][dimX].getTheta(), pc[dimY][dimX].getRadius()));
 
 				double r, g, b;
 				r = pixel.r().value();
