@@ -580,25 +580,25 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                                     catch (InterruptedException e) {e.printStackTrace();}
                                 }
 
-                                //loads generated images into the imageIcon
-
-                                icon = dataProcess.returnImageIcon();
-
-                                System.out.println("ImagePanelImageContent_class " + "imageWidth: " + SettingPanel.default_imageWidth + " imageHeight: " + SettingPanel.default_imageHeight);//delete later
-
-                                //loads generated images into the jlabel for the display
-                                for (int i = 0; i < ARRAY_INDEX; i++) {
-                                    holdImage[i].setIcon(null);
-                                    holdImage[i].setIcon(icon[i]);
-                                    holdImageLabel[i].add(holdImage[i]);
-                                    holdImageLabel[i].setBackground(colorLightGray);
-                                    hold_imagePanel[i].setBackground(colorLightGray);
-                                }
-
-
 
                                 SwingUtilities.invokeLater(new Runnable(){
                                     public void run(){
+                                        //loads generated images into the imageIcon
+
+                                        icon = dataProcess.returnImageIcon();
+
+                                        System.out.println("ImagePanelImageContent_class " + "imageWidth: " + SettingPanel.default_imageWidth + " imageHeight: " + SettingPanel.default_imageHeight);//delete later
+
+                                        //loads generated images into the jlabel for the display
+                                        for (int i = 0; i < ARRAY_INDEX; i++) {
+                                            holdImage[i].setIcon(null);
+                                            holdImage[i].setIcon(icon[i]);
+                                            holdImageLabel[i].add(holdImage[i]);
+                                            holdImageLabel[i].setBackground(colorLightGray);
+                                            hold_imagePanel[i].setBackground(colorLightGray);
+                                        }
+
+
                                         btnGenerate.setText("Generate");
                                     }
                                 });
