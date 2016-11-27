@@ -8,8 +8,6 @@ import imagene.arithmeticParser.ParserInterface;
 import imagene.arithmeticParser.SampleFormulaGenerator;
 import imagene.arithmeticParser.parserExceptions.IncorrectVariablesException;
 import imagene.arithmeticParser.parserExceptions.InvalidArgumentException;
-import imagene.arithmeticParser.parserNodes.ArithmeticNode;
-import imagene.imagegen.api.*;
 import imagene.imagegen.api.interfaces.IProgramInterface;
 import imagene.imagegen.api.interfaces.ProgramInterface;
 import imagene.imagegen.manipulator.interfaces.IManipulator;
@@ -43,13 +41,14 @@ public class ImageneViewModel
 			new Random().nextInt(10)
 	};
 
+	private List<ArrayList<Node>> currentPopulation = new ArrayList<ArrayList<Node>>();
+
 
 	private ImageneViewModel() {
 		imageGen = new ProgramInterface();
 		parser = ParserInterface.getInstance();
 		watchmaker = new Watchmaker<Node>(populationSize);
 		dummyWatchmaker = new SampleFormulaGenerator();
-		System.out.println("RANDOM NUMBERS: " + randomNumbers.toString());
 	}
 
 	public static ImageneViewModel getInstance()
@@ -62,12 +61,12 @@ public class ImageneViewModel
 
 	public List<PixelMatrix> getPopulation(int width, int height, String coordType, String symmetryType) throws InvalidArgumentException, IncorrectVariablesException
 	{
+		System.out.println(">>>>>>POPULATION<<<<<");
+
 		ArrayList<PixelMatrix> matrices = new ArrayList<PixelMatrix>();
 
 		List<Node> nodes = watchmaker.getPopulation();
 		ArrayList<ArrayList<Node>> formulas = new ArrayList<ArrayList<Node>>();
-
-		System.out.println(">>>>>>POPULATION<<<<<");
 
 		for(int curNode = 0; curNode < nodes.size() / 3; curNode++)
 		{
@@ -76,13 +75,13 @@ public class ImageneViewModel
 			for (int channel = curNode * 3; channel < (curNode * 3) + 3; channel++) {
 				Node n = nodes.get(channel);
 				System.out.println(n.toString());
-
 				colorChannels.add(n);
 			}
 
 			formulas.add(colorChannels);
 		}
 
+		currentPopulation = formulas;
 
 		for (int a = 0; a < formulas.size(); a++) {
 			ArrayList<Node> colorChannels = formulas.get(a);
@@ -147,6 +146,20 @@ public class ImageneViewModel
 */
 
 		return matrices;
+	}
+
+	public String[][] getFormulaStrings() {
+		int channels = 3;
+		int images = currentPopulation.size();
+		String[][] formulas = new String[images][channels];
+
+		for(int curFormula = 0; curFormula < images; curFormula++) {
+			for (int channel = 0; channel < 3; channel++) {
+				formulas[curFormula][channel] = currentPopulation.get(curFormula).get(channel).toString();
+			}
+		}
+
+		return formulas;
 	}
 
 	public void chooseWinners(int[] winners)
