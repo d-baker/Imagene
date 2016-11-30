@@ -26,7 +26,9 @@ import imagene.watchmaker.gp.node.*;
 public class Parameter extends LeafNode
 {
     private final int parameterIndex;
-    String[] paramTypes = new String[] {"x", "y", "rand1", "rand2", "rand3"};
+    //String[] paramTypes = new String[] {"x", "y", "rand1", "rand2", "rand3"};
+    String[] paramTypes = new String[] {"x", "y"};
+
 
     /**
      * @param parameterIndex Which of the program's (zero-indexed) parameter

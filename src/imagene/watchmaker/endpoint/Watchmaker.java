@@ -37,7 +37,7 @@ public class Watchmaker<T> {
         int parameterCount, maxDepth;
         Probability oneArgFuncProb, paramProb, constantProb;
 
-		parameterCount = 5;
+		parameterCount = 2;
 		maxDepth = 5;
         oneArgFuncProb = new Probability(0.3);
         paramProb = new Probability(0.3);

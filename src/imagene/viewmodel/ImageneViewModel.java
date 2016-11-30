@@ -91,9 +91,14 @@ public class ImageneViewModel
 
 			try {
 				IManipulator[] channels = new IManipulator[] {
+						/*
 						(x, y) -> r.evaluate(new double[] {x, y, randomNumbers[0], randomNumbers[1], randomNumbers[2]}),
 						(x, y) -> g.evaluate(new double[] {x, y, randomNumbers[0], randomNumbers[1], randomNumbers[2]}),
 						(x, y) -> b.evaluate(new double[] {x, y, randomNumbers[0], randomNumbers[1], randomNumbers[2]})
+						*/
+						(x, y) -> r.evaluate(new double[] {x, y}),
+						(x, y) -> g.evaluate(new double[] {x, y}),
+						(x, y) -> b.evaluate(new double[] {x, y})
 				};
 
 				PixelMatrix pixelMatrix;

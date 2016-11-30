@@ -116,17 +116,18 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
 
             if (oneArgFunctionProbability.nextEvent(rng)) {
 
-                switch (rng.nextInt(7))
+                switch (rng.nextInt(5))
                 {
+                    /*
                     case 0: return new Cos(makeNode(rng, maxDepth));
                     case 1: return new Tan(makeNode(rng, maxDepth));
                     case 2: return new Sin(makeNode(rng, maxDepth));
 
-
-                    case 3: return new Square(makeNode(rng, maxDepth));
-                    case 4: return new SquareRoot(makeNode(rng, maxDepth));
-                    case 5: return new Cube(makeNode(rng, maxDepth));
-                    case 6: return new CubeRoot(makeNode(rng, maxDepth));
+*/
+                    case 0: return new Square(makeNode(rng, maxDepth));
+                    case 1: return new SquareRoot(makeNode(rng, maxDepth));
+                    case 2: return new Cube(makeNode(rng, maxDepth));
+                    case 3: return new CubeRoot(makeNode(rng, maxDepth));
                     default: return new Log(makeNode(rng, maxDepth));
                 }
 
@@ -136,8 +137,8 @@ public class TreeFactory extends AbstractCandidateFactory<Node>
                 {
                     case 0: return new Addition(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
                     case 1: return new Subtraction(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
-                    case 3: return new Division(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
-                    case 4: return new Multiplication(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
+                    case 2: return new Division(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
+                    case 3: return new Multiplication(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
                     default: return new Circle(makeNode(rng, maxDepth), makeNode(rng, maxDepth));
                 }
             }
