@@ -176,7 +176,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                 super.mouseReleased(e);
                 if(SwingUtilities.isRightMouseButton(e))
                 {
-                    System.out.println("image 1 right-clicked");  //delete later
                     holdMenuItemsImage1.show( holdImage[0],e.getX(),e.getY());
                 }
             }
@@ -298,8 +297,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         holdImage[0].addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (count1 == 0) {
-                    System.out.println("count is: " + count);
-
                     if ((e.getClickCount() == 1)) {
                         ++count;
 
@@ -313,23 +310,19 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         //e.consume();
                         count1=1;
-                        System.out.println("image1 pressed " );
                         countImageClicked1=1;
 
-                        System.out.println("count is: " +count);
                         // set image to process stringImage1="image1";
                     }
                 } else {
                     hold_imagePanel[0].setBackground(colorLightGray);
                     holdImageLabel[0].setBackground(colorLightGray);
                     count1 = 0;
-                    System.out.println("image1 is unchecked ");
                     countImageClicked1 = 0;
 
                     --count;
 
                     validateSelection(count);
-                    System.out.println("count is: " + count);
 
                 }
 
@@ -339,8 +332,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         holdImage[1].addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (count2 == 0) {
-                    System.out.println("count is: " + count);
-
                     if ((e.getClickCount() == 1)) {
                         ++count;
 
@@ -348,12 +339,9 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         hold_imagePanel[1].setBackground(colorWhite);
                         holdImageLabel[1].setBackground(colorWhite);
-                        //e.consume();
                         count2=1;
-                        System.out.println("image2 pressed " );
                         countImageClicked2=1;
 
-                        System.out.println("count is: " +count);
                         // set image to process stringImage1="image1";
                     }
 
@@ -361,14 +349,12 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     hold_imagePanel[1].setBackground(colorLightGray);
                     holdImageLabel[1].setBackground(colorLightGray);
                     count2 = 0;
-                    System.out.println("image2 is unchecked ");
                     countImageClicked2 = 0;
 
                     --count;
 
                     validateSelection(count);
 
-                    System.out.println("count is: " + count);
                 }
             }
         });
@@ -384,12 +370,9 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         hold_imagePanel[2].setBackground(colorWhite);
                         holdImageLabel[2].setBackground(colorWhite);
-                       // e.consume();
                         count3=1;
-                        System.out.println("image3 pressed " );
                         countImageClicked3=1;
 
-                        System.out.println("count is: " +count);
                         // set image to process stringImage1="image1";
 
                     }
@@ -397,13 +380,11 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     hold_imagePanel[2].setBackground(colorLightGray);
                     holdImageLabel[2].setBackground(colorLightGray);
                     count3 = 0;
-                    System.out.println("image3 is unchecked ");
                     countImageClicked3 = 0;
 
                     --count;
 
                     validateSelection(count);
-                    System.out.println("count is: " + count);
                 }
             }
         });
@@ -419,12 +400,9 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         hold_imagePanel[3].setBackground(colorWhite);
                         holdImageLabel[3].setBackground(colorWhite);
-                      //  e.consume();
                         count4=1;
-                        System.out.println("image4 pressed " );
                         countImageClicked4=1;
 
-                        System.out.println("count is: " +count);
                         // set image to process stringImage1="image1";
 
                     }
@@ -432,14 +410,11 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                     hold_imagePanel[3].setBackground(colorLightGray);
                     holdImageLabel[3].setBackground(colorLightGray);
                     count4 = 0;
-                    System.out.println("image4 is unchecked ");
                     countImageClicked4 = 0;
 
                     --count;
 
                     validateSelection(count);
-
-                    System.out.println("count is: " + count);
                 }
             }
         });
@@ -486,7 +461,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                         Thread thread = new Thread(){
                             public void run(){
-                                System.out.println("in first run method");
                                 for (int i = 0; i <= 100; i+=10)
                                 {
                                     final int selection = i;
@@ -506,8 +480,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
                                 SwingUtilities.invokeLater(new Runnable(){
                                     public void run(){
-                                        System.out.println("in second run method");
-
                                         if (sumOfTotalClicked == 2) {
 
                                             processImagesWhenSelectionIs2();
@@ -523,8 +495,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
                                         //loads generated images into the imageIcon
 
                                         icon = dataProcess.returnImageIcon();
-
-                                        System.out.println("ImagePanelImageContent_class " + "imageWidth: " + SettingPanel.default_imageWidth + " imageHeight: " + SettingPanel.default_imageHeight);//delete later
 
                                         //loads generated images into the jlabel for the display
                                         for (int i = 0; i < ARRAY_INDEX; i++) {
@@ -678,8 +648,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
   // save user selected images to the preferred location(hard drive)
 
     public void saveImage(ImageIcon image, JPanel panel) {
-        System.out.println("saved");
-
         BufferedImage imageToSave = new BufferedImage(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = imageToSave.createGraphics();
         ImageIcon imageIcon = resize(image);
@@ -717,57 +685,47 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
             String temp=file.toString()+".png";
             File fileWriter=new File(temp);
 
-            // call functions writeDataToPNG to write imageAlgorithm to the image file
-
-            if(image==icon[0])
-            {
-
-                try {
-                    System.out.println("image is 0");
-                    // imageToSave= dataProcess.writeAlgorithmToPNG(imageToSave,"image"+"0", temp1[0]); // calls writeDataToPNG function to write metadata
-                    dataProcess.writeAlgorithmToPNG(fileWriter,imageToSave,"image"+"0", temp1[0]);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else
-            if(image==icon[1]){
-
-                try {
-                    System.out.println("image is 1");
-                    // imageToSave= dataProcess.writeAlgorithmToPNG(imageToSave,"image"+"1", temp1[1]); // calls writeDataToPNG function to write metadata
-                    dataProcess.writeAlgorithmToPNG(fileWriter,imageToSave,"image"+"1", temp1[1]); // calls writeDataToPNG function to write metadata
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else
-            if(image==icon[2]){
-                try {
-                    System.out.println("image is 2");
-                    // imageToSave= dataProcess.writeAlgorithmToPNG(imageToSave,"image"+"2", temp1[2]); // calls writeDataToPNG function to write metadata
-                    dataProcess.writeAlgorithmToPNG(fileWriter,imageToSave,"image"+"2", temp1[2]); // calls writeDataToPNG function to write metadata
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else
-            if(image==icon[3]){
-                try {
-                    System.out.println("image is 3");
-                    //imageToSave= dataProcess.writeAlgorithmToPNG(imageToSave,"image"+"3", temp1[3]); // calls writeDataToPNG function to write metadata
-                    dataProcess.writeAlgorithmToPNG(fileWriter,imageToSave,"image"+"3", temp1[3]); // calls writeDataToPNG function to write metadata
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }else
-            {
-                System.out.println("invalid process");
-            }
-
-
-
-
             try {
                 ImageIO.write(imageToSave, "png", fileWriter);
+
+                // call functions writeDataToPNG to write imageAlgorithm to the image file
+
+                if(image==icon[0])
+                {
+
+                    try {
+                        dataProcess.writeAlgorithmToPNG(fileWriter,imageToSave,"image"+"0", temp1[0]); // calls writeDataToPNG function to write metadata
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else
+                if(image==icon[1]){
+
+                    try {
+                        dataProcess.writeAlgorithmToPNG(fileWriter,imageToSave,"image"+"1", temp1[1]); // calls writeDataToPNG function to write metadata
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else
+                if(image==icon[2]){
+                    try {
+                        dataProcess.writeAlgorithmToPNG(fileWriter,imageToSave,"image"+"2", temp1[2]); // calls writeDataToPNG function to write metadata
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else
+                if(image==icon[3]){
+                    try {
+                        dataProcess.writeAlgorithmToPNG(fileWriter,imageToSave,"image"+"3", temp1[3]); // calls writeDataToPNG function to write metadata
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else
+                {
+                    System.out.println("invalid process");
+                }
+
 
             } catch (IOException e) {
 
@@ -784,8 +742,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
 
     public void fullImage(ImageIcon image)
     {
-        System.out.println("full_size");
-
         ImageIcon temp=resize(image);
         JPanel panel=new JPanel();
 
@@ -797,8 +753,6 @@ public class ImagePanel extends JPanel implements ConstantArrayField {
         panel.setPreferredSize(new Dimension(SettingPanel.default_imageWidth, SettingPanel.default_imageHeight));
         panel.add(label);
         JScrollPane scrollPane=new JScrollPane(panel);
-        System.out.println("width in image window: " + SettingPanel.default_imageWidth);
-        System.out.println("height in image window: " + SettingPanel.default_imageHeight);
         JFrame frameShowImageInLargeSize=new JFrame("Full Size");
 
         frameShowImageInLargeSize.add(scrollPane);

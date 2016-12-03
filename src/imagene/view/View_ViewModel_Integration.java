@@ -37,7 +37,6 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     private int x;
     private int y;
     private ImageneViewModelObject object;
-    private String holdReturnData="";
 
     private BufferedImage[] image=new BufferedImage[ARRAY_INDEX];
     private ImageIcon [] imageIcon=new ImageIcon[ARRAY_INDEX];
@@ -245,20 +244,14 @@ public class View_ViewModel_Integration implements ConstantArrayField{
 
    // writes image generating algorithm to the image file
     public BufferedImage writeAlgorithmToPNG(File file,BufferedImage image, String key, String value) throws Exception {
-
-
         String fileExtension = file.toString();
-        System.out.println("the file path is " +fileExtension);
 
         BufferedImage returnImage=image;
         BufferedWriter bufferWriter = null;
         String imageAlgorithm=key+" "+value;
-        System.out.println("the value is " +imageAlgorithm);
 
         try {
             bufferWriter = new BufferedWriter(new FileWriter(file, true));
-            //bufferWriter = new BufferedWriter(new FileWriter(fileExtension, true));
-            System.out.println("the value is test: " +bufferWriter.toString());
             bufferWriter.write(imageAlgorithm);
             bufferWriter.newLine();
             bufferWriter.flush();
@@ -279,37 +272,20 @@ public class View_ViewModel_Integration implements ConstantArrayField{
         try {
 
             fileReader = new FileReader(file);
-            bufferedReader = new BufferedReader(fileReader);
-
-            String readAlgorithm;
-
             bufferedReader = new BufferedReader(new FileReader(file));
 
-            while ((readAlgorithm = bufferedReader.readLine()) != null) {
-                System.out.println(readAlgorithm);
-            }
+            if (bufferedReader != null)
+                bufferedReader.close();
 
-        } catch (IOException e) {
+            if (fileReader != null)
+                fileReader.close();
 
-            e.printStackTrace();
+        } catch (IOException ex) {
 
-        } finally {
-
-            try {
-
-                if (bufferedReader != null)
-                    bufferedReader.close();
-
-                if (fileReader != null)
-                    fileReader.close();
-
-            } catch (IOException ex) {
-
-                ex.printStackTrace();
-
-            }
+            ex.printStackTrace();
 
         }
+
 
 
         return returnImage;
