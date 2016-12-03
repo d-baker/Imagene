@@ -10,7 +10,7 @@
 # This script is intended for those who wish to compile and run the project without using an IDE. It should work on any unix operating system.
 
 # compile all classes
-find -name "*.java" > sources.txt
+find . -name "*.java" > sources.txt
 javac -cp .:lib/* @sources.txt
 
 # create jar file
