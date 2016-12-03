@@ -154,7 +154,7 @@ public abstract class MainFrame extends JFrame implements ConstantArrayField
                 }
                 tempOutput.toFile().deleteOnExit();
                 System.out.println("tempFolder: " + tempOutput);
-                try (InputStream readFile = ResourceLoader.load("userManual.pdf")) {
+                try (InputStream readFile = ResourceLoader.load("resources/userManual.pdf")) {
                     Files.copy(readFile, tempOutput, StandardCopyOption.REPLACE_EXISTING);
                 } catch (IOException ex) {
                     ex.printStackTrace();
