@@ -18,11 +18,13 @@ package imagene.view;//=========================================================
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.io.File;
+import java.awt.event.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 /**
  * GUI base class from original watchmaker example code.
@@ -107,11 +109,6 @@ public abstract class MainFrame extends JFrame implements ConstantArrayField
         JMenu help=new JMenu("Help");
         JMenuItem close=new JMenuItem("Close");
 
-        /*
-        File directory = new File("temp/ImageEvolver");
-        directory.mkdirs();
-        File tmp = new File(directory, "UserSettings.xml");
-        */
 
         close.setMnemonic(KeyEvent.VK_Q);
         close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
@@ -126,17 +123,55 @@ public abstract class MainFrame extends JFrame implements ConstantArrayField
         JMenuItem about=new JMenuItem("About");
         JMenuItem instruction=new JMenuItem("Instruction");
 
+
+        //event handler for about
         about.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
+                UIManager UI=new UIManager();
+                UI.put("OptionPane.background", Color.white);
+                UI.put("Panel.background", Color.white);
+
                 JOptionPane.showMessageDialog(null, APP_ABOUT,"About",JOptionPane.INFORMATION_MESSAGE);
+
+
             }
         });
+        //end
 
+
+
+        //event handler for instruction
+        //this will creates temp folder and copy's pdf file from this file into the temp folder
+        //the program will open the pdf file located inside the temp folder
         instruction.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, APP_INSTRUCTION,"Instruction",JOptionPane.INFORMATION_MESSAGE);
+
+                Path tempOutput = null;
+                try {
+                    tempOutput = Files.createTempFile("tempFolder", ".pdf");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                tempOutput.toFile().deleteOnExit();
+                System.out.println("tempFolder: " + tempOutput);
+                try (InputStream readFile = ResourceLoader.load("userManual.pdf")) {
+                    Files.copy(readFile, tempOutput, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                catch(NullPointerException e)
+                {
+                    JOptionPane.showMessageDialog(null, APP_INSTRUCTION, "Instruction", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                try {
+                    Desktop.getDesktop().open(tempOutput.toFile());
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, APP_INSTRUCTION, "Instruction", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
+        //end
 
         file.add(close);
         help.add(about);

@@ -18,7 +18,7 @@ public class ImagePanelLabel extends JPanel implements ConstantArrayField {
     {
         setPreferredSize(new Dimension(500,300));
         setBackground(colorLightGray);
-        label=new JLabel("Please click to select 2 Images before generating.");
+        label=new JLabel("Please click to select either 2 Images or 1 image before generating.");
         add(label);
 
         setLayout(new GridBagLayout());
@@ -27,7 +27,7 @@ public class ImagePanelLabel extends JPanel implements ConstantArrayField {
         constraint.anchor=GridBagConstraints.LINE_START;
         constraint.weightx=0.5;
         constraint.weighty=0.5;
-        constraint.insets=new Insets(0,130,0,0);
+        constraint.insets=new Insets(0,100,0,0);
 
         constraint.gridx=0;
         constraint.gridy=0;

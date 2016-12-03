@@ -47,8 +47,20 @@ public interface ConstantArrayField {
             "\n" +
             "Right mouse click when the cursor is on the image will pop open options to save image or view that image in full size.\n";
 
-    public static final String APP_ABOUT="Testing testing testing Testing testing testing \n" +
-            "Testing testing testing Testing testing testing Testing testing testing Testing\n testing testing Testing testing testing" +
-            " Testing testing testing Testing testing\n testing Testing testing testing Testing\n testing testing" +
-            " Testing testing testingTesting \ntesting testing Testing testing testing";
+    public static final String APP_ABOUT="<html><p>IMAGENE\n" +
+            "This program was created utilising a  genetic programming algorithm with the purpose of generating aesthetically  appealing and interesting images. \n" +
+            "\n\n" +
+            "HOW IT WORKS\n" +
+            "When the application first opens, the  program utilises the genetic programming framework Watchmaker to randomly  generate a population of 12\n" +
+            "mathematical formulas, which are then used to  generate the RGB pixel color values for 4 images that are displayed to the  user. Users then have\n" +
+            "the opportunity to select  either one or two of their favourite images before clicking Generate to get a  new set of images.Should they choose a \n" +
+            "single image, the next  generation of images will consist of the selected image (the parent) plus 3 new  images created by randomly mutating the parent.\n" +
+            "If the user selects two favourite  images,  the next generation will consist  of the two selected parents plus 2 new images created by breeding the 2  \n" +
+            "parents.By choosing the most interesting images in  the population, the most visually pleasing images should evolve.\n" +
+            "\n\n" +
+            "CREDITS\n" +
+            "Avishkar Giri, Andrew Sanger, Callum  McLennan, Dorothea Baker and Monique O'Reilly";
+
+
+
 }

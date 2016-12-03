@@ -5,7 +5,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
@@ -22,8 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.InputStream;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
+
 
 /*****************************************
  * Written by Avishkar Giri (s3346203)
@@ -121,7 +119,6 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         this.btnDefault.setEnabled(false);
 
         warning=new JLabel();
-        //warning.setForeground(colorRed);
         warning.setForeground(colorBlue);
 
         insertPixelValue=new JLabel();
@@ -175,49 +172,47 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         constraint.gridx=0;
         constraint.gridy=0;
-        add(labelCoordinate,constraint); //set labelCoordinate to 0,0
+        add(labelCoordinate,constraint);
 
         constraint.gridx=0;
         constraint.gridy=1;
-        add(coordinate,constraint);//set radioButtonCartesian to 0,1
-
+        add(coordinate,constraint);
 
         constraint.gridx=0;
         constraint.gridy=2;
-        add(labelSymmetry,constraint);//set labelSymmetry to 0,2
+        add(labelSymmetry,constraint);
 
         constraint.gridx=0;
         constraint.gridy=3;
-        add(symmetry,constraint);//set radioButtonSymmetric to 0,3
+        add(symmetry,constraint);
 
 
         constraint.gridx=0;
         constraint.gridy=4;
-        add(labelDimension,constraint);//set labelDimension to 0,4
+        add(labelDimension,constraint);
 
         constraint.gridx=0;
         constraint.gridy=5;
-        add(imageDimension,constraint);//set imageWidth(text field) to 0,5
+        add(imageDimension,constraint);
 
         constraint.gridx=0;
         constraint.gridy=6;
-        add(warning,constraint);//set imageWidth(text field) to 0,5
+        add(warning,constraint);
 
         constraint.gridx=0;
         constraint.gridy=7;
-        add(settingButton,constraint);//set btnSave(button) to 0,6
+        add(settingButton,constraint);
 
-       // constraint.weighty=2;
-       // constraint.weightx=2;
+
         constraint.gridx=0;
         constraint.gridy=8;
-        add(info,constraint);//set btnSave(button) to 0,6
+        add(info,constraint);
 
         constraint.weighty=2;
         constraint.weightx=2;
         constraint.gridx=0;
         constraint.gridy=9;
-        add(labelImageOption,constraint);//set btnSave(button) to 0,6
+        add(labelImageOption,constraint);
 
          /* calls and set setting panel  */
         setSettingPanel();
@@ -238,6 +233,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         /* set user setting from xml file */
         readUserSettingFromXML();
+
 
         if (defaultCoordinate.equals("Cartesian")) {
             radioButtonCartesian.setSelected(true);
@@ -268,14 +264,11 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         warning.setText("press ok to save new user settings");
 
          /*  event handler for save button  */
+         //  validate user input
         btnSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 String textFieldValue1 = imageWidth.getText();
                 String textFieldValue2 = imageHeight.getText();
-
-
-
-
 
                     try {
                         initial_imageWidth = Integer.parseInt(textFieldValue1);
@@ -346,87 +339,6 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         /* end */
 
 
-//        btnSave.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent ae){
-//                String textFieldValue1 = imageWidth.getText();
-//                String textFieldValue2 = imageHeight.getText();
-//
-//
-//
-//                try {
-//
-//                    if (((initial_imageWidth >= 700)&&(initial_imageWidth < 3000)) || ((initial_imageHeight >= 700) &&(initial_imageHeight < 3000))) {
-//                        JOptionPane.showMessageDialog(null, WARNING_IMAGE_SIZE);
-//                        //label.setText("!!!!!warning..image with larger dimension will take longer to process ");
-//                        //int i = JOptionPane.showConfirmDialog(null, "image with larger dimension will take longer to process...do you want to continue?", "", JOptionPane.YES_NO_OPTION);
-//                    }
-//                } catch (NumberFormatException nfe) {
-//                    warning.setText(WARNING_IMAGE_VALUE_EXCEEDS);
-//                }
-//
-//                System.out.println("Image width: " + initial_imageWidth);
-//                System.out.println("Image width: " + initial_imageHeight);
-//
-//                if (coordSetting.equals("Cartesian")) {
-//                    infoCoordinate.setText("Coordinate: " + "Cartesian");
-//                }
-//                if (coordSetting.equals("Polar")) {
-//                    infoCoordinate.setText("Coordinate: " + "Polar");
-//                }
-//
-//                if (symmetrySetting.equals("Symmetric")) {
-//                    infoSymmetry.setText("Symmetry: " + "Symmetric");
-//                }
-//                if (symmetrySetting.equals("Asymmetric")) {
-//                    infoSymmetry.setText("Symmetry: " + "Asymmetric");
-//                }
-//
-//                infoImageWidth.setText("ImageWidth: " +String.valueOf(initial_imageWidth));
-//                infoImageHeight.setText("ImageHeight: " +String.valueOf(initial_imageHeight));
-//
-//                if ((initial_imageWidth <=0)||(initial_imageHeight<=0)) {
-//                    warning.setText(WARNING_IMAGE_VALUE);
-//                    warning.setForeground(colorRed);
-//                    initial_imageWidth = default_imageWidth;
-//                    initial_imageHeight = default_imageHeight;
-//                    infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
-//                    infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
-//                }else
-//                if((initial_imageWidth >=3000)||(initial_imageHeight>=3000))
-//                {
-//                    warning.setText(WARNING_IMAGE_VALUE_EXCEEDS);
-//                    warning.setForeground(colorRed);
-//                    initial_imageWidth = default_imageWidth;
-//                    initial_imageHeight = default_imageHeight;
-//                    infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
-//                    infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
-//                }else
-//                    if((initial_imageWidth > 0)||(initial_imageWidth < 3000) || (initial_imageHeight >0)||(initial_imageHeight < 3000))
-//                    {
-//                        warning.setText(SAVED_USER_INPUT);
-//                        warning.setForeground(colorBlue);
-//                    }
-//
-//                else {
-//                        warning.setText(WARNING_IMAGE_VALUE);
-//                        warning.setForeground(colorRed);
-//                        initial_imageWidth = default_imageWidth;
-//                        initial_imageHeight = default_imageHeight;
-//                        infoImageWidth.setText("ImageWidth: " + String.valueOf(default_imageWidth));
-//                        infoImageHeight.setText("ImageHeight: " + String.valueOf(default_imageHeight));
-//                }
-//
-//                default_imageWidth = initial_imageWidth;
-//                String hold1=String.valueOf(initial_imageWidth);
-//
-//                default_imageHeight = initial_imageHeight;
-//                String hold2=String.valueOf(initial_imageHeight);
-//
-//                btnDefault.setEnabled(true);
-//                writeUserSettingToXML(hold1,hold2); // function called
-//            }
-//        });
-        /* end */
 
 
         default_Coordinate=defaultCoordinate;
@@ -435,7 +347,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         defaultImageWidth=default_imageWidth;
 
         /* event handler for default button */
-
+         // sets user input to the last settings (settings  the app had before it was closed)
 
               btnDefault.addActionListener(new ActionListener() {
                   public void actionPerformed(ActionEvent ae) {
@@ -486,6 +398,8 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         radioButtonAsymmetric.addActionListener(radioButtonActionListener_Symmetry);
     }
 
+
+    //checks for coordinate and symmetry type
     ActionListener radioButtonActionListener_Coordinate = new ActionListener() {
         public void actionPerformed(ActionEvent actionEvent) {
             AbstractButton aButton = (AbstractButton) actionEvent.getSource();
@@ -512,6 +426,10 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         }
     };
 
+    //read user settings from xml
+    //system looks for the stored file in the local hard drive
+    //if not found, system reads from default value
+
     public void readUserSettingFromXML() {
         String sys = System.getProperty("user.home");
         String userSetting_fileName="UserSettings.xml";
@@ -520,6 +438,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         String operatingSys_name=System.getProperty("os.name").toLowerCase();
         System.out.println(operatingSys_name);
 
+        //checks for operating system type
         if (operatingSys_name.indexOf("win") >= 0) {
 
 
@@ -566,7 +485,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
 
     }
-
+    //end
 
 
     public void passObjectToReadFromXML(Document doc) {
@@ -625,6 +544,9 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
         }
     }
 
+
+    //write user settings data to the xml file
+    //if system doesn't find any file..it will create a new file and save the settings into that file
     public boolean writeUserSettingToXML(String imageWidth,String imageHeight) {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = null;
@@ -735,7 +657,7 @@ public class SettingPanel extends JPanel implements ConstantArrayField {
 
         return true;
     }
-
+  //end
 
 
 }

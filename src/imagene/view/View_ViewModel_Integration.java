@@ -1,9 +1,4 @@
 package imagene.view;
-import imagene.arithmeticParser.parserExceptions.IncorrectVariablesException;
-import imagene.arithmeticParser.parserExceptions.InvalidArgumentException;
-import imagene.imagegen.models.PixelMatrix;
-import imagene.viewmodel.ImageneViewModel;
-import imagene.watchmaker.UnexpectedParentsException;
 
 /*****************************************
  * Written by Avishkar Giri (s3346203),
@@ -15,11 +10,17 @@ import imagene.watchmaker.UnexpectedParentsException;
  ****************************************/
 
 
+import imagene.arithmeticParser.parserExceptions.IncorrectVariablesException;
+import imagene.arithmeticParser.parserExceptions.InvalidArgumentException;
+import imagene.imagegen.models.PixelMatrix;
+import imagene.viewmodel.ImageneViewModel;
+import imagene.watchmaker.UnexpectedParentsException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.List;
-import java.util.Set;
+
 
 
 public class View_ViewModel_Integration implements ConstantArrayField{
@@ -36,12 +37,15 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     private int x;
     private int y;
     private ImageneViewModelObject object;
+    private String holdReturnData="";
 
     private BufferedImage[] image=new BufferedImage[ARRAY_INDEX];
     private ImageIcon [] imageIcon=new ImageIcon[ARRAY_INDEX];
     private Image[] imageResized=new Image[ARRAY_INDEX];
     private ImageIcon [] imageIconResized=new ImageIcon[ARRAY_INDEX];
+    private String[] formulaMetadata;
 
+     //constructor
     public View_ViewModel_Integration() {
         object=new ImageneViewModelObject();
         viewModel=object.getViewModel();
@@ -82,6 +86,8 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     }
 
 
+
+
     public void generateRealImages(List<PixelMatrix> pixelMatrices, int width, int height) {
 
         BufferedImage[] image_1=new BufferedImage[ARRAY_INDEX];
@@ -93,8 +99,41 @@ public class View_ViewModel_Integration implements ConstantArrayField{
         }
 
         resizeAllImages();
+
+
+
+        String[][] formulaStrings = viewModel.getFormulaStrings();
+        int numImages = pixelMatrices.size();
+        formulaMetadata = new String[numImages];
+
+        for(int i=0;i<formulaMetadata.length;i++)
+        {
+            formulaMetadata[i]="";
+        }
+
+        for (int image = 0; image < numImages; image++) {
+
+            for (int channel = 0; channel < 3; channel++) {
+                String channelName;
+                switch(channel) {
+                    case 0: channelName = "Red";
+                        break;
+                    case 1: channelName = "Green";
+                        break;
+                    default: channelName = "Blue";
+                }
+                formulaMetadata[image] += " " + channelName + ": " + formulaStrings[image][channel];
+            }
+
+        }
+
     }
 
+
+
+    public String[] getFormulaMetadata() {
+        return formulaMetadata;
+    }
 
     public void setX(int x) {
         this.x = x;
@@ -137,11 +176,22 @@ public class View_ViewModel_Integration implements ConstantArrayField{
         return image;
     }
 
+
+
     public void initiateImages(int x,int y)
     {
         viewModel.chooseWinners(new int[]{x,y});
     }
 
+
+
+    public void initiateImages(int x)
+    {
+        viewModel.chooseWinners(new int[]{x});
+    }
+
+
+    // resize actual size of the image to the fixed size of 200*200 to display it on the panel of the window
     public void resizeAllImages() {
         BufferedImage[] temp=new BufferedImage[4];
         for(int i=0;i<ARRAY_INDEX;i++) {
@@ -152,6 +202,7 @@ public class View_ViewModel_Integration implements ConstantArrayField{
         }
 
     }
+    //end
 
     public ImageIcon[] returnImageIcon()
     {
@@ -159,6 +210,8 @@ public class View_ViewModel_Integration implements ConstantArrayField{
     }
 
 
+
+    //converts imageicon to bufferedimage
     public static BufferedImage toBufferedImage(Image img) {
 
             if (img instanceof BufferedImage) {
@@ -173,4 +226,94 @@ public class View_ViewModel_Integration implements ConstantArrayField{
 
             return bimage;
     }
+    //end
+
+
+   // extract only "png" from the filename
+    private static String getFileExtension(File file)
+    {
+        String fileName = file.getName();
+        System.out.println("the file path is " +fileName);
+        //int lastDot = fileName.lastIndexOf('.');
+        int lastDot = fileName.indexOf('.');
+        String temp=fileName.substring(lastDot + 1);
+        System.out.println("the file path is " +temp);
+        return fileName.substring(lastDot + 1);
+    }
+    //end
+
+
+   // writes image generating algorithm to the image file
+    public BufferedImage writeAlgorithmToPNG(File file,BufferedImage image, String key, String value) throws Exception {
+
+
+        String fileExtension = file.toString();
+        System.out.println("the file path is " +fileExtension);
+
+        BufferedImage returnImage=image;
+        BufferedWriter bufferWriter = null;
+        String imageAlgorithm=key+" "+value;
+        System.out.println("the value is " +imageAlgorithm);
+
+        try {
+            bufferWriter = new BufferedWriter(new FileWriter(file, true));
+            //bufferWriter = new BufferedWriter(new FileWriter(fileExtension, true));
+            System.out.println("the value is test: " +bufferWriter.toString());
+            bufferWriter.write(imageAlgorithm);
+            bufferWriter.newLine();
+            bufferWriter.flush();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } finally {                       //close the file
+            if (bufferWriter != null) try {
+                bufferWriter.close();
+            } catch (IOException ioe2) {
+
+            }
+        }
+
+        //read algorithm from a file location
+        BufferedReader bufferedReader = null;
+        FileReader fileReader = null;
+
+        try {
+
+            fileReader = new FileReader(file);
+            bufferedReader = new BufferedReader(fileReader);
+
+            String readAlgorithm;
+
+            bufferedReader = new BufferedReader(new FileReader(file));
+
+            while ((readAlgorithm = bufferedReader.readLine()) != null) {
+                System.out.println(readAlgorithm);
+            }
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (bufferedReader != null)
+                    bufferedReader.close();
+
+                if (fileReader != null)
+                    fileReader.close();
+
+            } catch (IOException ex) {
+
+                ex.printStackTrace();
+
+            }
+
+        }
+
+
+        return returnImage;
+    }
+   //end
+
 }
